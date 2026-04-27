@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-18 18:16+0200\n"
+"PO-Revision-Date: 2026-04-27 19:40+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.9\n"
 
 #: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
@@ -481,7 +481,7 @@ msgid "Update to the latest version"
 msgstr "Auf die letzte Version aktualisieren"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s"
 msgstr "%s konnte nicht aktualisiert werden"
 
