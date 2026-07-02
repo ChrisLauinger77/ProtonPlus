@@ -23,9 +23,8 @@ namespace ProtonPlus.Models {
             try {
                 foreach (var directory_path in launcher.get_tool_directories (this)) {
                     var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (directory_path);
-                    var version_path = "%s/version".printf (directory_path);
 
-                    if (FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR) || FileUtils.test (version_path, FileTest.IS_REGULAR)) {
+                    if (FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR)) {
                         var simple_runner = new Tools.Simple.from_path (directory_path);
                         directories.append (simple_runner.title);
                         continue;

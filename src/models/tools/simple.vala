@@ -25,19 +25,12 @@ namespace ProtonPlus.Models.Tools {
             display_title = fallback_title;
             internal_title = fallback_title;
 
-            if (FileUtils.test ("%s/version".printf (path), FileTest.IS_REGULAR)) {
-                var version_content = Utils.Filesystem.get_file_content ("%s/version".printf (path));
-                if (version_content != "") {
-                    var version_parts = version_content.strip ().split (" ", 2);
-                    if (version_parts.length == 2 && version_parts[1] != "") {
-                        title = version_parts[1].strip ();
-                        display_title = title;
-                        internal_title = title;
-                    }
-                }
+            var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (path);
+            if (!FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR)) {
+                return;
             }
 
-            var content = Utils.Filesystem.get_file_content ("%s/compatibilitytool.vdf".printf (path));
+            var content = Utils.Filesystem.get_file_content (compatibilitytoolvdf_path);
             if (content == "") {
                 return;
             }
