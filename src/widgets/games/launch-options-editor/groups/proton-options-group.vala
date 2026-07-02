@@ -8,6 +8,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile proton_force_large_address_aware_tile { get; private set; }
         LaunchOptionTile proton_logs_tile { get; private set; }
         LaunchOptionTile proton_optiscaler_tile { get; private set; }
+        LaunchOptionTile proton_discord_bridge_tile { get; private set; }
         LaunchOptionDllOverrides dll_overrides_pair_editor { get; private set; }
 
         public ProtonOptionsGroup (LaunchOptionsList launch_option_handlers) {
@@ -20,7 +21,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             proton_use_wow64_tile = create_tile (_("Use WoW64"), _("Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can improve compatibility for some older games."), { "PROTON_USE_WOW64=1" });
             proton_force_large_address_aware_tile = create_tile (_("Allows 32-bit games to use more than 2GB of RAM"), _("Forces 32-bit games to use large address aware which can improve performance and stability."), { "PROTON_FORCE_LARGE_ADDRESS_AWARE=1" });
             proton_logs_tile = create_tile (_("Enable Proton logs"), _("Enables logging for Proton which can help with troubleshooting game issues. Logs are saved in the game's compatibility data folder."), { "PROTON_LOG=1" });
-            proton_optiscaler_tile = create_tile (_("Enable Proton OptiScaler"), _("Enables the Proton OptiScaler which can improve performance and image quality for some games."), { "PROTON_USE_OPTISCALER=1" });
+            proton_optiscaler_tile = create_tile (_("Enable Proton OptiScaler"), _("Enables the Proton OptiScaler which can improve performance and image quality for some games (Available from version 11-1)."), { "PROTON_USE_OPTISCALER=1" });
+            proton_discord_bridge_tile = create_tile (_("Enable Proton Discord Bridge"), _("Enables the Proton Discord Bridge which can improve integration with Discord for some games (Available from version 11-1)."), { "PROTON_DISCORD_BRIDGE=1" });
 
             // DLL overrides
             dll_overrides_pair_editor = new LaunchOptionDllOverrides ();
@@ -33,6 +35,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.add (proton_force_large_address_aware_tile);
             this.add (proton_logs_tile);
             this.add (proton_optiscaler_tile);
+            this.add (proton_discord_bridge_tile);
             this.add (dll_overrides_pair_editor);
 
             launch_option_handlers.add (dll_overrides_pair_editor);
