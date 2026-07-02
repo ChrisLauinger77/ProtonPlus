@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-01 05:01+0200\n"
+"POT-Creation-Date: 2026-07-02 15:03+0200\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -1907,13 +1907,13 @@ msgstr ""
 msgid "Failed to read compatibilitytool.vdf"
 msgstr "اختر أداة التوافق المرغوبة"
 
-#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:353
-#: src/models/release.vala:361
+#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:367
+#: src/models/release.vala:375
 #, fuzzy
 msgid "Extraction failed"
 msgstr "...جاري الإستخراج"
 
-#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:372
+#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:386
 #, fuzzy
 msgid "Moving failed"
 msgstr "جاري النقل"
@@ -2008,8 +2008,8 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:25
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:36
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:26
 msgid "Disabled"
 msgstr ""
 
@@ -2331,55 +2331,6 @@ msgid ""
 "in certain older titles."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:15
-#, fuzzy
-msgid "Proton options"
-msgstr "خيارات التشغيل"
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:16
-msgid "Extra Proton settings and launch behaviors."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:18
-msgid "Higher priority for games"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:18
-msgid ""
-"Gives the game a higher CPU priority which can improve performance in some "
-"cases."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:19
-msgid "Use WoW64"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:19
-msgid ""
-"Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can "
-"improve compatibility for some older games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:20
-msgid "Allows 32-bit games to use more than 2GB of RAM"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:20
-msgid ""
-"Forces 32-bit games to use large address aware which can improve performance "
-"and stability."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:21
-msgid "Enable Proton logs"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:21
-msgid ""
-"Enables logging for Proton which can help with troubleshooting game issues. "
-"Logs are saved in the game's compatibility data folder."
-msgstr ""
-
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:13
 #, fuzzy
 msgid "Common options"
@@ -2425,65 +2376,6 @@ msgstr "الألعاب"
 msgid ""
 "Requests temporary optimizations for system performance (CPU governor, "
 "process priority) when the game is running."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:23
-#, fuzzy
-msgid "GPU vendor options"
-msgstr "مزيد من المعلومات"
-
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:27
-msgid ""
-"Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:53
-msgid "AMD"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:54
-msgid "NVIDIA"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
-msgid "Intel"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:12
-#, fuzzy
-msgid "DXVK options"
-msgstr "مزيد من المعلومات"
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:16
-msgid "DXVK Async"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:17
-msgid ""
-"Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:21
-msgid "Disable DXVK logging"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:22
-msgid ""
-"Sets DXVK's log level to none which can improve performance in some games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:26
-msgid "DXVK Frame Limit"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:27
-msgid "Caps the frame rate using DXVK's built-in frame limiter."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:28
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
-msgid "FPS"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:17
@@ -2613,13 +2505,72 @@ msgid ""
 "caution."
 msgstr ""
 
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:12
+#, fuzzy
+msgid "DXVK options"
+msgstr "مزيد من المعلومات"
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:16
+msgid "DXVK Async"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:17
+msgid ""
+"Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:21
+msgid "Disable DXVK logging"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:22
+msgid ""
+"Sets DXVK's log level to none which can improve performance in some games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:26
+msgid "DXVK Frame Limit"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:27
+msgid "Caps the frame rate using DXVK's built-in frame limiter."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:28
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
+msgid "FPS"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:23
+#, fuzzy
+msgid "GPU vendor options"
+msgstr "مزيد من المعلومات"
+
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:27
+msgid ""
+"Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:53
+msgid "AMD"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:54
+msgid "NVIDIA"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
+msgid "Intel"
+msgstr ""
+
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:13
 #, fuzzy
 msgid "VKD3D options"
 msgstr "مزيد من المعلومات"
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:20
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:45
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:47
 msgid "Configure Direct3D 12 to Vulkan translation behavior"
 msgstr ""
 
@@ -2646,6 +2597,85 @@ msgstr ""
 msgid ""
 "Enables VKD3D's internal shader caching mechanism to minimize in-game "
 "stutter."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:18
+#, fuzzy
+msgid "Proton options"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:19
+msgid "Extra Proton settings and launch behaviors."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:21
+msgid "Higher priority for games"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:21
+msgid ""
+"Gives the game a higher CPU priority which can improve performance in some "
+"cases."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:22
+msgid "Use WoW64"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:22
+msgid ""
+"Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can "
+"improve compatibility for some older games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:23
+msgid "Allows 32-bit games to use more than 2GB of RAM"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:23
+msgid ""
+"Forces 32-bit games to use large address aware which can improve performance "
+"and stability."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:24
+msgid "Enable Proton logs"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:24
+msgid ""
+"Enables logging for Proton which can help with troubleshooting game issues. "
+"Logs are saved in the game's compatibility data folder."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:25
+msgid "Enable Proton OptiScaler"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:25
+msgid ""
+"Enables the Proton OptiScaler which can improve performance and image "
+"quality for some games (Available from version 11-1)."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:26
+msgid "Enable Proton Discord Bridge"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:26
+msgid ""
+"Enables the Proton Discord Bridge which can improve integration with Discord "
+"for some games (Available from version 11-1)."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:27
+msgid "Use D7VK"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:27
+msgid ""
+"Enables the use of D7VK which can improve performance and compatibility for "
+"some Direct3D 9 games (Available from version 11-1)."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:11
@@ -2676,7 +2706,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:25
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:26
 msgid "Enabled"
 msgstr ""
 
@@ -2898,97 +2928,6 @@ msgstr "تطبيق التعديل الحالي"
 msgid "Launch command preview"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:29
-msgid ""
-"Enables VKD3D's internal shader cache on disk. Drastically reduces micro-"
-"stuttering and speeds up consecutive loading times."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:30
-msgid ""
-"Forces VKD3D to use system RAM instead of VRAM for caching shader "
-"compilation data, ensuring smoother data stream between CPU and GPU."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:31
-msgid ""
-"Uses host-visible VRAM for staging buffers. Drastically reduces stuttering "
-"if Resizable BAR / SAM is enabled."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:32
-msgid ""
-"Disables host-visible VRAM staging buffers. Use as a compatibility fallback "
-"if experiencing memory-related crashes."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:33
-msgid ""
-"Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via "
-"Vulkan extensions."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:34
-msgid ""
-"Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT "
-"games that crash with DXR 1.1."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:35
-msgid ""
-"Forces Ray Tracing BVH acceleration structures to be built on the CPU "
-"instead of the GPU. Severe performance impact!"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:36
-msgid ""
-"Aggressively unifies memory allocators for textures and buffers to save a "
-"small amount of VRAM."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:37
-msgid ""
-"Enables advanced GPU Virtual Addressing to improve Direct3D 12 memory "
-"mapping in massive open-world games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:38
-msgid ""
-"Disables descriptor caches. Workaround for specific games suffering from "
-"memory leaks."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:39
-msgid ""
-"Forces the GPU to maintain stable clock rates. Intended for accurate "
-"benchmarking only."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:40
-msgid ""
-"Alters how root parameters are passed to compute shaders. Can fix specific "
-"rendering glitches."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:41
-msgid ""
-"Allows unaligned stencil buffer clears. Workaround for certain older "
-"Direct3D 12 renderers."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:44
-#, fuzzy
-msgid "VKD3D Proton Configurations"
-msgstr "خيارات التشغيل"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:46
-msgid "Enable VKD3D Option"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:47
-msgid "Test specific Direct3D 12 compatibility workarounds and optimizations"
-msgstr ""
-
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:46
 msgid ".NET Framework runtime execution engine"
 msgstr ""
@@ -3104,6 +3043,104 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-list.vala:18
 msgid "No launch options configured yet."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:30
+msgid ""
+"Enables VKD3D's internal shader cache on disk. Drastically reduces micro-"
+"stuttering and speeds up consecutive loading times."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:31
+msgid ""
+"Forces VKD3D to use system RAM instead of VRAM for caching shader "
+"compilation data, ensuring smoother data stream between CPU and GPU."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:32
+msgid ""
+"Uses host-visible VRAM for staging buffers. Drastically reduces stuttering "
+"if Resizable BAR / SAM is enabled."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:33
+msgid ""
+"Disables host-visible VRAM staging buffers. Use as a compatibility fallback "
+"if experiencing memory-related crashes."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:34
+msgid ""
+"Disables D3D12 Ray Tracing (DXR) capabilities entirely. Significantly "
+"improves performance and stability on GPUs without strong hardware RT "
+"support."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:35
+msgid ""
+"Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via "
+"Vulkan extensions."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:36
+msgid ""
+"Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT "
+"games that crash with DXR 1.1."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:37
+msgid ""
+"Forces Ray Tracing BVH acceleration structures to be built on the CPU "
+"instead of the GPU. Severe performance impact!"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:38
+msgid ""
+"Aggressively unifies memory allocators for textures and buffers to save a "
+"small amount of VRAM."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:39
+msgid ""
+"Enables advanced GPU Virtual Addressing to improve Direct3D 12 memory "
+"mapping in massive open-world games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:40
+msgid ""
+"Disables descriptor caches. Workaround for specific games suffering from "
+"memory leaks."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:41
+msgid ""
+"Forces the GPU to maintain stable clock rates. Intended for accurate "
+"benchmarking only."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:42
+msgid ""
+"Alters how root parameters are passed to compute shaders. Can fix specific "
+"rendering glitches."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:43
+msgid ""
+"Allows unaligned stencil buffer clears. Workaround for certain older "
+"Direct3D 12 renderers."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:46
+#, fuzzy
+msgid "VKD3D Proton Configurations"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:48
+msgid "Enable VKD3D Option"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:49
+msgid "Test specific Direct3D 12 compatibility workarounds and optimizations"
 msgstr ""
 
 #: src/widgets/games/games-row.vala:102 src/widgets/games/games-box.vala:126
@@ -4423,26 +4460,45 @@ msgid "Couldn't check for updates (Reason: %s)"
 msgstr "لم نستطع التحقق من وجود التحديثات(السبب: %s)"
 
 #: src/widgets/tools/tools-box.vala:379
-#: src/widgets/tools/tools-releases-box.vala:252
-#: src/widgets/tools/tools-releases-box.vala:317
+#: src/widgets/tools/tools-releases-box.vala:253
+#: src/widgets/tools/tools-releases-box.vala:318
 msgid "API limit reached"
 msgstr "تم الوصول إلى الحد الأقصى لواجهة برمجة التطبيقات (API)"
 
 #: src/widgets/tools/tools-box.vala:384
-#: src/widgets/tools/tools-releases-box.vala:255
-#: src/widgets/tools/tools-releases-box.vala:258
-#: src/widgets/tools/tools-releases-box.vala:261
-#: src/widgets/tools/tools-releases-box.vala:320
-#: src/widgets/tools/tools-releases-box.vala:323
-#: src/widgets/tools/tools-releases-box.vala:326
+#: src/widgets/tools/tools-releases-box.vala:256
+#: src/widgets/tools/tools-releases-box.vala:259
+#: src/widgets/tools/tools-releases-box.vala:262
+#: src/widgets/tools/tools-releases-box.vala:321
+#: src/widgets/tools/tools-releases-box.vala:324
+#: src/widgets/tools/tools-releases-box.vala:327
 msgid "Unable to reach the API"
 msgstr "لم نستطع الوصول لواجهة برمجة التطبيقات(API)"
 
 #: src/widgets/tools/tools-box.vala:387
-#: src/widgets/tools/tools-releases-box.vala:264
-#: src/widgets/tools/tools-releases-box.vala:329
+#: src/widgets/tools/tools-releases-box.vala:265
+#: src/widgets/tools/tools-releases-box.vala:330
 msgid "Invalid access token"
 msgstr "الرمز المميز للوصول غير صالح"
+
+#: src/widgets/tools/tools-release-box.vala:98
+#, fuzzy
+msgid "No games found"
+msgstr ".لم يتم العثور على ملف تعريف"
+
+#: src/widgets/tools/tools-release-box.vala:99
+#, fuzzy
+msgid "This tool is not used by any games."
+msgstr "أظهِر المشغلات التي لا تستخدم بواسطة أي لعبة"
+
+#: src/widgets/tools/tools-release-box.vala:113
+msgid "Changelog"
+msgstr ""
+
+#: src/widgets/tools/tools-release-box.vala:114
+#, fuzzy
+msgid "Used by"
+msgstr "مُستخدَم"
 
 #: src/widgets/tools/tools-group-box.vala:69
 #, fuzzy
@@ -4539,86 +4595,67 @@ msgstr "سيتم إلغاء التثبيت."
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:98
-#, fuzzy
-msgid "No games found"
-msgstr ".لم يتم العثور على ملف تعريف"
-
-#: src/widgets/tools/tools-release-box.vala:99
-#, fuzzy
-msgid "This tool is not used by any games."
-msgstr "أظهِر المشغلات التي لا تستخدم بواسطة أي لعبة"
-
-#: src/widgets/tools/tools-release-box.vala:113
-msgid "Changelog"
-msgstr ""
-
-#: src/widgets/tools/tools-release-box.vala:114
-#, fuzzy
-msgid "Used by"
-msgstr "مُستخدَم"
-
-#: src/widgets/tools/tools-releases-box.vala:127
+#: src/widgets/tools/tools-releases-box.vala:128
 #, fuzzy
 msgid "Check for new releases"
 msgstr "تحقق من التحديثات"
 
-#: src/widgets/tools/tools-releases-box.vala:142
+#: src/widgets/tools/tools-releases-box.vala:143
 msgid "Choose a variant"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:160
+#: src/widgets/tools/tools-releases-box.vala:161
 #, fuzzy
 msgid "Load More"
 msgstr "تحميل المزيد"
 
-#: src/widgets/tools/tools-releases-box.vala:208
+#: src/widgets/tools/tools-releases-box.vala:209
 #, fuzzy
 msgid "No releases found"
 msgstr ".لم يتم العثور على ملف تعريف"
 
-#: src/widgets/tools/tools-releases-box.vala:209
+#: src/widgets/tools/tools-releases-box.vala:210
 msgid "No releases match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:252
-#: src/widgets/tools/tools-releases-box.vala:317
+#: src/widgets/tools/tools-releases-box.vala:253
+#: src/widgets/tools/tools-releases-box.vala:318
 msgid "Try again in a few minutes."
 msgstr "حاول مرة أخرى بعد بضع دقايق."
 
-#: src/widgets/tools/tools-releases-box.vala:255
-#: src/widgets/tools/tools-releases-box.vala:320
+#: src/widgets/tools/tools-releases-box.vala:256
+#: src/widgets/tools/tools-releases-box.vala:321
 msgid "Make sure you're connected to the internet."
 msgstr "تأكد من إتصالك بالإنترنت"
 
-#: src/widgets/tools/tools-releases-box.vala:258
-#: src/widgets/tools/tools-releases-box.vala:323
+#: src/widgets/tools/tools-releases-box.vala:259
+#: src/widgets/tools/tools-releases-box.vala:324
 msgid "Make sure your DNS is not blocking this."
 msgstr "تأكد مِن أن نظام أسماء المجالات (DNS) لا يحظر هذا."
 
-#: src/widgets/tools/tools-releases-box.vala:261
-#: src/widgets/tools/tools-releases-box.vala:326
+#: src/widgets/tools/tools-releases-box.vala:262
+#: src/widgets/tools/tools-releases-box.vala:327
 msgid "The requested website does not seem to be valid."
 msgstr "يبدو أن الموقع الإلكتروني المطلوب غير صالح"
 
-#: src/widgets/tools/tools-releases-box.vala:264
-#: src/widgets/tools/tools-releases-box.vala:329
+#: src/widgets/tools/tools-releases-box.vala:265
+#: src/widgets/tools/tools-releases-box.vala:330
 msgid "Make sure the access token you provided is valid."
 msgstr "تأكد من صلاحية الرمز المميز للوصول المُعطى."
 
-#: src/widgets/tools/tools-releases-box.vala:268
-#: src/widgets/tools/tools-releases-box.vala:333
+#: src/widgets/tools/tools-releases-box.vala:269
+#: src/widgets/tools/tools-releases-box.vala:334
 msgid "Failed to Fetch Releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:269
-#: src/widgets/tools/tools-releases-box.vala:334
+#: src/widgets/tools/tools-releases-box.vala:270
+#: src/widgets/tools/tools-releases-box.vala:335
 msgid ""
 "ProtonPlus could not retrieve the list of available releases. Please check "
 "your internet connection and try again."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:483
+#: src/widgets/tools/tools-releases-box.vala:484
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "لم نستطع ترقية %s"
@@ -4634,11 +4671,6 @@ msgstr ""
 #: src/widgets/window.vala:104
 msgid "Exit"
 msgstr "خروج"
-
-#: src/widgets/introduction/introduction.vala:17
-#, fuzzy
-msgid "Introduction"
-msgstr "مزيد من المعلومات"
 
 #: src/widgets/introduction/application.vala:8
 #, fuzzy
@@ -4691,6 +4723,11 @@ msgid ""
 "Wine is a compatibility layer capable of running Windows applications on "
 "Linux systems by translating Windows API calls on the fly."
 msgstr ""
+
+#: src/widgets/introduction/introduction.vala:17
+#, fuzzy
+msgid "Introduction"
+msgstr "مزيد من المعلومات"
 
 #: src/widgets/application.vala:141
 msgid "Website"
