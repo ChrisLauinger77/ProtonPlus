@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Wine {
             support_latest = true;
             request_asset_filter = new Gee.ArrayList<string> ();
             request_asset_filter.add ("proton");
-            add_variant ("x86_64", "wine-$tag_name-amd64", true);
+            add_variant ("default", "wine-$tag_name-amd64", true);
             add_variant ("wow64", "wine-$tag_name-amd64-wow64", false);
             add_variant ("x86", "wine-$tag_name-x86", false);
             add_directory_name_format ("default", "wine-$release_name-amd64");
