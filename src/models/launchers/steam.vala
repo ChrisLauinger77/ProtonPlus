@@ -10,11 +10,14 @@ namespace ProtonPlus.Models.Launchers {
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
-                    directories = new string[] { "%s/Steam".printf (Environment.get_user_data_dir ()),
+                    directories = new string[] {
+                        "%s/Steam".printf (Environment.get_user_data_dir ()),
                         "%s/.local/share/Steam".printf (Environment.get_home_dir ()),
                         "%s/.steam/steam".printf (Environment.get_home_dir ()),
                         "%s/.steam/root".printf (Environment.get_home_dir ()),
-                        "%s/.steam/debian-installation".printf (Environment.get_home_dir ()) };
+                        "%s/.steam/debian-installation".printf (Environment.get_home_dir ()),
+                        "/usr/share/steam",
+                    };
                     break;
                 case Launcher.InstallationTypes.FLATPAK:
                     directories = new string[] { "%s/.var/app/com.valvesoftware.Steam/data/Steam".printf (Environment.get_home_dir ()) };
@@ -27,6 +30,144 @@ namespace ProtonPlus.Models.Launchers {
             base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories);
 
             has_library_support = true;
+        }
+
+        public override List<string> get_tool_directories (Group group) {
+            var directories = new List<string> ();
+            directories.append (this.directory + group.directory);
+            directories.append ("/usr/share/steam" + group.directory);
+
+            if (installation_type != Launcher.InstallationTypes.FLATPAK) {
+                return directories;
+            }
+
+            foreach (var extension_root in get_flatpak_steam_extension_roots ()) {
+                if (is_tool_root (extension_root) && !path_exists_in_list (directories, extension_root)) {
+                    directories.append (extension_root);
+                }
+
+                var extension_share_tools = "%s/share/steam%s".printf (extension_root, group.directory);
+                if (FileUtils.test (extension_share_tools, FileTest.IS_DIR) && !path_exists_in_list (directories, extension_share_tools)) {
+                    directories.append (extension_share_tools);
+                }
+            }
+
+            return directories;
+        }
+
+        private List<string> get_flatpak_steam_extension_roots () {
+            var extension_roots = new List<string> ();
+
+            var runtime_roots = new string[] {
+                "%s/.local/share/flatpak/runtime".printf (Environment.get_home_dir ()),
+                "/var/lib/flatpak/runtime"
+            };
+
+            foreach (var runtime_root in runtime_roots) {
+                if (!FileUtils.test (runtime_root, FileTest.IS_DIR)) {
+                    continue;
+                }
+
+                try {
+                    var runtime_root_file = File.new_for_path (runtime_root);
+                    var runtime_enumerator = runtime_root_file.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                    if (runtime_enumerator == null) {
+                        continue;
+                    }
+
+                    FileInfo? runtime_info;
+                    while ((runtime_info = runtime_enumerator.next_file ()) != null) {
+                        if (runtime_info.get_file_type () != FileType.DIRECTORY) {
+                            continue;
+                        }
+
+                        var extension_id = runtime_info.get_name ();
+                        if (!(extension_id.has_prefix ("com.valvesoftware.Steam.CompatibilityTool.") ||
+                            extension_id.has_prefix ("com.valvesoftware.Steam.Utility."))) {
+                            continue;
+                        }
+
+                        var extension_root = "%s/%s".printf (runtime_root, extension_id);
+                        var extension_root_file = File.new_for_path (extension_root);
+                        var arch_enumerator = extension_root_file.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                        if (arch_enumerator == null) {
+                            continue;
+                        }
+
+                        FileInfo? arch_info;
+                        while ((arch_info = arch_enumerator.next_file ()) != null) {
+                            if (arch_info.get_file_type () != FileType.DIRECTORY) {
+                                continue;
+                            }
+
+                            var arch_root = "%s/%s".printf (extension_root, arch_info.get_name ());
+                            var arch_root_file = File.new_for_path (arch_root);
+                            var branch_enumerator = arch_root_file.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                            if (branch_enumerator == null) {
+                                continue;
+                            }
+
+                            FileInfo? branch_info;
+                            while ((branch_info = branch_enumerator.next_file ()) != null) {
+                                if (branch_info.get_file_type () != FileType.DIRECTORY) {
+                                    continue;
+                                }
+
+                                var branch_root = "%s/%s".printf (arch_root, branch_info.get_name ());
+                                var active_files = "%s/active/files".printf (branch_root);
+                                if (FileUtils.test (active_files, FileTest.IS_DIR) && !path_exists_in_list (extension_roots, active_files)) {
+                                    extension_roots.append (active_files);
+                                }
+
+                                var branch_root_file = File.new_for_path (branch_root);
+                                var deploy_enumerator = branch_root_file.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                                if (deploy_enumerator == null) {
+                                    continue;
+                                }
+
+                                FileInfo? deploy_info;
+                                while ((deploy_info = deploy_enumerator.next_file ()) != null) {
+                                    if (deploy_info.get_file_type () != FileType.DIRECTORY) {
+                                        continue;
+                                    }
+
+                                    var deploy_name = deploy_info.get_name ();
+                                    if (deploy_name == "active") {
+                                        continue;
+                                    }
+
+                                    var deploy_files = "%s/%s/files".printf (branch_root, deploy_name);
+                                    if (!FileUtils.test (deploy_files, FileTest.IS_DIR)) {
+                                        continue;
+                                    }
+
+                                    if (!path_exists_in_list (extension_roots, deploy_files)) {
+                                        extension_roots.append (deploy_files);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Error e) {
+                    warning (e.message);
+                }
+            }
+
+            return extension_roots;
+        }
+
+        private bool path_exists_in_list (List<string> paths, string target_path) {
+            foreach (var path in paths) {
+                if (path == target_path) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool is_tool_root (string path) {
+            return FileUtils.test ("%s/compatibilitytool.vdf".printf (path), FileTest.IS_REGULAR);
         }
 
         public async void switch_profile (SteamProfile profile) {
@@ -77,9 +218,9 @@ namespace ProtonPlus.Models.Launchers {
 
             compatibility_tools.clear ();
 
-            var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games();
+            var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games ();
 
-            var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable();
+            var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable ();
             if (!compatibility_tool_hashtable_loaded)
             return false;
 
@@ -106,7 +247,7 @@ namespace ProtonPlus.Models.Launchers {
                 var end_pos = 0;
                 var current_position = 0;
 
-                var proton_regex = /(?i)Proton\s*\d+(\.\d+)?/;
+                var proton_regex = / (?i)Proton\s*\d+ (\.\d+)?/;
                 var name_regex = /\"name\"\s+\"([^\"]+)\"/;
                 var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
                 while (true) {
@@ -201,7 +342,7 @@ namespace ProtonPlus.Models.Launchers {
                             if (!FileUtils.test ("%s/common/%s".printf (current_steamapps_path, current_installdir), FileTest.IS_DIR))
                             continue;
 
-                            var game = new Games.Steam(id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
+                            var game = new Games.Steam (id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
 
                             if (awacy_games.has_key (game.appid)) {
                                 var awacy_game = awacy_games.get (game.appid);
@@ -233,13 +374,13 @@ namespace ProtonPlus.Models.Launchers {
                             if (file_info.get_file_type () != FileType.DIRECTORY)
                             continue;
 
-                            if (file_info.get_name ().contains ("wine-proton-exp")) {
-
-                            } else if (file_info.get_name () != "LegacyRuntime") {
-                                var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
-                                var simple_runner = new Tools.Simple.from_path(file_path);
-                                compatibility_tools.add (simple_runner);
+                            if (file_info.get_name ().contains ("wine-proton-exp") || file_info.get_name () == "LegacyRuntime") {
+                                continue;
                             }
+
+                            var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
+                            var simple_runner = new Tools.Simple.from_path (file_path);
+                            compatibility_tools.add (simple_runner);
                         }
                     }
                 }
@@ -247,7 +388,55 @@ namespace ProtonPlus.Models.Launchers {
                 warning (e.message);
             }
 
+            if (installation_type == Launcher.InstallationTypes.FLATPAK) {
+                add_flatpak_extension_tools_to_compatibility_tools ();
+            }
+
             return true;
+        }
+
+        private void add_flatpak_extension_tools_to_compatibility_tools () {
+            foreach (var extension_root in get_flatpak_steam_extension_roots ()) {
+                if (is_tool_root (extension_root)) {
+                    var simple_runner = new Tools.Simple.from_path (extension_root);
+                    add_compatibility_tool_if_missing (simple_runner);
+                }
+
+                var extension_tools_root = "%s/share/steam/compatibilitytools.d".printf (extension_root);
+                if (!FileUtils.test (extension_tools_root, FileTest.IS_DIR)) {
+                    continue;
+                }
+
+                try {
+                    var extension_tools_directory = File.new_for_path (extension_tools_root);
+                    var enumerator = extension_tools_directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                    if (enumerator == null) {
+                        continue;
+                    }
+
+                    FileInfo? file_info;
+                    while ((file_info = enumerator.next_file ()) != null) {
+                        if (file_info.get_file_type () != FileType.DIRECTORY) {
+                            continue;
+                        }
+
+                        var tool_path = "%s/%s".printf (extension_tools_root, file_info.get_name ());
+                        add_compatibility_tool_if_missing (new Tools.Simple.from_path (tool_path));
+                    }
+                } catch (Error e) {
+                    warning (e.message);
+                }
+            }
+        }
+
+        private void add_compatibility_tool_if_missing (Tools.Simple simple_runner) {
+            foreach (var existing_runner in compatibility_tools) {
+                if (existing_runner.path == simple_runner.path || existing_runner.internal_title == simple_runner.internal_title) {
+                    return;
+                }
+            }
+
+            compatibility_tools.add (simple_runner);
         }
 
         async bool load_compatibility_tool_hashtable () {
