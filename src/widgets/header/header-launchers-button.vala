@@ -8,6 +8,7 @@ namespace ProtonPlus.Widgets.Header {
         Gtk.Image button_image;
         Gtk.Label button_label;
         Gtk.ListBox list_box;
+        Gtk.ListBoxRow? previous_row;
 
         public LaunchersButton () {
             button_image = new Gtk.Image ();
@@ -39,22 +40,48 @@ namespace ProtonPlus.Widgets.Header {
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers) {
             list_box.remove_all ();
+            previous_row = null;
 
             foreach (var launcher in launchers) {
                 list_box.append (create_row (launcher));
             }
 
-            list_box.row_activated (list_box.get_row_at_index (0));
+            var first_row = list_box.get_row_at_index (0);
+            if (first_row != null)
+            list_box.row_activated (first_row);
         }
 
         public void button_clicked () {
             if (popover.get_visible ())
             popover.popdown ();
-            else
+            else {
+                if (previous_row != null) {
+                    list_box.select_row (previous_row);
+                    previous_row.add_css_class ("launcher-selected");
+                } else {
+                    var first_row = list_box.get_row_at_index (0);
+                    if (first_row != null) {
+                        list_box.select_row (first_row);
+                        first_row.add_css_class ("launcher-selected");
+                        previous_row = first_row;
+                    }
+                }
+
             popover.popup ();
+            }
         }
 
         void list_box_row_activated (Gtk.ListBoxRow? row) {
+            if (row == null)
+            return;
+
+            if (previous_row != null)
+            previous_row.remove_css_class ("launcher-selected");
+
+            row.add_css_class ("launcher-selected");
+            list_box.select_row (row);
+            previous_row = row;
+
             var launcher = row.get_data<Models.Launcher> ("launcher");
 
             if (previous_launcher == launcher)
