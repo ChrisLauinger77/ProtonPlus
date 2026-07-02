@@ -21,20 +21,30 @@ namespace ProtonPlus.Models {
             var directories = new List<string> ();
 
             try {
-                var directory_path = launcher.directory + directory;
-                File directory = File.new_for_path (directory_path);
-                FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                foreach (var directory_path in launcher.get_tool_directories (this)) {
+                    var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (directory_path);
+                    var version_path = "%s/version".printf (directory_path);
 
-                if (enumerator != null) {
-                    FileInfo? file_info;
-                    while ((file_info = enumerator.next_file ()) != null) {
-                        if (file_info.get_file_type () != FileType.DIRECTORY)
+                    if (FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR) || FileUtils.test (version_path, FileTest.IS_REGULAR)) {
+                        var simple_runner = new Tools.Simple.from_path (directory_path);
+                        directories.append (simple_runner.title);
                         continue;
+                    }
 
-                        var title = file_info.get_name ();
+                    File directory = File.new_for_path (directory_path);
+                    FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
 
-                        if (title != "LegacyRuntime")
-                        directories.append (title);
+                    if (enumerator != null) {
+                        FileInfo? file_info;
+                        while ((file_info = enumerator.next_file ()) != null) {
+                            if (file_info.get_file_type () != FileType.DIRECTORY)
+                            continue;
+
+                            var title = file_info.get_name ();
+
+                            if (title != "LegacyRuntime")
+                            directories.append (title);
+                        }
                     }
                 }
             } catch (Error e) {

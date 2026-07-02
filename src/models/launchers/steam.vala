@@ -10,14 +10,18 @@ namespace ProtonPlus.Models.Launchers {
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
-                    directories = new string[] { "%s/Steam".printf (Environment.get_user_data_dir ()),
+                    directories = new string[] {
+                        "%s/Steam".printf (Environment.get_user_data_dir ()),
                         "%s/.local/share/Steam".printf (Environment.get_home_dir ()),
                         "%s/.steam/steam".printf (Environment.get_home_dir ()),
                         "%s/.steam/root".printf (Environment.get_home_dir ()),
-                        "%s/.steam/debian-installation".printf (Environment.get_home_dir ()) };
+                        "%s/.steam/debian-installation".printf (Environment.get_home_dir ()),
+                        "/usr/share/steam",
+                    };
                     break;
                 case Launcher.InstallationTypes.FLATPAK:
                     directories = new string[] { "%s/.var/app/com.valvesoftware.Steam/data/Steam".printf (Environment.get_home_dir ()) };
+                    directories += "/var/lib/flatpak/runtime/com.valvesoftware.Steam.CompatibilityTool.Proton-GE/x86_64/stable/active/files";
                     break;
                 case Launcher.InstallationTypes.SNAP:
                     directories = new string[] { "%s/snap/steam/common/.steam/root".printf (Environment.get_home_dir ()) };
@@ -27,6 +31,29 @@ namespace ProtonPlus.Models.Launchers {
             base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories);
 
             has_library_support = true;
+        }
+
+        public override List<string> get_tool_directories (Group group) {
+            var directories = new List<string> ();
+            directories.append (this.directory + group.directory);
+            directories.append ("/usr/share/steam" + group.directory);
+
+            if (installation_type != Launcher.InstallationTypes.FLATPAK) {
+                return directories;
+            }
+
+            var extension_roots = new string[] {
+                "/var/lib/flatpak/runtime/com.valvesoftware.Steam.CompatibilityTool.Proton-GE/x86_64/stable/active/files"
+            };
+
+            foreach (var extension_root in extension_roots) {
+                if (!FileUtils.test (extension_root, FileTest.IS_DIR))
+                    continue;
+
+                directories.append (extension_root);
+            }
+
+            return directories;
         }
 
         public async void switch_profile (SteamProfile profile) {
@@ -247,7 +274,35 @@ namespace ProtonPlus.Models.Launchers {
                 warning (e.message);
             }
 
+            if (installation_type == Launcher.InstallationTypes.FLATPAK) {
+                add_flatpak_proton_ge_extension_to_compatibility_tools ();
+            }
+
             return true;
+        }
+
+        private void add_flatpak_proton_ge_extension_to_compatibility_tools () {
+            var extension_roots = new string[] {
+                "/var/lib/flatpak/runtime/com.valvesoftware.Steam.CompatibilityTool.Proton-GE/x86_64/stable/active/files"
+            };
+
+            foreach (var extension_root in extension_roots) {
+                if (!FileUtils.test (extension_root, FileTest.IS_DIR))
+                    continue;
+
+                var simple_runner = new Tools.Simple.from_path (extension_root);
+                var already_present = false;
+
+                foreach (var existing_runner in compatibility_tools) {
+                    if (existing_runner.path == simple_runner.path || existing_runner.internal_title == simple_runner.internal_title) {
+                        already_present = true;
+                        break;
+                    }
+                }
+
+                if (!already_present)
+                    compatibility_tools.add (simple_runner);
+            }
         }
 
         async bool load_compatibility_tool_hashtable () {

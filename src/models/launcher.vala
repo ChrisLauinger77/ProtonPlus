@@ -260,6 +260,12 @@ namespace ProtonPlus.Models {
             return true;
         }
 
+        public virtual List<string> get_tool_directories (Group group) {
+            var directories = new List<string> ();
+            directories.append (this.directory + group.directory);
+            return directories;
+        }
+
         public virtual int get_compatibility_tool_usage_count (string compatibility_tool_name) {
             return 0;
         }
