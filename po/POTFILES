@@ -110,7 +110,6 @@ src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala
 src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala
 src/widgets/games/launch-options-editor/launch-options-editor-resolution-choice.vala
 src/widgets/games/launch-options-editor/groups/advanced-options-group.vala
-src/widgets/games/launch-options-editor/groups/audio-options-group.vala
 src/widgets/games/launch-options-editor/groups/game-arguments-group.vala
 src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala
 src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala
@@ -123,6 +122,7 @@ src/widgets/games/launch-options-editor/groups/base-options-group.vala
 src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala
 src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala
 src/widgets/games/launch-options-editor/groups/proton-options-group.vala
+src/widgets/games/launch-options-editor/groups/audio-options-group.vala
 src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala
 src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala
 src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala

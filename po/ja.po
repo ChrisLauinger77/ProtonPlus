@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-02 15:03+0200\n"
+"POT-Creation-Date: 2026-07-02 15:21+0200\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -2006,6 +2006,7 @@ msgid "New tool"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:27
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:36
@@ -2105,30 +2106,6 @@ msgstr "カスタムの起動引数"
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:24
 msgid "Add your own launch options."
 msgstr "任意の起動オプションを追加します。"
-
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:11
-#, fuzzy
-msgid "Audio options"
-msgstr "詳細設定"
-
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:12
-#, fuzzy
-msgid "Audio-related launch options."
-msgstr "起動オプションの変更"
-
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:15
-msgid "PulseAudio low latency"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:16
-msgid ""
-"Enables low latency mode in PulseAudio which can reduce audio latency in "
-"some games (60, 90, 120)."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:17
-msgid "MSEC"
-msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:14
 msgid "Game arguments"
@@ -2699,6 +2676,50 @@ msgstr ""
 msgid ""
 "Enables the use of D7VK which can improve performance and compatibility for "
 "some Direct3D 9 games (Available from version 11-1)."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:14
+#, fuzzy
+msgid "Audio options"
+msgstr "詳細設定"
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:15
+#, fuzzy
+msgid "Audio-related launch options."
+msgstr "起動オプションの変更"
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:18
+msgid "PulseAudio low latency"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:19
+msgid ""
+"Enables low latency mode in PulseAudio which can reduce audio latency in "
+"some games (60, 90, 120)."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:20
+msgid "MSEC"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:38
+msgid "WINEALSA Channels"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:39
+msgid ""
+"Sets the number of ALSA output channels used by Wine. Available from GE-"
+"Proton11-1."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:52
+msgid "WINEALSA Spatial Audio"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:53
+msgid ""
+"Enables spatial mixing in Wine ALSA audio output. Requires WINEALSA Channels "
+"set to 4, 6, or 8. Available from GE-Proton11-1."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:11
