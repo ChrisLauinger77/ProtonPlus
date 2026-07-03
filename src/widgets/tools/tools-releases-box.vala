@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         private Models.Tool? current_tool;
         Models.Variant? selected_variant = null;
-        Adw.SplitButton variant_button { get; set; }
+        Gtk.MenuButton variant_button { get; set; }
         Gtk.Popover variant_popover { get; set; }
         Gtk.Box variant_popover_box { get; set; }
         private Gtk.ListBoxRow load_more_row;
@@ -137,10 +137,10 @@ namespace ProtonPlus.Widgets.Tools {
             variant_popover_box.set_margin_start (6);
             variant_popover_box.set_margin_end (6);
 
-            variant_button = new Adw.SplitButton ();
+            variant_button = new Gtk.MenuButton ();
             variant_button.add_css_class ("flat");
             variant_button.set_valign (Gtk.Align.CENTER);
-            variant_button.set_dropdown_tooltip (_("Choose a variant"));
+            variant_button.set_tooltip_text (_("Choose a variant"));
             variant_popover.set_child (variant_popover_box);
             variant_button.set_popover (variant_popover);
             variant_button.set_visible (false);
