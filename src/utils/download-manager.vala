@@ -13,6 +13,8 @@ namespace ProtonPlus.Utils {
 
         public Gee.LinkedList<Models.Release> active_downloads { get; private set; }
 
+        public int64 speed_limit_bps { get; set; default = 0; }
+
         /// Checks if a release is currently being downloaded.
         public bool is_downloading (Models.Release release) {
             return get_active_download (release) != null;
@@ -35,9 +37,13 @@ namespace ProtonPlus.Utils {
         public signal void progress_updated (Models.Release release);
         public signal void tool_updated (Models.Release release, bool updated);
         public signal void tool_removed (Models.Release release);
+        public signal void speed_limit_changed (int64 new_limit);
 
         private DownloadManager () {
             active_downloads = new Gee.LinkedList<Models.Release> ();
+            this.notify["speed-limit-bps"].connect (() => {
+                speed_limit_changed (this.speed_limit_bps);
+            });
         }
 
         public void add_download (Models.Release release) {
@@ -56,6 +62,16 @@ namespace ProtonPlus.Utils {
 
         public void add_to_history (Models.Release release, bool success) {
             download_finished (release, success);
+        }
+
+        public async void async_sleep (uint milliseconds) {
+            if (milliseconds == 0) return;
+
+            Timeout.add (milliseconds, () => {
+                async_sleep.callback ();
+                return Source.REMOVE;
+            });
+            yield;
         }
 
     }

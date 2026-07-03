@@ -189,7 +189,16 @@ namespace ProtonPlus.Models {
                 if (basic_runner == null)
                     return null;
 
-                release = new Releases.Latest (basic_runner, title, description, release_date, download_url, page_url);
+                var source_release_title = obj.get_string_member_with_default ("source_release_title", "");
+                release = new Releases.Latest (
+                    basic_runner,
+                    title,
+                    description,
+                    release_date,
+                    download_url,
+                    page_url,
+                    source_release_title
+                );
             } else if (basic_runner != null) {
                 // Default or generic
                 release = new Release.github (basic_runner, title, description, release_date, download_size, download_url, page_url);
@@ -309,19 +318,16 @@ namespace ProtonPlus.Models {
             return code;
         }
 
+        protected string? get_archive_extension (string archive_path) {
+            return Utils.ArchiveHelper.get_archive_extension (archive_path, true);
+        }
+
         protected virtual async ReturnCode _start_install () {
             step = Step.DOWNLOADING;
 
-            string extension = ".tar.gz";
-            if (download_url.contains (".zip")) {
-                extension = ".zip";
-            } else if (download_url.contains (".tar.zst")) {
-                extension = ".tar.zst";
-            } else if (download_url.contains (".tar.xz")) {
-                extension = ".tar.xz";
-            } else if (!download_url.contains (".tar")) {
+            var extension = get_archive_extension (download_url);
+            if (extension == null)
                 return ReturnCode.UNSUPPORTED_EXTENSION;
-            }
 
             string download_path = "%s/%s%s".printf (Globals.CACHE_PATH, title, extension);
 
@@ -392,6 +398,15 @@ namespace ProtonPlus.Models {
 
         protected virtual async string _after_extraction (string source_path, string extract_path) {
             return source_path;
+        }
+
+        protected async string extract_nested_archive (string source_path, string extract_path) {
+            var extension = get_archive_extension (source_path);
+            if (extension == null)
+                return "";
+
+            var archive_name = source_path.substring (0, source_path.length - extension.length).replace (extract_path, "");
+            return yield Utils.Filesystem.extract (extract_path, archive_name, extension, () => canceled);
         }
 
         public virtual async ReturnCode remove () {

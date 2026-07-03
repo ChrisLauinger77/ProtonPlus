@@ -199,7 +199,8 @@ namespace ProtonPlus.CLI {
                     release.description,
                     release.release_date,
                     release.download_url,
-                    release.page_url
+                    release.page_url,
+                    release.title
             );
 
             Output.info (_ ("Installing %s Latest...\n"), runner.title);

@@ -1,4 +1,5 @@
 sources += files(
+    'archive-helper.vala',
     'filesystem.vala',
     'web.vala',
     'parser.vala',

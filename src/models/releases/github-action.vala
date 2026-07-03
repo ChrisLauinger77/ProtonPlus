@@ -16,7 +16,7 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async string _after_extraction (string source_path, string extract_path) {
-            return yield Utils.Filesystem.extract (extract_path, source_path.substring (0, source_path.length - 4).replace (extract_path, ""), ".tar", () => canceled);
+            return yield extract_nested_archive (source_path, extract_path);
         }
     }
 }
