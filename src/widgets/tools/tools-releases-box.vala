@@ -14,8 +14,8 @@ namespace ProtonPlus.Widgets.Tools {
 
         private Models.Tool? current_tool;
         Models.Variant? selected_variant = null;
-        Adw.ComboRow variant_row { get; set; }
-        Adw.PreferencesGroup variant_group { get; set; }
+        Gtk.DropDown variant_dropdown { get; set; }
+        Gtk.Box variant_box { get; set; }
         private Gtk.ListBoxRow load_more_row;
         private Gtk.Button load_more_button;
 
@@ -129,25 +129,28 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_button.add_css_class ("flat");
             refresh_button.clicked.connect (on_refresh_clicked);
 
-            variant_row = new Adw.ComboRow () {
+            Gtk.Expression expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
+
+            variant_dropdown = new Gtk.DropDown (null, expression) {
                 visible = false
             };
-            variant_row.set_valign (Gtk.Align.CENTER);
-            variant_row.set_hexpand (false);
-            variant_row.notify["selected"].connect (on_variant_selected);
+            variant_dropdown.set_valign (Gtk.Align.CENTER);
+            variant_dropdown.set_hexpand (false);
+            variant_dropdown.notify["selected"].connect (on_variant_selected);
 
-            variant_group = new Adw.PreferencesGroup () {
+            variant_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
                 visible = false,
                 hexpand = false,
                 valign = Gtk.Align.CENTER,
                 margin_top = 0,
                 margin_bottom = 0
             };
-            variant_group.add (variant_row);
+
+            variant_box.append (variant_dropdown);
 
             header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             header_box.append (info_box);
-            header_box.append (variant_group);
+            header_box.append (variant_box);
             header_box.append (last_updated_label);
             header_box.append (refresh_button);
 
@@ -360,8 +363,8 @@ namespace ProtonPlus.Widgets.Tools {
 
         private void update_variant_row (Models.Tool tool) {
             selected_variant = null;
-            variant_row.set_visible (false);
-            variant_group.set_visible (false);
+            variant_dropdown.set_visible (false);
+            variant_box.set_visible (false);
 
             if (tool.variants.size <= 1) {
                 return;
@@ -397,17 +400,17 @@ namespace ProtonPlus.Widgets.Tools {
                 selected_index = default_index >= 0 ? default_index : 0;
             }
 
-            variant_row.model = model;
-            variant_row.selected = (uint) selected_index;
-            variant_row.set_visible (true);
-            variant_group.set_visible (true);
+            variant_dropdown.model = model;
+            variant_dropdown.selected = (uint) selected_index;
+            variant_dropdown.set_visible (true);
+            variant_box.set_visible (true);
         }
 
         private void on_variant_selected () {
             if (current_tool == null || current_tool.variants.size <= 1)
                 return;
 
-            int selected_index = (int) variant_row.selected;
+            int selected_index = (int) variant_dropdown.selected;
             if (selected_index < 0 || selected_index >= current_tool.variants.size)
                 return;
 

@@ -365,7 +365,12 @@ namespace ProtonPlus.Models.Launchers {
 
             try {
                 foreach (var group in groups) {
-                    File directory = File.new_for_path ("%s%s".printf (directory, group.directory));
+                    var tool_directory = "%s%s".printf (directory, group.directory);
+                    if (!FileUtils.test (tool_directory, FileTest.IS_DIR)) {
+                        continue;
+                    }
+
+                    File directory = File.new_for_path (tool_directory);
                     FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
 
                     if (enumerator != null) {
