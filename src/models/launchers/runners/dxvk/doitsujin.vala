@@ -11,7 +11,6 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
                 "https://api.github.com/repos/doitsujin/dxvk/releases"
             );
 
-            support_latest = true;
             add_variant ("default", "$release_name", true);
             add_directory_name_format ("default", "!$release_name:v:dxvk-");
         }

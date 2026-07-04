@@ -8,7 +8,6 @@ namespace ProtonPlus.Models.Internal.Data.Runner {
         public string endpoint { get; set; }
         public Gee.ArrayList<DirectoryNameFormat> directory_name_formats { get; set; }
         public Gee.ArrayList<RunnerVariant> variants { get; set; }
-        public bool support_latest { get; set; }
         public string? tag { get; set; }
         [CCode (cname = "type")]
         public string runner_type { get; set; }

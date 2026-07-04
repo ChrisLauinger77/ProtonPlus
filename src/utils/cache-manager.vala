@@ -58,7 +58,7 @@ namespace ProtonPlus.Utils {
                     tool.releases.add (release);
             }
 
-            if (tool is Models.Tools.Basic && tool.has_latest_support && tool.releases.size > 0) {
+            if (tool is Models.Tools.Basic && tool.releases.size > 0) {
                 var latest_release = new Models.Releases.Latest (
                     tool as Models.Tools.Basic,
                     "%s Latest".printf (tool.title),

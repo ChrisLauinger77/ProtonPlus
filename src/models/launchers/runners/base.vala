@@ -18,7 +18,6 @@ namespace ProtonPlus.Models.Launchers.Runners {
         public Gee.LinkedList<Launcher> launchers { get; set; default = new Gee.LinkedList<Launcher> (); }
         public SourceType source_type { get; protected set; }
 
-        protected bool support_latest { get; set; default = false; }
         protected string tag { get; set; default = ""; }
         protected bool legacy { get; set; default = false; }
         protected string url_template { get; set; default = ""; }
@@ -94,7 +93,6 @@ namespace ProtonPlus.Models.Launchers.Runners {
             runner.description = Utils.safe_translate (this.description);
             runner.endpoint = this.endpoint;
             runner.directory_name_format = target_format;
-            runner.has_latest_support = this.support_latest;
             runner.group = group;
             runner.tag = this.tag;
             runner.legacy = this.legacy;

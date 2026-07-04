@@ -4,7 +4,6 @@ namespace ProtonPlus.Models {
         public string description { get; set; }
         public Group group { get; set; }
         public bool has_more { get; set; }
-        public bool has_latest_support { get; set; }
         public bool legacy { get; set; }
         public string last_updated { get; set; }
         public int page { get; set; default = 1; }
@@ -161,7 +160,7 @@ namespace ProtonPlus.Models {
                     releases.add (release);
                 }
 
-                if (this is Models.Tools.Basic && has_latest_support) {
+                if (this is Models.Tools.Basic) {
                     var latest_release = new Models.Releases.Latest (
                         this as Models.Tools.Basic,
                         "%s Latest".printf (title),
@@ -205,7 +204,7 @@ namespace ProtonPlus.Models {
                     var directories = group.get_tool_directories ();
 
                     foreach (var tool in group.tools) {
-                        if (!tool.has_latest_support || !(tool is Models.Tools.Basic))
+                        if (!(tool is Models.Tools.Basic))
                             continue;
 
                         foreach (var directory in directories) {
