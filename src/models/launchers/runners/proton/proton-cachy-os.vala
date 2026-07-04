@@ -13,7 +13,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
             );
 
             add_variant ("x86_64", "proton-$tag_name-x86_64", true);
-            add_variant ("x86_64_v3", "proton-$tag_name-x86_64", false);
+            add_variant ("x86_64_v3", "proton-$tag_name-x86_64_v3", false);
             add_variant ("arm64", "proton-$tag_name-arm64", false);
             add_directory_name_format ("default", "$release_name");
         }
