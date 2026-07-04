@@ -89,5 +89,12 @@ namespace ProtonPlus.Utils {
             var safe_id = id.replace (":", "_").replace ("/", "_").replace (".", "_").replace (" ", "_");
             return Path.build_filename (Globals.CACHE_PATH, safe_id + ".json");
         }
+
+        public static async void clear_cache () {
+            if (FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {
+                yield Utils.Filesystem.delete_directory (Globals.CACHE_PATH);
+            }
+            Utils.Filesystem.create_directory (Globals.CACHE_PATH);
+        }
     }
 }

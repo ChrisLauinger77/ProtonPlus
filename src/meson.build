@@ -6,6 +6,7 @@ sources = files(
 subdir('cli')
 subdir('widgets')
 subdir('models')
+subdir('services')
 subdir('vdf')
 subdir('utils')
 
