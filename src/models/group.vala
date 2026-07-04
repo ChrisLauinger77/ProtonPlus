@@ -30,6 +30,10 @@ namespace ProtonPlus.Models {
                         continue;
                     }
 
+                    if (!FileUtils.test (directory_path, FileTest.IS_DIR)) {
+                        continue;
+                    }
+
                     File directory = File.new_for_path (directory_path);
                     FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
 

@@ -181,11 +181,6 @@ namespace ProtonPlus.CLI {
         }
 
         private async int install_latest (Models.Tool runner) {
-            if (!runner.has_latest_support) {
-                Output.error (_ ("Error: Tool '%s' does not support 'latest' installation\n"), runner.title);
-                return 1;
-            }
-
             var basic_runner = runner as Models.Tools.Basic;
             var code = yield load_runner_releases (basic_runner);
             if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.size == 0) {
@@ -199,7 +194,8 @@ namespace ProtonPlus.CLI {
                     release.description,
                     release.release_date,
                     release.download_url,
-                    release.page_url
+                    release.page_url,
+                    release.title
             );
 
             Output.info (_ ("Installing %s Latest...\n"), runner.title);
@@ -312,10 +308,6 @@ namespace ProtonPlus.CLI {
         }
 
         private async int update_runner (Models.Tool runner) {
-            if (!runner.has_latest_support) {
-                return 1;
-            }
-
             var code = yield update_runner_with_progress (runner as Models.Tools.Basic);
             switch (code) {
                 case ReturnCode.RUNNER_UPDATED:
@@ -338,7 +330,7 @@ namespace ProtonPlus.CLI {
                     var directories = group.get_tool_directories ();
 
                     foreach (var tool in group.tools) {
-                        if (!tool.has_latest_support || !(tool is Models.Tools.Basic)) {
+                        if (!(tool is Models.Tools.Basic)) {
                             continue;
                         }
 

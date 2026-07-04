@@ -56,6 +56,7 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.add_css_class ("boxed-list");
             list_box.add_css_class ("tools-tools-card");
             list_box.set_filter_func (filter_func);
+            list_box.set_sort_func (sort_func);
 
             var scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
@@ -126,6 +127,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public void refresh () {
             list_box.invalidate_filter ();
+            list_box.invalidate_sort ();
             update_visibility ();
         }
 
@@ -199,6 +201,22 @@ namespace ProtonPlus.Widgets.Tools {
             return !tool.is_used ();
 
             return true;
+        }
+
+        int sort_func (Gtk.ListBoxRow row1, Gtk.ListBoxRow row2) {
+            var tool1 = row1.get_data<Models.Tool> ("tool");
+            var tool2 = row2.get_data<Models.Tool> ("tool");
+
+            if (tool1 == null || tool2 == null)
+                return 0;
+
+            var tool1_used = tool1.is_used ();
+            var tool2_used = tool2.is_used ();
+
+            if (tool1_used != tool2_used)
+                return tool1_used ? -1 : 1;
+
+            return strcmp (tool1.title.down (), tool2.title.down ());
         }
     }
 }

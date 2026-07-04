@@ -10,6 +10,9 @@ namespace ProtonPlus {
         Globals.setupLanguage ();
         Notify.init (Config.APP_NAME);
 
+        var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
+        migration_manager.check_and_migrate (Config.APP_VERSION);
+
         if (args.length > 1) {
             var cli = new CLI.Handler ();
             var loop = new MainLoop ();

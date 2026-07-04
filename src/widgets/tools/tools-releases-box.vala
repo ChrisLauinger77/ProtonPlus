@@ -14,9 +14,8 @@ namespace ProtonPlus.Widgets.Tools {
 
         private Models.Tool? current_tool;
         Models.Variant? selected_variant = null;
-        Gtk.MenuButton variant_button { get; set; }
-        Gtk.Popover variant_popover { get; set; }
-        Gtk.Box variant_popover_box { get; set; }
+        Gtk.DropDown variant_dropdown { get; set; }
+        Gtk.Box variant_box { get; set; }
         private Gtk.ListBoxRow load_more_row;
         private Gtk.Button load_more_button;
 
@@ -130,24 +129,28 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_button.add_css_class ("flat");
             refresh_button.clicked.connect (on_refresh_clicked);
 
-            variant_popover = new Gtk.Popover ();
-            variant_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-            variant_popover_box.set_margin_top (6);
-            variant_popover_box.set_margin_bottom (6);
-            variant_popover_box.set_margin_start (6);
-            variant_popover_box.set_margin_end (6);
+            Gtk.Expression expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
 
-            variant_button = new Gtk.MenuButton ();
-            variant_button.add_css_class ("flat");
-            variant_button.set_valign (Gtk.Align.CENTER);
-            variant_button.set_tooltip_text (_("Choose a variant"));
-            variant_popover.set_child (variant_popover_box);
-            variant_button.set_popover (variant_popover);
-            variant_button.set_visible (false);
+            variant_dropdown = new Gtk.DropDown (null, expression) {
+                visible = false
+            };
+            variant_dropdown.set_valign (Gtk.Align.CENTER);
+            variant_dropdown.set_hexpand (false);
+            variant_dropdown.notify["selected"].connect (on_variant_selected);
+
+            variant_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                visible = false,
+                hexpand = false,
+                valign = Gtk.Align.CENTER,
+                margin_top = 0,
+                margin_bottom = 0
+            };
+
+            variant_box.append (variant_dropdown);
 
             header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             header_box.append (info_box);
-            header_box.append (variant_button);
+            header_box.append (variant_box);
             header_box.append (last_updated_label);
             header_box.append (refresh_button);
 
@@ -240,7 +243,7 @@ namespace ProtonPlus.Widgets.Tools {
             title_label.set_label (tool.title);
             desc_label.set_label (tool.description);
             update_last_updated_label ();
-            update_variant_btn (tool);
+            update_variant_row (tool);
 
             ReturnCode code;
             Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (false, out code);
@@ -358,56 +361,66 @@ namespace ProtonPlus.Widgets.Tools {
             update_visibility ();
         }
 
-        private void update_variant_btn (Models.Tool tool) {
+        private void update_variant_row (Models.Tool tool) {
             selected_variant = null;
-            variant_button.set_visible (false);
-
-            Gtk.Widget? child;
-            while ((child = variant_popover_box.get_first_child ()) != null) {
-                variant_popover_box.remove (child);
-            }
+            variant_dropdown.set_visible (false);
+            variant_box.set_visible (false);
 
             if (tool.variants.size <= 1) {
                 return;
             }
 
-            foreach (var variant in tool.variants) {
-                var variant_row = new Gtk.Button ();
-                variant_row.label = variant.name;
-                variant_row.halign = Gtk.Align.FILL;
-                variant_row.hexpand = true;
-                variant_row.add_css_class ("flat");
-                variant_row.clicked.connect (() => {
-                    selected_variant = variant;
-                    variant_button.set_label (variant.name);
-                    save_selected_variant_name (tool, variant.name);
-                    variant_popover.popdown ();
-                    apply_selected_variant_to_rows ();
-                });
+            var model = new Gtk.StringList (null);
+            int selected_index = -1;
+            int default_index = -1;
+            int index = 0;
 
-                variant_popover_box.append (variant_row);
+            var saved_variant_name = get_saved_variant_name (tool);
+
+            foreach (var variant in tool.variants) {
+                model.append (variant.name);
 
                 if (variant.is_default == true) {
                     selected_variant = variant;
+                    default_index = index;
                 }
-            }
 
-            var saved_variant_name = get_saved_variant_name (tool);
-            if (saved_variant_name != "") {
-                foreach (var variant in tool.variants) {
-                    if (variant.name == saved_variant_name) {
-                        selected_variant = variant;
-                        break;
-                    }
+                if (saved_variant_name != "" && variant.name == saved_variant_name) {
+                    selected_variant = variant;
+                    selected_index = index;
                 }
+
+                index++;
             }
 
             if (selected_variant == null) {
                 selected_variant = tool.variants.get (0);
+                selected_index = 0;
+            } else if (selected_index == -1) {
+                selected_index = default_index >= 0 ? default_index : 0;
             }
 
-            variant_button.set_label (selected_variant.name);
-            variant_button.set_visible (true);
+            variant_dropdown.model = model;
+            variant_dropdown.selected = (uint) selected_index;
+            variant_dropdown.set_visible (true);
+            variant_box.set_visible (true);
+        }
+
+        private void on_variant_selected () {
+            if (current_tool == null || current_tool.variants.size <= 1)
+                return;
+
+            int selected_index = (int) variant_dropdown.selected;
+            if (selected_index < 0 || selected_index >= current_tool.variants.size)
+                return;
+
+            var variant = current_tool.variants.get (selected_index);
+            if (selected_variant != null && selected_variant.name == variant.name)
+                return;
+
+            selected_variant = variant;
+            save_selected_variant_name (current_tool, variant.name);
+            apply_selected_variant_to_rows ();
         }
 
         private string? get_variant_download_url (Models.Release release, string variant_name) {

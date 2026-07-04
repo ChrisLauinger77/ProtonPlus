@@ -71,7 +71,6 @@ namespace AppTests.Models.Internal.Data.Runner {
             var runner = group.runners.get (0);
             assert_true (runner.title == "Proton-GE");
             assert_true (runner.runner_type == "github");
-            assert_true (runner.support_latest == true);
             assert_true (runner.tag == "Recommended");
 
             assert_true (runner.directory_name_formats.size == 1);
@@ -138,7 +137,6 @@ namespace AppTests.Models.Internal.Data.Runner {
             var runner = group.runners.get (0);
             assert_true (runner.title == "Proton-GE");
             assert_true (runner.runner_type == "github");
-            assert_true (runner.support_latest == true);
             assert_true (runner.tag == "Recommended");
 
             assert_true (runner.directory_name_formats.size == 1);

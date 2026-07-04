@@ -1,15 +1,37 @@
 namespace ProtonPlus.Models.Releases {
     public class Latest : Release {
-        public Latest (Tools.Basic runner, string title, string description, string release_date, string download_url, string page_url) {
+        public string source_release_title { get; set; }
+
+        public Latest (
+            Tools.Basic runner,
+            string title,
+            string description,
+            string release_date,
+            string download_url,
+            string page_url,
+            string source_release_title = ""
+        ) {
             shared (runner, title, release_date, download_url, page_url);
 
             this.description = description;
+            this.source_release_title = source_release_title;
         }
 
         public override Json.Object to_json () {
             var obj = base.to_json ();
             obj.set_string_member ("kind", "latest");
+            obj.set_string_member ("source_release_title", source_release_title);
             return obj;
+        }
+
+        protected override async string _after_extraction (string source_path, string extract_path) {
+            var basic_runner = runner as Tools.Basic;
+            var source_runner = basic_runner != null ? basic_runner.source_runner as Models.Launchers.Runners.Base : null;
+
+            if (source_runner != null && source_runner.source_type == Models.Launchers.Runners.SourceType.GITHUB_ACTION)
+                return yield extract_nested_archive (source_path, extract_path);
+
+            return source_path;
         }
 
         protected override async ReturnCode _start_install () {
@@ -18,6 +40,10 @@ namespace ProtonPlus.Models.Releases {
             return code;
 
             var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (destination_path);
+            if (!FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR)) {
+                persist_source_release_title ();
+                return ReturnCode.RUNNER_INSTALLED;
+            }
 
             var compatibilitytoolvdf_content = Utils.Filesystem.get_file_content (compatibilitytoolvdf_path);
             if (compatibilitytoolvdf_content == "") {
@@ -86,7 +112,22 @@ namespace ProtonPlus.Models.Releases {
             if (!modified)
             return ReturnCode.UNKNOWN_ERROR;
 
+            persist_source_release_title ();
+
             return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        private void persist_source_release_title () {
+            if (source_release_title == "")
+                return;
+
+            var tag_path = "%s/.protonplus_tag".printf (destination_path);
+            if (FileUtils.test (tag_path, FileTest.IS_REGULAR)) {
+                Utils.Filesystem.modify_file (tag_path, source_release_title);
+                return;
+            }
+
+            Utils.Filesystem.create_file (tag_path, source_release_title);
         }
 
         protected override async ReturnCode _start_update () {

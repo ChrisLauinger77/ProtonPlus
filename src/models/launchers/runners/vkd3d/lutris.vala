@@ -11,7 +11,6 @@ namespace ProtonPlus.Models.Launchers.Runners.VKD3D {
                 "https://api.github.com/repos/lutris/vkd3d/releases"
             );
 
-            support_latest = false;
             add_variant ("default", "$release_name", true);
             add_directory_name_format ("default", "$release_name");
             add_directory_name_format ("Heroic Games Launcher", "!$release_name:v:vkd3d-lutris-");

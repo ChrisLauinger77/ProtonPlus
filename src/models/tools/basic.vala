@@ -43,28 +43,7 @@ namespace ProtonPlus.Models.Tools {
         }
 
         private string get_archive_stem (string asset_name) {
-            string[] archive_extensions = {
-                "tar.gz",
-                "tgz",
-                "tar.xz",
-                "tar.bz2",
-                "tbz2",
-                "tar.zst",
-                "tzst",
-                "zip",
-                "7z",
-                "rar"
-            };
-
-            var lowered_name = asset_name.ascii_down ();
-            foreach (var extension in archive_extensions) {
-                var suffix = ".%s".printf (extension);
-                if (lowered_name.has_suffix (suffix)) {
-                    return asset_name.substring (0, asset_name.length - suffix.length);
-                }
-            }
-
-            return asset_name;
+            return Utils.ArchiveHelper.strip_archive_extension (asset_name);
         }
 
         private bool variant_matches_asset (string expected_asset_name, string asset_name) {

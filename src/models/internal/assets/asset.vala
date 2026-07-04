@@ -27,14 +27,12 @@ namespace ProtonPlus.Models.Internal.Assets {
             return new Asset (name, download_url);
         }
 
+        public static bool is_archive_name (string name) {
+            return Utils.ArchiveHelper.is_archive_name (name);
+        }
+
         public bool is_archive () {
-            try {
-                var regex = new Regex ("\\.(zip|tar\\.gz|tgz|tar\\.xz|tar\\.bz2|tbz2|tar\\.zst|tzst|7z|rar)$", RegexCompileFlags.CASELESS);
-                return regex.match (this.name);
-            } catch (RegexError e) {
-                warning ("Error while regex matching: %s", e.message);
-                return false;
-            }
+            return is_archive_name (this.name);
         }
     }
 }

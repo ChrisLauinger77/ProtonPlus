@@ -58,8 +58,16 @@ namespace ProtonPlus.Utils {
                     tool.releases.add (release);
             }
 
-            if (tool is Models.Tools.Basic && tool.has_latest_support && tool.releases.size > 0) {
-                var latest_release = new Models.Releases.Latest (tool as Models.Tools.Basic, "%s Latest".printf (tool.title), tool.releases[0].description, tool.releases[0].release_date, tool.releases[0].download_url, tool.releases[0].page_url);
+            if (tool is Models.Tools.Basic && tool.releases.size > 0) {
+                var latest_release = new Models.Releases.Latest (
+                    tool as Models.Tools.Basic,
+                    "%s Latest".printf (tool.title),
+                    tool.releases[0].description,
+                    tool.releases[0].release_date,
+                    tool.releases[0].download_url,
+                    tool.releases[0].page_url,
+                    tool.releases[0].title
+                );
 
                 foreach (var variant in tool.releases[0].variants) {
                     latest_release.variants.add (new Models.Variant (
@@ -80,6 +88,13 @@ namespace ProtonPlus.Utils {
             // Simple hash or just replace special chars
             var safe_id = id.replace (":", "_").replace ("/", "_").replace (".", "_").replace (" ", "_");
             return Path.build_filename (Globals.CACHE_PATH, safe_id + ".json");
+        }
+
+        public static async void clear_cache () {
+            if (FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {
+                yield Utils.Filesystem.delete_directory (Globals.CACHE_PATH);
+            }
+            Utils.Filesystem.create_directory (Globals.CACHE_PATH);
         }
     }
 }

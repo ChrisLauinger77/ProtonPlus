@@ -1,4 +1,5 @@
 namespace ProtonPlus.Widgets.Preferences {
+    using ProtonPlus.Utils;
     public class DeleteCacheRow : Adw.ActionRow {
         Gtk.Button delete_button;
         Adw.Spinner spinner;
@@ -21,11 +22,7 @@ namespace ProtonPlus.Widgets.Preferences {
             delete_button.set_sensitive (false);
             delete_button.set_child (spinner);
 
-            yield Utils.Filesystem.delete_directory (Globals.CACHE_PATH);
-
-            if (!FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {
-                Utils.Filesystem.create_directory (Globals.CACHE_PATH);
-            }
+            yield CacheManager.clear_cache ();
 
             spinner?.unparent ();
             delete_button?.set_icon_name ("user-trash-symbolic");
