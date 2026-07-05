@@ -2,15 +2,17 @@ namespace ProtonPlus.Services.Migrations {
 
     public class Manager : GLib.Object {
         private Gee.ArrayList<IMigration?> migrations;
+        private ProtonPlus.Widgets.Window? window;
 
-        public Manager () {
+        public Manager (ProtonPlus.Widgets.Window? window = null) {
+            this.window = window;
             this.migrations = new Gee.ArrayList<IMigration> ();
             this.register_migrations ();
         }
 
         private void register_migrations () {
             this.migrations.add ( new Versions.v0_5_21 ());
-            this.migrations.add ( new Versions.v0_6_0 ());
+            this.migrations.add ( new Versions.v0_6_0 (window));
         }
 
         public void check_and_migrate (string current_version) {
