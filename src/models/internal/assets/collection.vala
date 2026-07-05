@@ -17,22 +17,6 @@ namespace ProtonPlus.Models.Internal.Assets {
             return obj;
         }
 
-        /*public static Collection<T> ? from_json (Json.Array? list_array) {
-            Collection res = new Collection<T> ();
-            if (list_array == null) {
-                return res;
-            }
-
-            for (int i = 0; i < list_array.get_length (); i++) {
-                var asset = list_array.get_object_element (i);
-                res.list.add (Asset.from_json (asset));
-            }
-
-            res.archives = res.get_archives ();
-
-            return res;
-        }*/
-
         public int get_length () {
             return this.list.size;
         }
