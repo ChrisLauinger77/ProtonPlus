@@ -2,9 +2,9 @@
 
 gen-potfiles:
 	@echo "# This file is generated automatic" > po/POTFILES
-	@find data -name "*.in" -not -path "*/build/*" >> po/POTFILES
-	@find data -name "*.ui" -not -path "*/build/*" >> po/POTFILES
-	@find src -name "*.vala" -not -path "*/build/*" >> po/POTFILES
+	@find data -name "*.in" -not -path "*/build/*" | sort >> po/POTFILES
+	@find data -name "*.ui" -not -path "*/build/*" | sort >> po/POTFILES
+	@find src -name "*.vala" -not -path "*/build/*" | sort >> po/POTFILES
 
 translations: gen-potfiles
 	./scripts/build.sh translations

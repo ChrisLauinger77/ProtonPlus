@@ -5,7 +5,7 @@ namespace ProtonPlus.Utils {
         // Required GSettings keys for the application to function properly
         private static string[] REQUIRED_SCHEMA_KEYS = {
             "width", "height", "is-maximized", "is-fullscreen",
-            "automatic-updates", "update-frequency", "check-updates-on-boot",
+            "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
             "github-api-key", "gitlab-api-key",
             "steam-last-profile-id", "steam-remember-last-profile",
             "enable-controller", "first-run", "theme", "experimental-features"

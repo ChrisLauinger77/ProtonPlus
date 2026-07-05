@@ -59,6 +59,41 @@ namespace ProtonPlus.Widgets.Main {
             toast_overlay.add_toast (toast);
         }
 
+        public async void check_for_updates (Gee.LinkedList<Models.Launcher> launchers) {
+            send_toast (_ ("Checking for updates"));
+
+            var list = new List<Models.Launcher> ();
+            foreach (var launcher in launchers) {
+                list.append (launcher);
+            }
+
+            var code = yield Models.Tool.check_for_updates (list);
+
+            switch (code) {
+                case ReturnCode.NOTHING_TO_UPDATE:
+                    send_toast (_ ("Nothing to update"));
+                    break;
+                case ReturnCode.RUNNERS_UPDATED:
+                case ReturnCode.RUNNER_UPDATED:
+                    send_toast (_ ("Everything is now up-to-date"));
+                    break;
+                case ReturnCode.API_LIMIT_REACHED:
+                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
+                    break;
+                case ReturnCode.CONNECTION_ISSUE:
+                case ReturnCode.CONNECTION_REFUSED:
+                case ReturnCode.CONNECTION_UNKNOWN:
+                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
+                    break;
+                case ReturnCode.INVALID_ACCESS_TOKEN:
+                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
+                    break;
+                default:
+                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
+                    break;
+            }
+        }
+
         void on_download_added (Models.Release release) {
             if (release.state == Models.Release.State.BUSY_UPDATING) {
                 send_notification (_ ("Update started"), release.displayed_title);

@@ -68,6 +68,10 @@ namespace ProtonPlus.Widgets {
 
                 Utils.ThemeManager.get_default ().apply_theme ();
 
+                Globals.SETTINGS.changed["check-updates-on-boot"].connect (Utils.System.systemd_handler);
+                Globals.SETTINGS.changed["background-updates"].connect (Utils.System.systemd_handler);
+                Globals.SETTINGS.changed["background-updates-frequency"].connect (Utils.System.systemd_handler);
+
                 window.present ();
             } else {
                 error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");

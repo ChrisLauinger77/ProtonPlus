@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Preferences {
-    public class UpdateFrequencyRow : Adw.ComboRow {
+    public class BackgroundUpdatesFrequencyRow : Adw.ComboRow {
         class Frequency : Object {
             public string title { get; private set; }
             public int value { get; private set; }
@@ -29,7 +29,7 @@ namespace ProtonPlus.Widgets.Preferences {
             set_list_factory (factory);
 
             if (Globals.SETTINGS != null) {
-                var frequency = Globals.SETTINGS.get_enum ("update-frequency");
+                var frequency = Globals.SETTINGS.get_enum ("background-updates-frequency");
                 set_selected ((uint) frequency);
             }
 
@@ -40,7 +40,7 @@ namespace ProtonPlus.Widgets.Preferences {
             var frequency = get_selected_item () as Frequency;
 
             if (Globals.SETTINGS != null && frequency != null)
-            Globals.SETTINGS.set_enum ("update-frequency", frequency.value);
+            Globals.SETTINGS.set_enum ("background-updates-frequency", frequency.value);
         }
 
         void factory_bind (Object object) {

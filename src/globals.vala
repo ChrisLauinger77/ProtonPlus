@@ -1,5 +1,5 @@
 namespace ProtonPlus.Globals {
-    public static Settings? SETTINGS;
+    public static Settings SETTINGS;
     public static bool IS_STEAM_OS;
     public static bool IS_FLATPAK;
     public static List<string> HWCAPS;
@@ -82,7 +82,7 @@ namespace ProtonPlus.Globals {
     public static void load () {
         var schema_source = SettingsSchemaSource.get_default ();
 
-        if (schema_source != null) {
+        if (schema_source != null && SETTINGS == null) {
             var schema = schema_source.lookup ("com.vysp3r.ProtonPlus.State", true);
 
             if (schema != null && Utils.Filesystem.is_valid_schema (schema)) {
