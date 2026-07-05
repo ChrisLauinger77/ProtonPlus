@@ -63,14 +63,17 @@
         <key name="is-fullscreen" type="b">
             <default>false</default>
         </key>
-        <key name="automatic-updates" type="b">
-            <default>true</default>
+        <key name="background-updates" type="b">
+            <default>false</default>
         </key>
-        <key name="update-frequency" enum="com.vysp3r.ProtonPlus.UpdateFrequency">
-            <default>'1h'</default>
+        <key name="check-updates-on-launch" type="b">
+            <default>false</default>
         </key>
         <key name="check-updates-on-boot" type="b">
-            <default>true</default>
+            <default>false</default>
+        </key>
+        <key name="background-updates-frequency" enum="com.vysp3r.ProtonPlus.UpdateFrequency">
+            <default>'1h'</default>
         </key>
         <key name="github-api-key" type="s">
             <default>''</default>

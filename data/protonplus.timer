@@ -1,9 +1,9 @@
 [Unit]
-Description=ProtonPlus Notification Timer
+Description=ProtonPlus
 
 [Timer]
 OnBootSec=0
-OnCalendar=hourly
+OnUnitActiveSec={OnUnitActiveSec}
 Persistent=true
 
 [Install]

@@ -1,6 +1,0 @@
-[Unit]
-Description=ProtonPlus Notification Service
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/notify-send "Hi!"

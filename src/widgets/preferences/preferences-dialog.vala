@@ -65,24 +65,32 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             tools_page.add (updates_group);
 
-            var automatic_updates_row = new Adw.SwitchRow () {
-                title = _("Automatic updates"),
-                subtitle = "%s\n\n%s".printf (_("Check if any tool needs to be updated automatically"), _("When disabled a button to check for updates will be shown in the Tools tab")),
+            var background_updates_row = new Adw.SwitchRow () {
+                title = _("Background updates"),
+                subtitle = _("Automatically update the tools in the background"),
             };
-            automatic_updates_row.add_prefix (new Gtk.Image.from_icon_name ("view-refresh-symbolic"));
-            Globals.SETTINGS.bind ("automatic-updates", automatic_updates_row, "active", SettingsBindFlags.DEFAULT);
-            updates_group.add (automatic_updates_row);
+            Globals.SETTINGS.bind ("background-updates", background_updates_row, "active", SettingsBindFlags.DEFAULT);
+            updates_group.add (background_updates_row);
 
-            var update_frequency_row = new UpdateFrequencyRow ();
-            automatic_updates_row.bind_property ("active", update_frequency_row, "sensitive", BindingFlags.SYNC_CREATE);
-            updates_group.add (update_frequency_row);
+            var background_updates_frequency_row = new BackgroundUpdatesFrequencyRow () {
+                subtitle = _("Set how often to check for updates in the background"),
+            };
+            background_updates_row.bind_property ("active", background_updates_frequency_row, "sensitive", BindingFlags.SYNC_CREATE);
+            updates_group.add (background_updates_frequency_row);
 
             var check_updates_on_boot_row = new Adw.SwitchRow () {
                 title = _("Check updates on boot"),
+                subtitle = _("Check for tool updates when the system starts"),
             };
-            automatic_updates_row.bind_property ("active", check_updates_on_boot_row, "sensitive", BindingFlags.SYNC_CREATE);
             Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (check_updates_on_boot_row);
+
+            var check_updates_on_launch_row = new Adw.SwitchRow () {
+                title = _("Check updates on launch"),
+                subtitle = _("Update the tools when the application is launched"),
+            };
+            Globals.SETTINGS.bind ("check-updates-on-launch", check_updates_on_launch_row, "active", SettingsBindFlags.DEFAULT);
+            updates_group.add (check_updates_on_launch_row);
 
             var tools_behavior_group = new Adw.PreferencesGroup () {
                 title = _("Behavior")

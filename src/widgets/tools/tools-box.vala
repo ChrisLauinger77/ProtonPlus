@@ -260,7 +260,7 @@ namespace ProtonPlus.Widgets.Tools {
                 search_entry.set_visible (visible_child != "release" && visible_child != "migrate");
                 filter_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 search_button.set_visible (visible_child != "release" && visible_child != "migrate");
-                refresh_button.set_visible (visible_child != "release" && visible_child != "migrate" && (Globals.SETTINGS == null || !Globals.SETTINGS.get_boolean ("automatic-updates")));
+                refresh_button.set_visible (visible_child != "release" && visible_child != "migrate" && (Globals.SETTINGS == null || !Globals.SETTINGS.get_boolean ("background-updates")));
                 migrate_box.games_button.set_visible (visible_child == "migrate");
                 migrate_box.migrate_button.set_visible (visible_child == "migrate");
                 update_open_button_visibility ();
@@ -293,7 +293,7 @@ namespace ProtonPlus.Widgets.Tools {
             append (action_bar);
 
             if (Globals.SETTINGS != null) {
-                Globals.SETTINGS.changed["automatic-updates"].connect (() => {
+                Globals.SETTINGS.changed["background-updates"].connect (() => {
                     stack.notify_property ("visible-child-name");
                 });
                 Globals.SETTINGS.changed["show-legacy-tools"].connect (() => {

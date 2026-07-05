@@ -4,7 +4,7 @@ sources += files(
     'preferences-refresh-application-data-row.vala',
     'preferences-delete-cache-row.vala',
     'preferences-access-token-row.vala',
-    'preferences-update-frequency-row.vala',
+    'preferences-background-updates-frequency-row.vala',
     'preferences-tool-row.vala',
     'proxy-mode-row.vala',
     'preferences-language-row.vala',

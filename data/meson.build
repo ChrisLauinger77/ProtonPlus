@@ -51,15 +51,3 @@ if compile_schemas.found()
          compile_schemas,
          args : ['--strict', '--dry-run', meson.current_source_dir()])
 endif
-
-systemd_user_unit_dir = get_option('datadir') / 'systemd/user'
-
-install_data(
-    'com.vysp3r.ProtonPlus.service',
-    install_dir : systemd_user_unit_dir
-)
-
-install_data(
-    'com.vysp3r.ProtonPlus.timer',
-    install_dir : systemd_user_unit_dir
-)

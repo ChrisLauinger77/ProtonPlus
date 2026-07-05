@@ -146,5 +146,96 @@ namespace ProtonPlus.Utils {
                 }
             });
         }
+
+        public static void systemd_handler () {
+//            if (Globals.SETTINGS.get_boolean ("background-updates") || Globals.SETTINGS.get_boolean ("check-updates-on-boot")) {
+//                install_systemd_files ();
+//            } else {
+//                uninstall_systemd_files ();
+//            }
+        }
+
+        public static void install_systemd_files () {
+            string exec_start = "%s update all".printf (Globals.IS_FLATPAK ? "/usr/bin/flatpak run com.vysp3r.ProtonPlus" : run_command_sync (@"which protonplus")).strip ();
+            string exec_condition = "!%s -x wineserver".printf (run_command_sync (@"which pgrep")).strip ();
+            string on_unit_active_sec = "1h";
+
+            if (Globals.SETTINGS != null) {
+                switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {
+                    case 1:
+                        on_unit_active_sec = "3h";
+                        break;
+                    case 2:
+                        on_unit_active_sec = "6h";
+                        break;
+                    case 3:
+                        on_unit_active_sec = "12h";
+                        break;
+                    case 0:
+                    default:
+                        on_unit_active_sec = "1h";
+                        break;
+                }
+            }
+
+            try {
+                bool check_on_boot = Globals.SETTINGS.get_boolean ("check-updates-on-boot");
+                bool background_updates = Globals.SETTINGS.get_boolean ("background-updates");
+
+                var service_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.service", ResourceLookupFlags.NONE);
+                var timer_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.timer", ResourceLookupFlags.NONE);
+
+                string service_content = ((string) service_resource.get_data ()).replace ("{ExecStart}", exec_start).replace ("{ExecCondition}", exec_condition);
+                string timer_content = (string) timer_resource.get_data ();
+
+                if (check_on_boot) {
+                    timer_content = timer_content.replace ("OnBootSec=0", "OnBootSec=1min");
+                } else {
+                    timer_content = timer_content.replace ("OnBootSec=0\n", "").replace ("OnBootSec=0", "");
+                }
+
+                if (background_updates) {
+                    timer_content = timer_content.replace ("{OnUnitActiveSec}", on_unit_active_sec);
+                } else {
+                    timer_content = timer_content.replace ("OnUnitActiveSec={OnUnitActiveSec}\n", "").replace ("OnUnitActiveSec={OnUnitActiveSec}", "");
+                }
+
+                string systemd_dir = Path.build_filename (Environment.get_user_config_dir (), "systemd", "user");
+                var dir = File.new_for_path (systemd_dir);
+                if (!dir.query_exists ()) {
+                    dir.make_directory_with_parents ();
+                }
+
+                FileUtils.set_contents (Path.build_filename (systemd_dir, "protonplus.service"), service_content);
+                FileUtils.set_contents (Path.build_filename (systemd_dir, "protonplus.timer"), timer_content);
+
+                run_command_sync ("systemctl --user daemon-reload");
+                run_command_sync ("systemctl --user enable --now protonplus.timer");
+            } catch (Error e) {
+                warning (e.message);
+            }
+        }
+
+        public static void uninstall_systemd_files () {
+            try {
+                run_command_sync ("systemctl --user disable --now protonplus.service");
+                run_command_sync ("systemctl --user disable --now protonplus.timer");
+
+                string systemd_dir = Path.build_filename (Environment.get_user_config_dir (), "systemd", "user");
+                var service_file = File.new_for_path (Path.build_filename (systemd_dir, "protonplus.service"));
+                if (service_file.query_exists ()) {
+                    service_file.delete ();
+                }
+
+                var timer_file = File.new_for_path (Path.build_filename (systemd_dir, "protonplus.timer"));
+                if (timer_file.query_exists ()) {
+                    timer_file.delete ();
+                }
+
+                run_command_sync ("systemctl --user daemon-reload");
+            } catch (Error e) {
+                warning (e.message);
+            }
+        }
     }
 }

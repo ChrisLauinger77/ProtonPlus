@@ -41,6 +41,10 @@ namespace ProtonPlus.Widgets {
                 this.launchers = launchers;
                 header_box.initialize (launchers, main_box.view_switcher);
                 toolbar_view.set_content (main_box);
+
+                if (Globals.SETTINGS.get_boolean ("check-updates-on-launch")) {
+                    main_box.check_for_updates.begin (launchers);
+                }
             });
 
             main_box = new Main.Box ();
