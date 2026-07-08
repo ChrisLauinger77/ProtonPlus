@@ -250,6 +250,17 @@ namespace ProtonPlus.Models.Launchers {
                 var proton_regex = / (?i)Proton\s*\d+ (\.\d+)?/;
                 var name_regex = /\"name\"\s+\"([^\"]+)\"/;
                 var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
+
+                var excluded_appids = new Gee.HashSet<string> ();
+                excluded_appids.add_all_array (new string[] {
+                    "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180"
+                });
+
+                var natival_compatibility_tool_appids = new Gee.HashSet<string> ();
+                natival_compatibility_tool_appids.add_all_array (new string[] {
+                    "2180100", "1493710", "3658110", "4628710", "2348590", "2805730"
+                });
+
                 while (true) {
                     start_text = "%i\"\n\t{".printf (current_libraryfolder_id++);
                     end_text = "}";
@@ -297,16 +308,8 @@ namespace ProtonPlus.Models.Launchers {
                             if (!id_valid)
                             continue;
 
-                            bool valid_appid = true;
-                            string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110" };
-                            foreach (var excluded_appid in excluded_appids) {
-                                if (current_appid == excluded_appid) {
-                                    valid_appid = false;
-                                    break;
-                                }
-                            }
-                            if (!valid_appid)
-                            continue;
+                            if (excluded_appids.contains (current_appid))
+                                continue;
 
                             current_steamapps_path = "%s/steamapps".printf (current_libraryfolder_path);
                             if (!FileUtils.test (current_steamapps_path, FileTest.IS_DIR))
@@ -333,7 +336,7 @@ namespace ProtonPlus.Models.Launchers {
                                 continue;
                             }
 
-                            if (proton_regex.match (current_name) || current_name == "Proton Hotfix" || current_appid == "2180100" || current_appid == "1493710") {
+                            if (proton_regex.match (current_name) || current_name == "Proton Hotfix" || natival_compatibility_tool_appids.contains (current_appid)) {
                                 var simple_runner = new Tools.Simple.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
                                 compatibility_tools.add (simple_runner);
                                 continue;
