@@ -393,7 +393,31 @@ namespace ProtonPlus.Models {
                 return ReturnCode.UNKNOWN_ERROR;
             }
 
+            persist_runner_install_metadata ();
+
             return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        private void persist_runner_install_metadata () {
+            var basic_runner = runner as Tools.Basic;
+            if (basic_runner == null)
+                return;
+
+            if (destination_path == null || destination_path == "")
+                return;
+
+            var endpoint_path = "%s/.protonplus_runner_endpoint".printf (destination_path);
+            var title_path = "%s/.protonplus_runner_title".printf (destination_path);
+
+            if (FileUtils.test (endpoint_path, FileTest.IS_REGULAR))
+                Utils.Filesystem.modify_file (endpoint_path, basic_runner.endpoint);
+            else
+                Utils.Filesystem.create_file (endpoint_path, basic_runner.endpoint);
+
+            if (FileUtils.test (title_path, FileTest.IS_REGULAR))
+                Utils.Filesystem.modify_file (title_path, basic_runner.title);
+            else
+                Utils.Filesystem.create_file (title_path, basic_runner.title);
         }
 
         protected virtual async string _after_extraction (string source_path, string extract_path) {

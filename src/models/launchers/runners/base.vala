@@ -13,6 +13,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
         public string title { get; set; }
         public string description { get; set; }
         public string endpoint { get; set; }
+        public int sort_priority { get; set; default = 1000; }
 
         public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
         public Gee.LinkedList<Launcher> launchers { get; set; default = new Gee.LinkedList<Launcher> (); }
@@ -96,6 +97,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
             runner.group = group;
             runner.tag = this.tag;
             runner.legacy = this.legacy;
+            runner.sort_priority = this.sort_priority;
             runner.source_runner = this;
             runner.variants = new Gee.LinkedList<ProtonPlus.Models.Variant> ();
 

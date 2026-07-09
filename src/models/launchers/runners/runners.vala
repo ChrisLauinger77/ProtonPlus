@@ -14,9 +14,9 @@ namespace ProtonPlus.Models.Launchers.Runners {
         public Gee.HashMap<RunnerType, Gee.ArrayList<IRunner>> list { get; set; default = new Gee.HashMap<RunnerType, Gee.ArrayList<IRunner>> (); }
 
         public Runners () {
+            this.list.set (RunnerType.Proton, new Gee.ArrayList<IRunner> ());
             this.list.set (RunnerType.DXVK, new Gee.ArrayList<IRunner> ());
             this.list.set (RunnerType.VKD3D, new Gee.ArrayList<IRunner> ());
-            this.list.set (RunnerType.Proton, new Gee.ArrayList<IRunner> ());
             this.list.set (RunnerType.Wine, new Gee.ArrayList<IRunner> ());
 
             var dxvk_runners = new Gee.ArrayList<IRunner> ();
@@ -26,19 +26,19 @@ namespace ProtonPlus.Models.Launchers.Runners {
             this.addMultipleDXVK (dxvk_runners);
 
             var vkd3d_runners = new Gee.ArrayList<IRunner> ();
-            vkd3d_runners.add (new VKD3D.Lutris ());
             vkd3d_runners.add (new VKD3D.Proton ());
+            vkd3d_runners.add (new VKD3D.Lutris ());
             this.addMultipleVKD3D (vkd3d_runners);
 
             var proton_runners = new Gee.ArrayList<IRunner> ();
+            proton_runners.add (new Proton.ProtonGE ());
+            proton_runners.add (new Proton.CachyOS ());
+            proton_runners.add (new Proton.ProtonTKG ());
             proton_runners.add (new Proton.Buxtron ());
             proton_runners.add (new Proton.DW ());
             proton_runners.add (new Proton.Luxtorpeda ());
-            proton_runners.add (new Proton.CachyOS ());
             proton_runners.add (new Proton.ProtonEM ());
-            proton_runners.add (new Proton.ProtonGE ());
             proton_runners.add (new Proton.ProtonGERtsp ());
-            proton_runners.add (new Proton.ProtonTKG ());
             proton_runners.add (new Proton.Roberta ());
             this.addMultipleProton (proton_runners);
 

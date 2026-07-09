@@ -190,11 +190,22 @@ namespace ProtonPlus.Widgets.Tools {
             if (tool1 == null || tool2 == null)
                 return 0;
 
+            var tool1_installed = tool1.is_installed ();
+            var tool2_installed = tool2.is_installed ();
             var tool1_used = tool1.is_used ();
             var tool2_used = tool2.is_used ();
+            var result = 0;
+
+            if (tool1_installed != tool2_installed)
+                result += tool1_installed ? -1000000 : 1000000;
+
+            result += (tool1.sort_priority - tool2.sort_priority) * 1000;
 
             if (tool1_used != tool2_used)
-                return tool1_used ? -1 : 1;
+                result += tool1_used ? -1 : 1;
+
+            if (result != 0)
+                return result;
 
             return strcmp (tool1.title.down (), tool2.title.down ());
         }
