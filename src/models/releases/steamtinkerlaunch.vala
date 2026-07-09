@@ -313,7 +313,9 @@ namespace ProtonPlus.Models.Releases {
 
             // Add STL to Games tab
             var simple_runner = new Tools.Simple.from_path ("%s/SteamTinkerLaunch".printf (compat_location));
-            runner.group.launcher.compatibility_tools.add (simple_runner);
+            var steam_launcher = runner.group.launcher as Models.Launchers.Steam;
+            if (steam_launcher != null)
+                steam_launcher.register_compatibility_tool (simple_runner);
 
             return ReturnCode.RUNNER_INSTALLED;
         }
@@ -353,11 +355,9 @@ namespace ProtonPlus.Models.Releases {
                 return ReturnCode.UNKNOWN_ERROR;
             }
 
-            foreach (var simple_runner in runner.group.launcher.compatibility_tools) {
-                if (simple_runner.path == "%s/SteamTinkerLaunch".printf (compat_location)) {
-                    runner.group.launcher.compatibility_tools.remove (simple_runner);
-                    break;
-                }
+            var steam_launcher = runner.group.launcher as Models.Launchers.Steam;
+            if (steam_launcher != null) {
+                steam_launcher.unregister_compatibility_tool_by_path ("%s/SteamTinkerLaunch".printf (compat_location));
             }
 
             return ReturnCode.RUNNER_REMOVED;

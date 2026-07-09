@@ -516,17 +516,15 @@ namespace ProtonPlus.Models {
                 return;
 
             var simple_runner = new Tools.Simple.from_path (install_location);
-
-            runner.group.launcher.compatibility_tools.add (simple_runner);
+            var steam_launcher = runner.group.launcher as Launchers.Steam;
+            if (steam_launcher != null)
+                steam_launcher.register_compatibility_tool (simple_runner);
         }
 
         void remove_from_games_tab () {
-            var tool = runner.group.launcher.compatibility_tools.first_match ((tool) => {
-                return tool.path == install_location;
-            });
-
-            if (tool != null)
-                runner.group.launcher.compatibility_tools.remove (tool);
+            var steam_launcher = runner.group.launcher as Launchers.Steam;
+            if (steam_launcher != null)
+                steam_launcher.unregister_compatibility_tool_by_path (install_location);
         }
     }
 }
