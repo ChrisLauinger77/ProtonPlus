@@ -72,7 +72,9 @@ namespace ProtonPlus.Widgets {
                 Globals.SETTINGS.changed["background-updates"].connect (Utils.System.systemd_handler);
                 Globals.SETTINGS.changed["background-updates-frequency"].connect (Utils.System.systemd_handler);
                 var migration_manager = new ProtonPlus.Services.Migrations.Manager (window);
-                migration_manager.check_and_migrate (Config.APP_VERSION);
+                migration_manager.check_and_migrate.begin (Config.APP_VERSION, (obj, res) => {
+                    migration_manager.check_and_migrate.end (res);
+                });
 
                 window.present ();
             } else {

@@ -15,7 +15,7 @@ namespace ProtonPlus.Services.Migrations {
             this.migrations.add ( new Versions.v0_6_0 (window));
         }
 
-        public void check_and_migrate (string current_version) {
+        public async void check_and_migrate (string current_version) {
             var settings = ProtonPlus.Globals.SETTINGS;
 
             if (settings == null) {
@@ -45,7 +45,7 @@ namespace ProtonPlus.Services.Migrations {
                     compare_versions (step.version, current_version) <= 0) {
 
                     try {
-                        step.migrate ();
+                        yield step.migrate ();
                     } catch (GLib.Error e) {
                         critical ("Migration failed during migration to version %s: %s", step.version, e.message);
                     }
