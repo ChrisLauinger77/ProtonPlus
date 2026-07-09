@@ -21,5 +21,6 @@
         "**/build-native": true,
         "**/build-tests": true,
         "**/builddir": true
-    }
+    },
+    "mesonbuild.configureOnOpen": true
 }
