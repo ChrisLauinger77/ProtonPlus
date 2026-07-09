@@ -1,0 +1,25 @@
+{
+    "files.watcherExclude": {
+        "**/.flatpak-builder/**": true,
+        "**/build-flatpak/**": true,
+        "**/build-flatpak/local/build/**": true,
+        "**/build-native/**": true,
+        "**/build-tests/**": true,
+        "**/builddir/**": true
+    },
+    "search.exclude": {
+        "**/.flatpak-builder/**": true,
+        "**/build-flatpak/**": true,
+        "**/build-flatpak/local/build/**": true,
+        "**/build-native/**": true,
+        "**/build-tests/**": true,
+        "**/builddir/**": true
+    },
+    "files.exclude": {
+        "**/.flatpak-builder": true,
+        "**/build-flatpak": true,
+        "**/build-native": true,
+        "**/build-tests": true,
+        "**/builddir": true
+    }
+}
