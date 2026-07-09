@@ -21,5 +21,7 @@ dist/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 gdb.sh
 com.vysp3r.ProtonPlus.flatpak

@@ -87,6 +87,8 @@ namespace ProtonPlus.Widgets.Tools {
 
             }
 
+            list_box.invalidate_sort ();
+
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             group_box.append (header_box);
             group_box.append (stack);
