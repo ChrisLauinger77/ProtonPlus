@@ -11,6 +11,8 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
                 "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases"
             );
 
+            sort_priority = 2;
+
             add_variant ("default", "$release_name", true);
             add_directory_name_format ("default", "dxvk-gplasync-$release_name");
         }

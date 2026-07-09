@@ -11,6 +11,8 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
                 "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases"
             );
 
+
+            sort_priority = 3;
             add_variant ("default", "$release_name", true);
             add_directory_name_format ("default", "sarek-$release_name");
         }
