@@ -393,7 +393,31 @@ namespace ProtonPlus.Models {
                 return ReturnCode.UNKNOWN_ERROR;
             }
 
+            persist_runner_install_metadata ();
+
             return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        private void persist_runner_install_metadata () {
+            var basic_runner = runner as Tools.Basic;
+            if (basic_runner == null)
+                return;
+
+            if (destination_path == null || destination_path == "")
+                return;
+
+            var endpoint_path = "%s/.protonplus_runner_endpoint".printf (destination_path);
+            var title_path = "%s/.protonplus_runner_title".printf (destination_path);
+
+            if (FileUtils.test (endpoint_path, FileTest.IS_REGULAR))
+                Utils.Filesystem.modify_file (endpoint_path, basic_runner.endpoint);
+            else
+                Utils.Filesystem.create_file (endpoint_path, basic_runner.endpoint);
+
+            if (FileUtils.test (title_path, FileTest.IS_REGULAR))
+                Utils.Filesystem.modify_file (title_path, basic_runner.title);
+            else
+                Utils.Filesystem.create_file (title_path, basic_runner.title);
         }
 
         protected virtual async string _after_extraction (string source_path, string extract_path) {
@@ -492,17 +516,15 @@ namespace ProtonPlus.Models {
                 return;
 
             var simple_runner = new Tools.Simple.from_path (install_location);
-
-            runner.group.launcher.compatibility_tools.add (simple_runner);
+            var steam_launcher = runner.group.launcher as Launchers.Steam;
+            if (steam_launcher != null)
+                steam_launcher.register_compatibility_tool (simple_runner);
         }
 
         void remove_from_games_tab () {
-            var tool = runner.group.launcher.compatibility_tools.first_match ((tool) => {
-                return tool.path == install_location;
-            });
-
-            if (tool != null)
-                runner.group.launcher.compatibility_tools.remove (tool);
+            var steam_launcher = runner.group.launcher as Launchers.Steam;
+            if (steam_launcher != null)
+                steam_launcher.unregister_compatibility_tool_by_path (install_location);
         }
     }
 }

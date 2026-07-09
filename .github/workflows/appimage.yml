@@ -19,7 +19,7 @@ jobs:
             arch: x86_64
     container: ghcr.io/pkgforge-dev/archlinux:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Preparing Container
         uses: pkgforge-dev/anylinux-setup-action@v1

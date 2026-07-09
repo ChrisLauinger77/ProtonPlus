@@ -95,6 +95,7 @@ namespace ProtonPlus.Widgets.Tools {
                     stack.set_visible_child_name ("releases");
                 } else {
                     stack.set_visible_child_name ("groups");
+                    refresh_group_boxes ();
                 }
                 search_entry.set_text ("");
             });
@@ -314,10 +315,21 @@ namespace ProtonPlus.Widgets.Tools {
             migrate_button.set_visible (visible_child == "release" && release_box.stack_switcher.stack.visible_child_name == "games" && release_box.get_selected_games_count () > 0);
         }
 
+        void refresh_group_boxes () {
+            var child = groups_stack.get_first_child ();
+            while (child != null) {
+                if (child is GroupBox) {
+                    ((GroupBox) child).refresh ();
+                }
+                child = child.get_next_sibling ();
+            }
+        }
+
         public void show_groups_page () {
             stack.set_visible_child_name ("groups");
             search_entry.set_text ("");
             all_filter_button.active = true;
+            refresh_group_boxes ();
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {

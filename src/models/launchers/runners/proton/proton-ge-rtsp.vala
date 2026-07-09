@@ -12,6 +12,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases"
             );
 
+            sort_priority = 8;
             add_variant ("default", "$tag_name", true);
             add_directory_name_format ("default", "$release_name");
         }

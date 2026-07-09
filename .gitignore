@@ -20,5 +20,6 @@ dist/
 .idea/
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 gdb.sh
 com.vysp3r.ProtonPlus.flatpak

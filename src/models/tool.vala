@@ -7,6 +7,7 @@ namespace ProtonPlus.Models {
         public bool legacy { get; set; }
         public string last_updated { get; set; }
         public int page { get; set; default = 1; }
+        public int sort_priority { get; set; default = 1000; }
         private string? _last_version = null;
 
         public Utils.Web.GetRequestType get_request_type { get; set; }

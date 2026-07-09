@@ -331,13 +331,25 @@ namespace ProtonPlus.Models.Launchers {
                             current_installdir = dir_match.fetch (1);
 
                             if (current_name.contains ("Steam Linux Runtime")) {
-                                var simple_runner = new Tools.Simple.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
+                                var simple_runner = new Tools.Simple.with_path (
+                                    current_name,
+                                    current_name.down ().split (".", 2)[0].replace (" ", "_"),
+                                    "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                                );
+                                simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
                                 compatibility_tools.add (simple_runner);
                                 continue;
                             }
 
-                            if (proton_regex.match (current_name) || current_name == "Proton Hotfix" || natival_compatibility_tool_appids.contains (current_appid)) {
-                                var simple_runner = new Tools.Simple.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
+                            if (proton_regex.match (current_name) ||
+                                current_name == "Proton Hotfix" ||
+                                natival_compatibility_tool_appids.contains (current_appid)) {
+                                var simple_runner = new Tools.Simple.with_path (
+                                    current_name,
+                                    current_name.down ().split (".", 2)[0].replace (" ", "_"),
+                                    "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                                );
+                                simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
                                 compatibility_tools.add (simple_runner);
                                 continue;
                             }
@@ -388,6 +400,7 @@ namespace ProtonPlus.Models.Launchers {
 
                             var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
                             var simple_runner = new Tools.Simple.from_path (file_path);
+                            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
                             compatibility_tools.add (simple_runner);
                         }
                     }
@@ -399,6 +412,8 @@ namespace ProtonPlus.Models.Launchers {
             if (installation_type == Launcher.InstallationTypes.FLATPAK) {
                 add_flatpak_extension_tools_to_compatibility_tools ();
             }
+
+            sort_compatibility_tools ();
 
             return true;
         }
@@ -444,7 +459,129 @@ namespace ProtonPlus.Models.Launchers {
                 }
             }
 
+            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
             compatibility_tools.add (simple_runner);
+        }
+
+        public void register_compatibility_tool (Tools.Simple simple_runner) {
+            add_compatibility_tool_if_missing (simple_runner);
+            sort_compatibility_tools ();
+        }
+
+        public void unregister_compatibility_tool_by_path (string tool_path) {
+            var tool = compatibility_tools.first_match ((tool) => {
+                return tool.path == tool_path;
+            });
+
+            if (tool == null) {
+                return;
+            }
+
+            compatibility_tools.remove (tool);
+            sort_compatibility_tools ();
+        }
+
+        private void sort_compatibility_tools () {
+            compatibility_tools.sort ((a, b) => {
+                if (a.sort_priority != b.sort_priority)
+                    return a.sort_priority - b.sort_priority;
+
+                int a_major = 0;
+                int a_minor = 0;
+                int b_major = 0;
+                int b_minor = 0;
+
+                var has_a_proton_version = try_parse_any_proton_version (a.display_title, out a_major, out a_minor);
+                var has_b_proton_version = try_parse_any_proton_version (b.display_title, out b_major, out b_minor);
+
+                if (has_a_proton_version && has_b_proton_version) {
+                    if (a_major != b_major)
+                        return b_major - a_major;
+
+                    if (a_minor != b_minor)
+                        return b_minor - a_minor;
+                }
+
+                return strcmp (a.display_title.down (), b.display_title.down ());
+            });
+        }
+
+        private int get_compatibility_tool_sort_priority (Tools.Simple tool) {
+            var title = tool.display_title.down ();
+            var internal_title = tool.internal_title.down ();
+
+            if (internal_title == "proton_experimental" || title.contains ("proton experimental")) {
+                return 100;
+            }
+
+            if (internal_title == "proton_hotfix" || title.contains ("proton hotfix")) {
+                return 150;
+            }
+
+            int major = 0;
+            int minor = 0;
+            if (try_parse_proton_version (tool.display_title, out major, out minor)) {
+                return 200;
+            }
+
+            if (title.contains ("proton") || internal_title.contains ("proton")) {
+                return 300;
+            }
+
+            if (title.contains ("steam linux runtime") || internal_title.contains ("steamlinuxruntime")) {
+                return 400;
+            }
+
+            return 500;
+        }
+
+        private bool try_parse_proton_version (string title, out int major, out int minor) {
+            major = 0;
+            minor = 0;
+
+            try {
+                var regex = new GLib.Regex ("(?i)^\\s*proton\\s+(\\d+)(?:\\.(\\d+))?");
+                GLib.MatchInfo match;
+                if (!regex.match (title, 0, out match)) {
+                    return false;
+                }
+
+                int.try_parse (match.fetch (1), out major);
+
+                var minor_text = match.fetch (2);
+                if (minor_text != null && minor_text != "") {
+                    int.try_parse (minor_text, out minor);
+                }
+
+                return true;
+            } catch (GLib.RegexError e) {
+                return false;
+            }
+        }
+
+        private bool try_parse_any_proton_version (string title, out int major, out int minor) {
+            major = 0;
+            minor = 0;
+
+            try {
+                // Matches custom names like GE-Proton11-1, proton-cachyos-11.0, etc.
+                var regex = new GLib.Regex ("(?i)proton[^0-9]*(\\d+)(?:[\\._-](\\d+))?");
+                GLib.MatchInfo match;
+                if (!regex.match (title, 0, out match)) {
+                    return false;
+                }
+
+                int.try_parse (match.fetch (1), out major);
+
+                var minor_text = match.fetch (2);
+                if (minor_text != null && minor_text != "") {
+                    int.try_parse (minor_text, out minor);
+                }
+
+                return true;
+            } catch (GLib.RegexError e) {
+                return false;
+            }
         }
 
         async bool load_compatibility_tool_hashtable () {
@@ -490,7 +627,8 @@ namespace ProtonPlus.Models.Launchers {
                 end_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
                 end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
-                var compat_tool_mapping_item_appid_valid = uint.try_parse (compat_tool_mapping_item.substring (start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
+                var compat_tool_mapping_item_appid_text = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
+                var compat_tool_mapping_item_appid_valid = uint.try_parse (compat_tool_mapping_item_appid_text, out compat_tool_mapping_item_appid);
                 if (!compat_tool_mapping_item_appid_valid)
                 continue;
 
@@ -557,7 +695,8 @@ namespace ProtonPlus.Models.Launchers {
                 if (end_pos == -1)
                 return false;
 
-                var compat_tool_mapping_item_appid_valid = int.try_parse (compat_tool_mapping_item.substring (start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
+                var compat_tool_mapping_item_appid_text = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
+                var compat_tool_mapping_item_appid_valid = int.try_parse (compat_tool_mapping_item_appid_text, out compat_tool_mapping_item_appid);
                 if (!compat_tool_mapping_item_appid_valid)
                 return false;
 
