@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
             proton_runners.add (new Proton.ProtonGE ());
             proton_runners.add (new Proton.CachyOS ());
             proton_runners.add (new Proton.ProtonTKG ());
-            proton_runners.add (new Proton.Buxtron ());
+            proton_runners.add (new Proton.Boxtron ());
             proton_runners.add (new Proton.DW ());
             proton_runners.add (new Proton.Luxtorpeda ());
             proton_runners.add (new Proton.ProtonEM ());

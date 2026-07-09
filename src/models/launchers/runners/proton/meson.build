@@ -1,5 +1,5 @@
 sources += files(
-    'buxtron.vala',
+    'boxtron.vala',
     'dw-proton.vala',
     'luxtorpeda.vala',
     'proton-cachy-os.vala',

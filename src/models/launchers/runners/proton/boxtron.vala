@@ -2,8 +2,8 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
     using Gee;
     using ProtonPlus.Models.Internal.Requests;
 
-    public class Buxtron : Base {
-        public Buxtron () {
+    public class Boxtron : Base {
+        public Boxtron () {
             base (
                 SourceType.GITHUB,
                 "Boxtron",
@@ -11,7 +11,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/dreamer/boxtron/releases"
             );
 
-            sort_priority = 4;
+            sort_priority = 8;
             legacy = true;
             add_variant ("default", "$title", true);
             add_directory_name_format ("default", "$title $release_name");
