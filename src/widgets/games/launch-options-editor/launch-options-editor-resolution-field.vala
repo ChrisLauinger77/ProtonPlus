@@ -217,10 +217,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
         }
 
-        public bool is_default () {
-            return !toggle.get_active ();
-        }
-
         public bool is_auto () {
             return toggle.get_active () && get_selected_choice ().is_auto;
         }

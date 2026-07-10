@@ -3,5 +3,4 @@ sources += files(
 )
 
 subdir('assets')
-subdir('data')
 subdir('requests')

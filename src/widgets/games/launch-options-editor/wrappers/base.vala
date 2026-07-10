@@ -19,32 +19,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             this.active = false;
         }
 
-        internal LaunchOptionBinding create_bind (string[] tokens,
-                                                  Gtk.Switch toggle,
-                                                  bool is_advanced,
-                                                  ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType line_type) {
-            return new LaunchOptionBinding (tokens, toggle, is_advanced, line_type);
-        }
-
-        internal LaunchOptionTile create_tile (string title, string subtitle, string[] tokens, bool is_advanced = false, LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT) {
+        internal LaunchOptionTile create_tile (
+            string title,
+            string subtitle,
+            string[] tokens,
+            bool is_advanced = false,
+            LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT
+        ) {
             var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
             tile.toggle.notify["active"].connect (() => {
-                this.changed ();
-            });
-
-            this.add_child (tile);
-
-            return tile;
-        }
-
-        internal LaunchOptionSpinTile create_spin_tile (string title, string subtitle, string value_label, double lower, double upper, int default_value, string env_prefix, bool is_advanced = false, LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT) {
-            var tile = new LaunchOptionSpinTile (title, subtitle, value_label, lower, upper, default_value, env_prefix);
-            tile.line_type = type;
-            tile.toggle.notify["active"].connect (() => {
-                this.changed ();
-            });
-
-            tile.value_applied.connect (() => {
                 this.changed ();
             });
 

@@ -5,8 +5,6 @@ test_sources = files(
   'example_test.vala',
 )
 
-subdir('models')
-
 test_exe = executable('protonplus-tests',
   test_sources,
   resources,
