@@ -1,26 +1,26 @@
 namespace ProtonPlus.Utils {
     public class ControllerManager : Object {
-        private Gtk.Window window;
-        private Adw.ViewStack view_stack;
-        private uint timeout_id = 0;
-        private double stick_y = 0;
-        private bool controller_active = false;
-        private Gtk.Widget? highlighted = null;
-        private Adw.PreferencesDialog? active_prefs_dialog = null;
-        private Adw.PreferencesPage[] ? prefs_pages = null;
-        private Gtk.EventControllerMotion? motion = null;
+        Widgets.Window window;
+        uint timeout_id = 0;
+        double stick_y = 0;
+        bool controller_active = false;
+        Gtk.Widget? highlighted = null;
+        Adw.PreferencesDialog? active_prefs_dialog = null;
+        Adw.PreferencesPage[] ? prefs_pages = null;
+        Gtk.EventControllerMotion? motion = null;
 
-        private bool is_motion_attached = false;
+        bool is_motion_attached = false;
 
-        private const double DEADZONE = 0.25;
-        private const double SCROLL_SPEED = 12.0;
+        const double DEADZONE = 0.25;
+        const double SCROLL_SPEED = 12.0;
 
-        public ControllerManager (Gtk.Window window, Adw.ViewStack view_stack) {
+        public ControllerManager (Widgets.Window window) {
             this.window = window;
-            this.view_stack = view_stack;
 
             motion = new Gtk.EventControllerMotion ();
             motion.motion.connect ((x, y) => deactivate_controller_mode ());
+
+            start ();
         }
 
         public void start () {
@@ -72,7 +72,7 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        private bool poll () {
+        bool poll () {
             SDL.Events.Event event;
             while (SDL.Events.poll_event (out event)) {
                 switch (event.type) {
@@ -96,7 +96,7 @@ namespace ProtonPlus.Utils {
             return GLib.Source.CONTINUE;
         }
 
-        private void activate_controller_mode () {
+        void activate_controller_mode () {
             if (!controller_active) {
                 controller_active = true;
                 window.add_css_class ("controller-active");
@@ -104,27 +104,27 @@ namespace ProtonPlus.Utils {
             update_highlight (window.get_focus ());
         }
 
-        private void deactivate_controller_mode () {
+        void deactivate_controller_mode () {
             if (!controller_active)return;
             controller_active = false;
             window.remove_css_class ("controller-active");
             clear_highlight ();
         }
 
-        private void update_highlight (Gtk.Widget? widget) {
+        void update_highlight (Gtk.Widget? widget) {
             if (highlighted == widget)return;
             clear_highlight ();
             highlighted = widget;
             highlighted?.add_css_class ("controller-focus");
         }
 
-        private void clear_highlight () {
+        void clear_highlight () {
             highlighted?.remove_css_class ("controller-focus");
 
             highlighted = null;
         }
 
-        private void handle_button (SDL.Gamepad.GamepadButton button) {
+        void handle_button (SDL.Gamepad.GamepadButton button) {
             activate_controller_mode ();
             switch (button) {
             case DPAD_UP :
@@ -170,7 +170,7 @@ namespace ProtonPlus.Utils {
             update_highlight (window.get_focus ());
         }
 
-        private void handle_axis (SDL.Gamepad.GamepadAxis axis, int16 raw) {
+        void handle_axis (SDL.Gamepad.GamepadAxis axis, int16 raw) {
             if (axis != SDL.Gamepad.GamepadAxis.LEFTY)
                 return;
             double v = raw / 32767.0;
@@ -179,13 +179,13 @@ namespace ProtonPlus.Utils {
             stick_y = new_y;
         }
 
-        private void activate_focused () {
+        void activate_focused () {
             var focused = window.get_focus ();
             if (focused != null)
                 focused.activate ();
         }
 
-        private bool is_inside_expander_row () {
+        bool is_inside_expander_row () {
             Gtk.Widget? w = window.get_focus ();
             while (w != null) {
                 if (w is Adw.ExpanderRow) {
@@ -196,7 +196,7 @@ namespace ProtonPlus.Utils {
             return false;
         }
 
-        private void scroll (double delta) {
+        void scroll (double delta) {
             Gtk.Widget? w = window.get_focus ();
             while (w != null) {
                 if (w is Gtk.ScrolledWindow) {
@@ -211,7 +211,7 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        private bool dismiss_popup () {
+        bool dismiss_popup () {
             Gtk.Widget? w = window.get_focus ();
             while (w != null) {
                 if (w is Gtk.Popover) {
@@ -223,7 +223,7 @@ namespace ProtonPlus.Utils {
             return false;
         }
 
-        private void switch_tab (int delta) {
+        void switch_tab (int delta) {
             if (active_prefs_dialog != null && prefs_pages != null && prefs_pages.length > 0) {
                 int n = prefs_pages.length;
                 var current = active_prefs_dialog.visible_page;
@@ -236,11 +236,11 @@ namespace ProtonPlus.Utils {
                 return;
             }
 
-            var model = view_stack.pages;
+            var model = window.main_box.view_stack.pages;
             int n = (int) model.get_n_items ();
             if (n == 0)return;
 
-            string? current = view_stack.visible_child_name;
+            string? current = window.main_box.view_stack.visible_child_name;
             int cur_idx = 0;
             for (int i = 0; i < n; i++) {
                 var page = (Adw.ViewStackPage) model.get_item ((uint) i);
@@ -254,7 +254,7 @@ namespace ProtonPlus.Utils {
                 int idx = ((cur_idx + delta * step) % n + n) % n;
                 var page = (Adw.ViewStackPage) model.get_item ((uint) idx);
                 if (page.visible) {
-                    view_stack.visible_child_name = page.name;
+                    window.main_box.view_stack.visible_child_name = page.name;
                     break;
                 }
             }

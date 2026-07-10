@@ -5,29 +5,15 @@ namespace ProtonPlus.Widgets {
 
         Header.Box header_box { get; set; }
         Loading.Box loading_box { get; set; }
-        Main.Box main_box { get; set; }
+        public Main.Box main_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
 
         public Window () {
             Object (application: (Adw.Application) GLib.Application.get_default (), title: Config.APP_NAME);
 
+            controller_manager = new Utils.ControllerManager (this);
+
             build_ui ();
-
-            if (Globals.SETTINGS != null) {
-                if (Globals.SETTINGS.get_boolean ("enable-controller"))
-                controller_manager.start ();
-
-                Globals.SETTINGS.changed["enable-controller"].connect (() => {
-                    if (Globals.SETTINGS.get_boolean ("enable-controller"))
-                    controller_manager.start ();
-                    else
-                    controller_manager.stop ();
-                });
-            }
-
-            set_content (toolbar_view);
-
-            loading_box.load.begin ();
         }
 
         private void build_ui () {
@@ -53,27 +39,12 @@ namespace ProtonPlus.Widgets {
             toolbar_view.add_top_bar (header_box);
             toolbar_view.set_content (loading_box);
 
-            controller_manager = new Utils.ControllerManager (this, main_box.view_stack);
-            if (Globals.SETTINGS != null) {
-                if (Globals.SETTINGS.get_boolean ("enable-controller"))
-                controller_manager.start ();
-
-                Globals.SETTINGS.changed["enable-controller"].connect (() => {
-                    if (Globals.SETTINGS.get_boolean ("enable-controller"))
-                    controller_manager.start ();
-                    else
-                    controller_manager.stop ();
-                });
-            }
-
             set_content (toolbar_view);
+
+            loading_box.load.begin ();
         }
 
         public void reload_ui () {
-            if (controller_manager != null) {
-                controller_manager.stop ();
-            }
-
             var toplevels = Gtk.Window.get_toplevels ();
             for (uint i = 0; i < toplevels.get_n_items (); i++) {
                 var popover = toplevels.get_item (i) as Gtk.Popover;
@@ -83,11 +54,7 @@ namespace ProtonPlus.Widgets {
                 }
             }
 
-            set_content (loading_box);
-
             build_ui ();
-
-            loading_box.load.begin ();
         }
 
         public void reload () {

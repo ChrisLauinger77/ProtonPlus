@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets.Introduction {
             base (
                   _("Keep Everything Updated"),
                   _("ProtonPlus can automatically check for and install updates to keep your gaming experience smooth."),
-                  "system-software-update-symbolic"
+                  "arrows-rotate-symbolic"
             );
 
             var updates_group = new Adw.PreferencesGroup ();

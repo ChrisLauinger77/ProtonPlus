@@ -40,6 +40,7 @@ namespace ProtonPlus.Widgets.Introduction {
             pages.add (new Proton ());
             pages.add (new Forks ());
             pages.add (new HowToUse ());
+            pages.add (new Controller ());
             pages.add (new Updates ());
 
             foreach (var page in pages) {

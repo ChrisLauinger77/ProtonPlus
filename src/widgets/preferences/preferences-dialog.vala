@@ -23,20 +23,6 @@ namespace ProtonPlus.Widgets.Preferences {
             language_row.add_prefix (new Gtk.Image.from_icon_name ("globe-symbolic"));
             appearance_group.add (language_row);
 
-            var behavior_group = new Adw.PreferencesGroup () {
-                title = _("Behavior")
-            };
-            general_page.add (behavior_group);
-
-            var enable_controller_row = new Adw.SwitchRow () {
-                title = _("Controller support"),
-                subtitle = _("Enable game controller support for navigating the user interface"),
-            };
-            enable_controller_row.add_prefix (new Gtk.Image.from_icon_name ("gamepad-symbolic"));
-            Globals.SETTINGS.bind ("enable-controller", enable_controller_row, "active", SettingsBindFlags.DEFAULT);
-            behavior_group.add (enable_controller_row);
-
-
             var help_page = new Adw.PreferencesGroup () {
                 title = _("Help"),
             };
