@@ -56,6 +56,15 @@ namespace ProtonPlus.Services.Migrations {
             settings.set_string ("last-version", current_version);
         }
 
+        public void check_and_migrate_sync (string current_version) {
+            var loop = new MainLoop ();
+            this.check_and_migrate.begin (current_version, (obj, res) => {
+                this.check_and_migrate.end (res);
+                loop.quit ();
+            });
+            loop.run ();
+        }
+
         /**
          * Helper method for comparing semantic versions (X.Y.Z)
          * Returns: > 0 if v1 > v2, < 0 if v1 < v2, 0 if v1 == v2
