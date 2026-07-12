@@ -394,11 +394,16 @@ namespace ProtonPlus.Models.Launchers {
                             if (file_info.get_file_type () != FileType.DIRECTORY)
                             continue;
 
-                            if (file_info.get_name ().contains ("wine-proton-exp") || file_info.get_name () == "LegacyRuntime") {
+                            var file_name = file_info.get_name ();
+                            if (file_name == null) {
                                 continue;
                             }
 
-                            var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
+                            if (file_name.contains ("wine-proton-exp") || file_name == "LegacyRuntime") {
+                                continue;
+                            }
+
+                            var file_path = "%s/%s".printf (directory.get_path (), file_name);
                             var simple_runner = new Tools.Simple.from_path (file_path);
                             simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
                             compatibility_tools.add (simple_runner);
