@@ -14,13 +14,6 @@ src/models/internal/assets/collection.vala
 src/models/internal/assets/github_collection.vala
 src/models/internal/assets/github.vala
 src/models/internal/assets/i_asset.vala
-src/models/internal/data/runner/compat-layer-group.vala
-src/models/internal/data/runner/directory-name-format.vala
-src/models/internal/data/runner/launcher-compat-layer.vala
-src/models/internal/data/runner/launcher.vala
-src/models/internal/data/runner/parser.vala
-src/models/internal/data/runner/root.vala
-src/models/internal/data/runner/runner.vala
 src/models/internal/metainfo.vala
 src/models/internal/requests/base_releases.vala
 src/models/internal/requests/forgejo/asset.vala
@@ -50,10 +43,11 @@ src/models/launchers/runners/dxvk/doitsujin.vala
 src/models/launchers/runners/dxvk/ph42on.vala
 src/models/launchers/runners/dxvk/sarek.vala
 src/models/launchers/runners/irunner.vala
-src/models/launchers/runners/proton/buxtron.vala
+src/models/launchers/runners/proton/boxtron.vala
 src/models/launchers/runners/proton/dw-proton.vala
 src/models/launchers/runners/proton/luxtorpeda.vala
 src/models/launchers/runners/proton/proton-cachy-os.vala
+src/models/launchers/runners/proton/proton-cachy-os-wineland.vala
 src/models/launchers/runners/proton/proton-em.vala
 src/models/launchers/runners/proton/proton-ge-rtsp.vala
 src/models/launchers/runners/proton/proton-ge.vala
@@ -90,6 +84,7 @@ src/services/migrations/imigration.vala
 src/services/migrations/manager.vala
 src/services/migrations/versions/v0.5.21.vala
 src/services/migrations/versions/v0.6.0.vala
+src/translatables.vala
 src/utils/archive-helper.vala
 src/utils/cache-manager.vala
 src/utils/controller-manager.vala
