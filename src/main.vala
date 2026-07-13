@@ -12,7 +12,8 @@ namespace ProtonPlus {
 
         if (args.length > 1) {
             var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
-            migration_manager.check_and_migrate (Config.APP_VERSION);
+            migration_manager.check_and_migrate_sync (Config.APP_VERSION);
+
             var cli = new CLI.Handler ();
             var loop = new MainLoop ();
             int result = 0;

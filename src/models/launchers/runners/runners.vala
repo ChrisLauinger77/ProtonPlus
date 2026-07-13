@@ -33,6 +33,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
             var proton_runners = new Gee.ArrayList<IRunner> ();
             proton_runners.add (new Proton.ProtonGE ());
             proton_runners.add (new Proton.CachyOS ());
+            proton_runners.add (new Proton.CachyOSWineland ());
             proton_runners.add (new Proton.ProtonTKG ());
             proton_runners.add (new Proton.Boxtron ());
             proton_runners.add (new Proton.DW ());

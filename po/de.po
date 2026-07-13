@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-04 21:55-0400\n"
+"POT-Creation-Date: 2026-07-12 21:38+0200\n"
 "PO-Revision-Date: 2026-04-18 18:16+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -27,7 +27,7 @@ msgstr "_Über ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-#: src/widgets/application.vala:143
+#: src/widgets/application.vala:147
 msgid "A modern compatibility tools manager"
 msgstr "Ein moderner Verwalter für Kompatibilitätstools"
 
@@ -2026,121 +2026,6 @@ msgstr ""
 msgid "Chinese (Traditional)"
 msgstr ""
 
-#: src/main.vala:36
-msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "Kompatibilitätswerkzeug zum Ausführen von Windows-Spielen unter Linux."
-
-#: src/main.vala:37
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton."
-msgstr ""
-"Steam Kompatibilitätswerkzeug um Windowsspiele zu Starten mit Verbesserungen "
-"gegenüber Valves Standard-Proton."
-
-#: src/main.vala:38
-msgid ""
-"Steam compatibility tool from the CachyOS Linux distribution for running "
-"Windows games with improvements over Valve's default Proton."
-msgstr ""
-"Steam Kompatibilitätswerkzeug aus der CachyOS Linux Distribution um "
-"Windowsspiele zu Starten mit Verbesserungen gegenüber Valves Standard-Proton."
-
-#: src/main.vala:39
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr ""
-"Dawn Winerys angepasste Proton-Fork mit Fehlerbehebungen für diverse "
-"Spiele :xdd:"
-
-#: src/main.vala:40
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
-"wayland tweaks."
-msgstr ""
-"Steam-Kompatibilitätswerkzeug zum Ausführen von Windows-Spielen mit "
-"Verbesserungen gegenüber dem Standard-Proton von Valve. Von Etaash "
-"Mathamsetty mit FSR4-Unterstützung und wine wayland tweaks."
-
-#: src/main.vala:41
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-"Benutzerdefinierter Proton-Build zum Ausführen von Windows-Spielen basiert "
-"auf Wine-tkg."
-
-#: src/main.vala:42
-msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
-msgstr ""
-"Steam Kompatibilitätswerkzeug basierend auf Proton-GE mit zusätzlichen "
-"Patches um RTSP codecs für VRChat zu verbessern."
-
-#: src/main.vala:43
-msgid ""
-"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-"Luxtorpeda bietet Linux-native Spiele-Engines für bestimmte Windows-Spiele."
-
-#: src/main.vala:44
-msgid ""
-"Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr ""
-"Steam Kompatibilitätswerkzeug um Abenteuer-Spiele mit der nativen Linux "
-"ScummVM zu starten."
-
-#: src/main.vala:45
-msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr ""
-"Steam Kompatibilitätswerkzeug um DOS-Spiele mit der nativen Linux DOSBox zu "
-"starten."
-
-#: src/main.vala:46
-msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux."
-
-#: src/main.vala:47
-msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Wine-Build gebaut von den offiziellen WineHQ-Quellen."
-
-#: src/main.vala:48
-msgid "Wine build with the Staging patchset."
-msgstr "Wine gebaut mit dem Staging Patcheset."
-
-#: src/main.vala:49
-msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-"Wine gebaut mit den Staging Patchesets und mit vielen nützlichen Patches."
-
-#: src/main.vala:50
-msgid "Wine build modified by Valve and other contributors."
-msgstr "Wine-Build, modifiziert von Valve und anderen Mitwirkenden."
-
-#: src/main.vala:51
-msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr ""
-"Vulkan basierte Implementierung von Direct3D 9, 10 und 11 für Linux/Wine."
-
-#: src/main.vala:52
-msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "DXVK-Builds, die mit Versionen vor Vulkan 1.3 funktionieren."
-
-#: src/main.vala:53
-msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
-msgstr "DXVK-Async-Builds, die mit Versionen vor Vulkan 1.3 funktionieren."
-
-#: src/main.vala:54
-msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr "DXVK wird mit dem gplasync-Patch von Ph42oN erstellt."
-
-#: src/main.vala:55
-msgid ""
-"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
-"top of Vulkan."
-msgstr ""
-"Variante von Wine's VKD3D, die darauf abzielt, die volle Direct3D 12 API auf "
-"Vulkan zu implementieren."
-
 #: src/models/games/steam.vala:137 src/models/games/steam.vala:157
 #: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:99
 #: src/widgets/tools/tools-migrate-box.vala:97
@@ -2172,15 +2057,130 @@ msgstr ""
 "Kompatibilitätswerkzeuge für sowohl Windows-Spiele als auch native Linux-"
 "Spiele."
 
-#: src/widgets/application.vala:145
+#: src/translatables.vala:4
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr "Kompatibilitätswerkzeug zum Ausführen von Windows-Spielen unter Linux."
+
+#: src/translatables.vala:5
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
+msgstr ""
+"Steam Kompatibilitätswerkzeug um Windowsspiele zu Starten mit Verbesserungen "
+"gegenüber Valves Standard-Proton."
+
+#: src/translatables.vala:6
+msgid "Recommended"
+msgstr ""
+
+#: src/translatables.vala:7
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Steam Kompatibilitätswerkzeug aus der CachyOS Linux Distribution um "
+"Windowsspiele zu Starten mit Verbesserungen gegenüber Valves Standard-Proton."
+
+#: src/translatables.vala:8
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr ""
+"Dawn Winerys angepasste Proton-Fork mit Fehlerbehebungen für diverse "
+"Spiele :xdd:"
+
+#: src/translatables.vala:9
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
+"wayland tweaks."
+msgstr ""
+"Steam-Kompatibilitätswerkzeug zum Ausführen von Windows-Spielen mit "
+"Verbesserungen gegenüber dem Standard-Proton von Valve. Von Etaash "
+"Mathamsetty mit FSR4-Unterstützung und wine wayland tweaks."
+
+#: src/translatables.vala:10
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"Steam Kompatibilitätswerkzeug basierend auf Proton-GE mit zusätzlichen "
+"Patches um RTSP codecs für VRChat zu verbessern."
+
+#: src/translatables.vala:11
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ""
+"Benutzerdefinierter Proton-Build zum Ausführen von Windows-Spielen basiert "
+"auf Wine-tkg."
+
+#: src/translatables.vala:12
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda bietet Linux-native Spiele-Engines für bestimmte Windows-Spiele."
+
+#: src/translatables.vala:13
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr ""
+"Steam Kompatibilitätswerkzeug um Abenteuer-Spiele mit der nativen Linux "
+"ScummVM zu starten."
+
+#: src/translatables.vala:14
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr ""
+"Steam Kompatibilitätswerkzeug um DOS-Spiele mit der nativen Linux DOSBox zu "
+"starten."
+
+#: src/translatables.vala:15
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux."
+
+#: src/translatables.vala:16
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "Wine-Build gebaut von den offiziellen WineHQ-Quellen."
+
+#: src/translatables.vala:17
+msgid "Wine build with the Staging patchset."
+msgstr "Wine gebaut mit dem Staging Patcheset."
+
+#: src/translatables.vala:18
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+"Wine gebaut mit den Staging Patchesets und mit vielen nützlichen Patches."
+
+#: src/translatables.vala:19
+msgid "Wine build modified by Valve and other contributors."
+msgstr "Wine-Build, modifiziert von Valve und anderen Mitwirkenden."
+
+#: src/translatables.vala:20
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr ""
+"Vulkan basierte Implementierung von Direct3D 9, 10 und 11 für Linux/Wine."
+
+#: src/translatables.vala:21
+msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+msgstr "DXVK-Builds, die mit Versionen vor Vulkan 1.3 funktionieren."
+
+#: src/translatables.vala:22
+msgid "DXVK builds with gplasync patch by Ph42oN."
+msgstr "DXVK wird mit dem gplasync-Patch von Ph42oN erstellt."
+
+#: src/translatables.vala:23
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"Variante von Wine's VKD3D, die darauf abzielt, die volle Direct3D 12 API auf "
+"Vulkan zu implementieren."
+
+#: src/widgets/application.vala:149
 msgid "Website"
 msgstr "Webseite"
 
-#: src/widgets/application.vala:150
+#: src/widgets/application.vala:154
 msgid "translator-credits"
 msgstr "Übersetzer-Credits"
 
-#: src/widgets/application.vala:151
+#: src/widgets/application.vala:155
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
@@ -2203,7 +2203,7 @@ msgstr "Anwenden der aktuellen Änderung"
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: src/widgets/games/games-box.vala:122 src/widgets/tools/tools-box.vala:187
+#: src/widgets/games/games-box.vala:122 src/widgets/tools/tools-box.vala:188
 msgid "All"
 msgstr ""
 
@@ -2216,7 +2216,7 @@ msgstr ""
 msgid "Non-Steam"
 msgstr "SteamOS"
 
-#: src/widgets/games/games-box.vala:170 src/widgets/tools/tools-box.vala:185
+#: src/widgets/games/games-box.vala:170 src/widgets/tools/tools-box.vala:186
 msgid "Filter"
 msgstr ""
 
@@ -3823,33 +3823,33 @@ msgstr "Spiele"
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:63 src/widgets/tools/tools-box.vala:364
+#: src/widgets/main/main-box.vala:63 src/widgets/tools/tools-box.vala:376
 msgid "Checking for updates"
 msgstr "Prüfe auf Aktualisierungen"
 
-#: src/widgets/main/main-box.vala:74 src/widgets/tools/tools-box.vala:372
+#: src/widgets/main/main-box.vala:74 src/widgets/tools/tools-box.vala:384
 msgid "Nothing to update"
 msgstr "Nichts zu aktualisieren"
 
-#: src/widgets/main/main-box.vala:78 src/widgets/tools/tools-box.vala:376
+#: src/widgets/main/main-box.vala:78 src/widgets/tools/tools-box.vala:388
 msgid "Everything is now up-to-date"
 msgstr "Alles ist jetzt aktuell"
 
 #: src/widgets/main/main-box.vala:81 src/widgets/main/main-box.vala:86
 #: src/widgets/main/main-box.vala:89 src/widgets/main/main-box.vala:92
-#: src/widgets/tools/tools-box.vala:379 src/widgets/tools/tools-box.vala:384
-#: src/widgets/tools/tools-box.vala:387 src/widgets/tools/tools-box.vala:390
+#: src/widgets/tools/tools-box.vala:391 src/widgets/tools/tools-box.vala:396
+#: src/widgets/tools/tools-box.vala:399 src/widgets/tools/tools-box.vala:402
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Es konnten keine Updates gefunden werden (Grund: %s)"
 
-#: src/widgets/main/main-box.vala:81 src/widgets/tools/tools-box.vala:379
+#: src/widgets/main/main-box.vala:81 src/widgets/tools/tools-box.vala:391
 #: src/widgets/tools/tools-releases-box.vala:256
 #: src/widgets/tools/tools-releases-box.vala:321
 msgid "API limit reached"
 msgstr "API-Limit erreicht"
 
-#: src/widgets/main/main-box.vala:86 src/widgets/tools/tools-box.vala:384
+#: src/widgets/main/main-box.vala:86 src/widgets/tools/tools-box.vala:396
 #: src/widgets/tools/tools-releases-box.vala:259
 #: src/widgets/tools/tools-releases-box.vala:262
 #: src/widgets/tools/tools-releases-box.vala:265
@@ -3859,13 +3859,13 @@ msgstr "API-Limit erreicht"
 msgid "Unable to reach the API"
 msgstr "Die API kann nicht erreicht werden"
 
-#: src/widgets/main/main-box.vala:89 src/widgets/tools/tools-box.vala:387
+#: src/widgets/main/main-box.vala:89 src/widgets/tools/tools-box.vala:399
 #: src/widgets/tools/tools-releases-box.vala:268
 #: src/widgets/tools/tools-releases-box.vala:333
 msgid "Invalid access token"
 msgstr "Ungültiges Zugriffstoken"
 
-#: src/widgets/main/main-box.vala:92 src/widgets/tools/tools-box.vala:390
+#: src/widgets/main/main-box.vala:92 src/widgets/tools/tools-box.vala:402
 #: src/widgets/tools/tools-release-row.vala:168
 #: src/widgets/tools/tools-release-row.vala:227
 #: src/widgets/tools/tools-remove-dialog.vala:44
@@ -4712,7 +4712,7 @@ msgid "Detected Launchers"
 msgstr "Erkannte Starter:\n"
 
 #: src/widgets/preferences/preferences-dialog.vala:340
-#: src/widgets/tools/tools-box.vala:190
+#: src/widgets/tools/tools-box.vala:191
 msgid "Installed"
 msgstr "Installiert"
 
@@ -4767,45 +4767,45 @@ msgstr ""
 msgid "Proxy mode"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:106
+#: src/widgets/tools/tools-box.vala:107
 #, fuzzy
 msgid "Open in browser"
 msgstr "Im Webbrowser öffnen"
 
-#: src/widgets/tools/tools-box.vala:114
+#: src/widgets/tools/tools-box.vala:115
 #: src/widgets/tools/tools-migrate-box.vala:43
 msgid "Migrate"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:122
+#: src/widgets/tools/tools-box.vala:123
 #, fuzzy
 msgid "Migrate selected games to another tool"
 msgstr "Die ausgewählten Spiele auf einmal bearbeiten"
 
-#: src/widgets/tools/tools-box.vala:145
+#: src/widgets/tools/tools-box.vala:146
 msgid "Check for updates"
 msgstr "Prüfe auf Aktualisierungen"
 
-#: src/widgets/tools/tools-box.vala:150
+#: src/widgets/tools/tools-box.vala:151
 #, fuzzy
 msgid "Search"
 msgstr "Suche anzeigen"
 
-#: src/widgets/tools/tools-box.vala:168 src/widgets/tools/tools-box.vala:175
+#: src/widgets/tools/tools-box.vala:169 src/widgets/tools/tools-box.vala:176
 #, fuzzy
 msgid "Show search bar"
 msgstr "Suche anzeigen"
 
-#: src/widgets/tools/tools-box.vala:172
+#: src/widgets/tools/tools-box.vala:173
 #, fuzzy
 msgid "Hide search bar"
 msgstr "Suche ausblenden"
 
-#: src/widgets/tools/tools-box.vala:193
+#: src/widgets/tools/tools-box.vala:194
 msgid "Used"
 msgstr "Benutzt"
 
-#: src/widgets/tools/tools-box.vala:196
+#: src/widgets/tools/tools-box.vala:197
 msgid "Unused"
 msgstr "Nicht benutzt"
 
@@ -5074,6 +5074,9 @@ msgstr ""
 #: src/widgets/window.vala:108
 msgid "Exit"
 msgstr "Beenden"
+
+#~ msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
+#~ msgstr "DXVK-Async-Builds, die mit Versionen vor Vulkan 1.3 funktionieren."
 
 #, fuzzy, c-format
 #~ msgid "Error: Tool '%s' does not support 'latest' installation\n"

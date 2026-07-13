@@ -22,13 +22,15 @@ namespace ProtonPlus.Models.Tools {
             if (directory_name.len > 0 && directory_name.str[0] == '!') {
                 directory_name.replace ("!", "", 1);
                 var split = directory_name.str.split (":");
-                directory_name.str = split[0].replace (split[1], split[2]);
+                if (split.length >= 3)
+                    directory_name.str = split[0].replace (split[1], split[2]);
             }
 
             if (directory_name.len > 0 && directory_name.str[0] == '&') {
                 directory_name.replace ("&", "", 1);
                 var split = directory_name.str.split (":");
-                directory_name.str = split[0].contains (split[1]) ? split[2] : split[3];
+                if (split.length >= 4)
+                    directory_name.str = split[0].contains (split[1]) ? split[2] : split[3];
             }
 
             return directory_name.str;
