@@ -5,6 +5,7 @@ sources += files(
     'how-to-use.vala',
     'introduction.vala',
     'proton.vala',
+    'controller.vala',
     'updates.vala',
     'wine.vala',
 )
