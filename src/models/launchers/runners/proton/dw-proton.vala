@@ -12,7 +12,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases"
             );
 
-            sort_priority = 4;
+            sort_priority = 3;
             add_variant ("x86_64", "$release_name-x86_64", true);
             add_directory_name_format ("default", "$release_name");
         }

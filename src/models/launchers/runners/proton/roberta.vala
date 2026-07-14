@@ -12,7 +12,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/dreamer/roberta/releases"
             );
 
-            sort_priority = 9;
+            sort_priority = 10;
             legacy = true;
             add_variant ("default", "$title", true);
             add_directory_name_format ("default", "$title $release_name");

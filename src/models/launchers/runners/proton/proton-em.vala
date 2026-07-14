@@ -12,7 +12,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases"
             );
 
-            sort_priority = 7;
+            sort_priority = 6;
             add_variant ("default", "$release_name", true);
             add_directory_name_format ("default", "$release_name");
         }
