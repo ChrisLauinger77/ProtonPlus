@@ -43,10 +43,10 @@ namespace ProtonPlus.Widgets.Tools {
 
                 float version = 0.0f;
                 try {
-                    var regex = new Regex ("""(\d+\.\d+)\s*\(GTK\+""");
+                    var regex = new Regex ("""(\d+[.,]\d+)\s*\(GTK\+""");
                     MatchInfo match_info;
                     if (regex.match (yad_version_output, 0, out match_info)) {
-                        version = float.parse (match_info.fetch (1));
+                        version = float.parse (match_info.fetch (1).replace (",", "."));
                     }
                     yad_installed = version >= 7.2;
                 } catch (Error e) {
