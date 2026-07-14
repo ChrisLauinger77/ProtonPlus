@@ -20,6 +20,12 @@ namespace ProtonPlus.Widgets.Introduction {
             Globals.SETTINGS.bind ("background-updates", background_updates_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (background_updates_row);
 
+            var background_updates_frequency_row = new Preferences.BackgroundUpdatesFrequencyRow () {
+                subtitle = _("Set how often to check for updates in the background"),
+            };
+            background_updates_row.bind_property ("active", background_updates_frequency_row, "sensitive", BindingFlags.SYNC_CREATE);
+            updates_group.add (background_updates_frequency_row);
+
             var check_updates_on_boot_row = new Adw.SwitchRow () {
                 title = _("Check updates on boot"),
                 subtitle = _("Check for tool updates when the system starts"),
