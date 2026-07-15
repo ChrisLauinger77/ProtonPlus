@@ -11,6 +11,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button cancel_button { get; set; }
         Gtk.Button progress_button { get; set; }
         Widgets.CircularProgressBar progress_bar { get; set; }
+        Gtk.Label step_label { get; set; }
         Gtk.Label speed_label { get; set; }
         Gtk.Label time_label { get; set; }
         Gtk.Label usage_pill { get; set; }
@@ -48,6 +49,8 @@ namespace ProtonPlus.Widgets.Tools {
             progress_button.set_tooltip_text (_("Show installation details"));
             progress_button.clicked.connect (() => { info_popover.popup (); });
 
+            step_label = new Gtk.Label ("");
+            step_label.set_halign (Gtk.Align.START);
             speed_label = new Gtk.Label (_("Speed: 0 KB/s"));
             speed_label.set_halign (Gtk.Align.START);
             time_label = new Gtk.Label (_("Remaining time: --"));
@@ -58,6 +61,7 @@ namespace ProtonPlus.Widgets.Tools {
             info_box.set_margin_bottom (12);
             info_box.set_margin_start (12);
             info_box.set_margin_end (12);
+            info_box.append (step_label);
             info_box.append (speed_label);
             info_box.append (time_label);
 
@@ -116,10 +120,12 @@ namespace ProtonPlus.Widgets.Tools {
             add_suffix (input_box);
 
             release.notify["state"].connect (release_state_changed);
+            release.notify["step"].connect (release_step_changed);
             release.notify["progress"].connect (release_progress_changed);
             release.notify["speed-kbps"].connect (release_progress_changed);
             release.notify["seconds-remaining"].connect (release_progress_changed);
 
+            release.notify_property ("step");
             release.notify_property ("state");
         }
 
@@ -155,6 +161,34 @@ namespace ProtonPlus.Widgets.Tools {
             update_button?.set_sensitive (!busy);
 
             open_button?.set_sensitive (!busy);
+        }
+
+        void release_step_changed () {
+            string step_text;
+
+            progress_bar.show_text = release.step == Models.Release.Step.DOWNLOADING;
+            speed_label.set_visible (release.step == Models.Release.Step.DOWNLOADING);
+            time_label.set_visible (release.step == Models.Release.Step.DOWNLOADING);
+
+            switch (release.step) {
+                case Models.Release.Step.DOWNLOADING:
+                    step_text = _("Downloading");
+                    break;
+                case Models.Release.Step.EXTRACTING:
+                    step_text = _("Extracting");
+                    break;
+                case Models.Release.Step.MOVING:
+                    step_text = _("Moving");
+                    break;
+                case Models.Release.Step.REMOVING:
+                    step_text = _("Removing");
+                    break;
+                default:
+                    step_text = _("Nothing");
+                    break;
+            }
+
+            step_label.set_label (_("Step: %s").printf (step_text));
         }
 
         void update_button_clicked () {
