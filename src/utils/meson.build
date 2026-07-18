@@ -10,6 +10,7 @@ sources += files(
     'download-manager.vala',
     'mangohud-manager.vala',
     'cache-manager.vala',
+    'vdf-parser.vala',
 )
 
 subdir('internal')
