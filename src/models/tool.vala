@@ -468,8 +468,23 @@ namespace ProtonPlus.Models {
                 }
             }
 
-            var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
+            var migrate_default_prefix = Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("migrate-default-prefix");
+            var backup_default_prefix_path = "%s/files/share/default_pfx".printf (backup_runner_directory);
+            if (migrate_default_prefix && FileUtils.test (backup_default_prefix_path, FileTest.IS_DIR)) {
+                var default_prefix_path = "%s/files/share/default_pfx".printf (runner_directory);
 
+                if (FileUtils.test (default_prefix_path, FileTest.IS_DIR)) {
+                    var deleted_default_prefix = yield Utils.Filesystem.delete_directory (default_prefix_path);
+                    if (!deleted_default_prefix)
+                        return ReturnCode.UNKNOWN_ERROR;
+                }
+
+                var copied = yield Utils.Filesystem.copy_directory (backup_default_prefix_path, default_prefix_path);
+                if (!copied)
+                    return ReturnCode.UNKNOWN_ERROR;
+            }
+
+            var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
             if (!deleted)
                 return ReturnCode.UNKNOWN_ERROR;
 

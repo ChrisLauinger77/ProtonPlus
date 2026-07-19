@@ -91,6 +91,14 @@ namespace ProtonPlus.Widgets.Preferences {
             Globals.SETTINGS.bind ("show-legacy-tools", legacy_tools_row, "active", SettingsBindFlags.DEFAULT);
             tools_behavior_group.add (legacy_tools_row);
 
+            var migrate_default_prefix_row = new Adw.SwitchRow () {
+                title = _("Migrate default prefix"),
+                subtitle = _("Allow migrating games using the default compatibility tool"),
+            };
+            migrate_default_prefix_row.add_prefix (new Gtk.Image.from_icon_name ("right-left-symbolic"));
+            Globals.SETTINGS.bind ("migrate-default-prefix", migrate_default_prefix_row, "active", SettingsBindFlags.DEFAULT);
+            tools_behavior_group.add (migrate_default_prefix_row);
+
             // Launchers Page
             var launchers_page = new Adw.PreferencesPage () {
                 title = _("Launchers"),
