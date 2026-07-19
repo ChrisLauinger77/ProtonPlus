@@ -84,7 +84,6 @@ src/services/migrations/imigration.vala
 src/services/migrations/manager.vala
 src/services/migrations/versions/v0.5.21.vala
 src/services/migrations/versions/v0.6.0.vala
-src/translatables.vala
 src/utils/archive-helper.vala
 src/utils/cache-manager.vala
 src/utils/controller-manager.vala
