@@ -105,6 +105,9 @@
         <key name="show-legacy-tools" type="b">
             <default>false</default>
         </key>
+        <key name="migrate-default-prefix" type="b">
+            <default>false</default>
+        </key>
 		<key name="proxy-mode" enum="com.vysp3r.ProtonPlus.ProxyMode">
 			<default>'system'</default>
 		</key>

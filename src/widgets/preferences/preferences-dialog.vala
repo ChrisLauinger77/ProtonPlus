@@ -38,7 +38,6 @@ namespace ProtonPlus.Widgets.Preferences {
             help_page.add (introduction_btn);
             general_page.add (help_page);
 
-
             // Tools Page
             var tools_page = new Adw.PreferencesPage () {
                 title = _("Tools"),
@@ -77,6 +76,13 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             Globals.SETTINGS.bind ("check-updates-on-launch", check_updates_on_launch_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (check_updates_on_launch_row);
+
+            var migrate_default_prefix_row = new Adw.SwitchRow () {
+                title = _("Migrate default prefix"),
+                subtitle = _("Automatically migrate the default prefix when updating"),
+            };
+            Globals.SETTINGS.bind ("migrate-default-prefix", migrate_default_prefix_row, "active", SettingsBindFlags.DEFAULT);
+            updates_group.add (migrate_default_prefix_row);
 
             var tools_behavior_group = new Adw.PreferencesGroup () {
                 title = _("Behavior")
