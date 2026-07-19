@@ -14,3 +14,4 @@ sources += files(
 
 subdir('internal')
 subdir('requests')
+subdir('vdf')

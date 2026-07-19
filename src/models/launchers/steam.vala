@@ -220,6 +220,21 @@ namespace ProtonPlus.Models.Launchers {
 
             var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games ();
 
+
+            var proton_regex = / (?i)Proton\s*\d+ (\.\d+)?/;
+            var name_regex = /\"name\"\s+\"([^\"]+)\"/;
+            var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
+
+            var excluded_appids = new Gee.HashSet<string> ();
+            excluded_appids.add_all_array (new string[] {
+                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180"
+            });
+
+            var natival_compatibility_tool_appids = new Gee.HashSet<string> ();
+            natival_compatibility_tool_appids.add_all_array (new string[] {
+                "2180100", "1493710", "3658110", "4628710", "2348590", "2805730"
+            });
+
             var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable ();
             if (!compatibility_tool_hashtable_loaded)
             return false;
@@ -230,151 +245,84 @@ namespace ProtonPlus.Models.Launchers {
 
             var libraryfolder_content = yield Utils.Filesystem.get_file_content_async ("%s/steamapps/libraryfolders.vdf".printf (directory));
 
-            if (libraryfolder_content.length > 0) {
-                var current_libraryfolder_content = "";
-                var current_libraryfolder_id = 0;
-                var current_libraryfolder_path = "";
-                var current_apps = "";
-                var current_appid = "";
-                var current_steamapps_path = "";
-                var current_manifest_path = "";
-                var current_manifest_content = "";
-                var current_name = "";
-                var current_installdir = "";
-                var start_text = "";
-                var end_text = "";
-                var start_pos = 0;
-                var end_pos = 0;
-                var current_position = 0;
+            var current_library_folders = Utils.VDF.VdfParser.parse_library_folders (libraryfolder_content);
 
-                var proton_regex = / (?i)Proton\s*\d+ (\.\d+)?/;
-                var name_regex = /\"name\"\s+\"([^\"]+)\"/;
-                var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
+            foreach (var item in current_library_folders.folders) {
+                foreach (var app in item.apps) {
+                    uint id = 0;
+                    var id_valid = uint.try_parse (app.key, out id);
+                    if (!id_valid)
+                    continue;
 
-                var excluded_appids = new Gee.HashSet<string> ();
-                excluded_appids.add_all_array (new string[] {
-                    "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180"
-                });
-
-                var natival_compatibility_tool_appids = new Gee.HashSet<string> ();
-                natival_compatibility_tool_appids.add_all_array (new string[] {
-                    "2180100", "1493710", "3658110", "4628710", "2348590", "2805730"
-                });
-
-                while (true) {
-                    start_text = "%i\"\n\t{".printf (current_libraryfolder_id++);
-                    end_text = "}";
-                    start_pos = libraryfolder_content.index_of (start_text, 0) + start_text.length;
-
-                    if (start_pos - start_text.length == -1)
-                    break;
-
-                    end_pos = libraryfolder_content.index_of (end_text, start_pos);
-                    current_libraryfolder_content = libraryfolder_content.substring (start_pos, end_pos - start_pos);
-                    current_position = end_pos;
-
-                    if (current_libraryfolder_content.contains ("apps")) {
-                        end_pos = libraryfolder_content.index_of (end_text, current_position + 1);
-                        current_libraryfolder_content = libraryfolder_content.substring (start_pos, end_pos - start_pos);
-
-                        start_text = "path\"\t\t\"";
-                        end_text = "\"";
-                        start_pos = current_libraryfolder_content.index_of (start_text, 0) + start_text.length;
-                        end_pos = current_libraryfolder_content.index_of (end_text, start_pos);
-                        current_libraryfolder_path = current_libraryfolder_content.substring (start_pos, end_pos - start_pos);
-                        current_position = end_pos;
-
-                        start_text = "apps\"\n\t\t{\n";
-                        end_text = "}";
-                        start_pos = current_libraryfolder_content.index_of (start_text, current_position) + start_text.length;
-                        end_pos = current_libraryfolder_content.index_of (end_text, start_pos);
-                        current_apps = current_libraryfolder_content.substring (start_pos, end_pos - start_pos);
-                        current_position = 0;
-
-                        while (true) {
-                            start_text = "\t\t\t\"";
-                            end_text = "\"";
-                            start_pos = current_apps.index_of (start_text, current_position) + start_text.length;
-
-                            if (start_pos - start_text.length == -1)
-                            break;
-
-                            end_pos = current_apps.index_of (end_text, start_pos + start_text.length);
-                            current_appid = current_apps.substring (start_pos, end_pos - start_pos);
-                            current_position = end_pos;
-
-                            uint id = 0;
-                            var id_valid = uint.try_parse (current_appid, out id);
-                            if (!id_valid)
-                            continue;
-
-                            if (excluded_appids.contains (current_appid))
-                                continue;
-
-                            current_steamapps_path = "%s/steamapps".printf (current_libraryfolder_path);
-                            if (!FileUtils.test (current_steamapps_path, FileTest.IS_DIR))
-                            continue;
-
-                            current_manifest_path = "%s/appmanifest_%s.acf".printf (current_steamapps_path, current_appid);
-                            if (!FileUtils.test (current_manifest_path, FileTest.IS_REGULAR))
-                            continue;
-                            current_manifest_content = Utils.Filesystem.get_file_content (current_manifest_path);
-
-                            MatchInfo name_match;
-                            if (!name_regex.match (current_manifest_content, 0, out name_match))
-                            continue;
-                            current_name = name_match.fetch (1);
-
-                            MatchInfo dir_match;
-                            if (!dir_regex.match (current_manifest_content, 0, out dir_match))
-                            continue;
-                            current_installdir = dir_match.fetch (1);
-
-                            if (current_name.contains ("Steam Linux Runtime")) {
-                                var simple_runner = new Tools.Simple.with_path (
-                                    current_name,
-                                    current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                                    "%s/common/%s".printf (current_steamapps_path, current_installdir)
-                                );
-                                simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                                compatibility_tools.add (simple_runner);
-                                continue;
-                            }
-
-                            if (proton_regex.match (current_name) ||
-                                current_name == "Proton Hotfix" ||
-                                natival_compatibility_tool_appids.contains (current_appid)) {
-                                var simple_runner = new Tools.Simple.with_path (
-                                    current_name,
-                                    current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                                    "%s/common/%s".printf (current_steamapps_path, current_installdir)
-                                );
-                                simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                                compatibility_tools.add (simple_runner);
-                                continue;
-                            }
-
-                            if (!FileUtils.test ("%s/common/%s".printf (current_steamapps_path, current_installdir), FileTest.IS_DIR))
-                            continue;
-
-                            var game = new Games.Steam (id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
-
-                            if (awacy_games.has_key (game.appid)) {
-                                var awacy_game = awacy_games.get (game.appid);
-                                game.awacy_name = awacy_game.name;
-                                game.awacy_status = awacy_game.status;
-                            }
-
-                            var compatibility_tool = compatibility_tool_hashtable.get (game.appid);
-                            if (compatibility_tool == null)
-                            compatibility_tool = "Default";
-                            game.compatibility_tool = compatibility_tool;
-
-                            games.append (game);
-                        }
-                    } else {
+                    if (excluded_appids.contains (app.key)) {
                         continue;
                     }
+
+                    var current_libraryfolder_id = item.id;
+                    var current_libraryfolder_path = item.path;
+                    var current_appid = app.key;
+                    var current_steamapps_path = "%s/steamapps".printf (item.path);
+                    var current_manifest_path = "";
+                    var current_manifest_content = "";
+                    var current_name = "";
+                    var current_installdir = "";
+
+                    current_manifest_path = "%s/appmanifest_%s.acf".printf (current_steamapps_path, current_appid);
+                    if (!FileUtils.test (current_manifest_path, FileTest.IS_REGULAR))
+                    continue;
+                    current_manifest_content = Utils.Filesystem.get_file_content (current_manifest_path);
+
+                    MatchInfo name_match;
+                    if (!name_regex.match (current_manifest_content, 0, out name_match))
+                    continue;
+                    current_name = name_match.fetch (1);
+
+                    MatchInfo dir_match;
+                    if (!dir_regex.match (current_manifest_content, 0, out dir_match))
+                    continue;
+                    current_installdir = dir_match.fetch (1);
+
+                    if (current_name.contains ("Steam Linux Runtime")) {
+                        var simple_runner = new Tools.Simple.with_path (
+                            current_name,
+                            current_name.down ().split (".", 2)[0].replace (" ", "_"),
+                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                        );
+                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
+                        compatibility_tools.add (simple_runner);
+                        continue;
+                    }
+
+                    if (proton_regex.match (current_name) ||
+                        current_name == "Proton Hotfix" ||
+                        natival_compatibility_tool_appids.contains (current_appid)) {
+                        var simple_runner = new Tools.Simple.with_path (
+                            current_name,
+                            current_name.down ().split (".", 2)[0].replace (" ", "_"),
+                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                        );
+                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
+                        compatibility_tools.add (simple_runner);
+                        continue;
+                    }
+
+                    if (!FileUtils.test ("%s/common/%s".printf (current_steamapps_path, current_installdir), FileTest.IS_DIR))
+                    continue;
+
+                    var game = new Games.Steam (id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
+
+                    if (awacy_games.has_key (game.appid)) {
+                        var awacy_game = awacy_games.get (game.appid);
+                        game.awacy_name = awacy_game.name;
+                        game.awacy_status = awacy_game.status;
+                    }
+
+                    var compatibility_tool = compatibility_tool_hashtable.get (game.appid);
+                    if (compatibility_tool == null)
+                    compatibility_tool = "Default";
+                    game.compatibility_tool = compatibility_tool;
+
+                    games.append (game);
                 }
             }
 

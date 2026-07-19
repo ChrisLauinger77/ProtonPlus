@@ -4,7 +4,7 @@ namespace ProtonPlus.Models {
         public Launchers.Steam launcher { get; set; }
         public string userdata_path { get; set; }
         public string localconfig_path { get; set; }
-        public VDF.Shortcuts shortcuts { get; set; }
+        public Utils.VDF.Shortcuts shortcuts { get; set; }
         public string steam_id { get; set; }
         public string account_id { get; set; }
         public string username { get; set; }
@@ -29,9 +29,9 @@ namespace ProtonPlus.Models {
                 var shortcuts_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
 
                 if (!FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR))
-                VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
+                    Utils.VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
 
-                shortcuts = new VDF.Shortcuts (shortcuts_file_path);
+                shortcuts = new Utils.VDF.Shortcuts (shortcuts_file_path);
             } catch (Error e) {
                 warning (e.message);
             }

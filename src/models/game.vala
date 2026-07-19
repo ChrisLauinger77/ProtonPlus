@@ -8,7 +8,7 @@ namespace ProtonPlus.Models {
         public Launcher launcher { get; set; }
         public virtual bool is_native { get; set; default = false; }
 
-        internal Game(string name, string installdir, string prefixdir, uint prefix, Launcher launcher) {
+        internal Game (string name, string installdir, string prefixdir, uint prefix, Launcher launcher) {
             this.name = name;
             this.installdir = installdir;
             this.prefixdir = prefixdir;
