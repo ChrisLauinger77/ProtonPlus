@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 21:38+0200\n"
+"POT-Creation-Date: 2026-07-19 12:10-0400\n"
 "PO-Revision-Date: 2026-01-09 12:01+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://hosted.weblate.org/projects/protonplus/"
@@ -1900,24 +1900,24 @@ msgstr "მიმდინარეობს %s-ის განახლებ�
 msgid "Installing"
 msgstr "'%s'-ის დაყენება"
 
-#: src/cli/cli.vala:550 src/widgets/tools/tools-release-row.vala:216
+#: src/cli/cli.vala:550 src/widgets/tools/tools-release-row.vala:250
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:552 src/widgets/tools/tools-release-row.vala:218
+#: src/cli/cli.vala:552 src/widgets/tools/tools-release-row.vala:252
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:554 src/widgets/tools/tools-release-row.vala:220
+#: src/cli/cli.vala:554 src/widgets/tools/tools-release-row.vala:254
 #, c-format
 msgid "%ds"
 msgstr ""
 
 #. System Page
 #: src/globals.vala:23 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:241
+#: src/widgets/preferences/preferences-dialog.vala:233
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "სისტემა"
@@ -2056,124 +2056,6 @@ msgstr ""
 "Steam-ის პროგრამა Windows-ის ემულაციის და Linux-ის საკუთარი თამაშების იოლი, "
 "გრაფიკული კონფიგურაციისთვის."
 
-#: src/translatables.vala:4
-msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr ""
-"თავსებადობის პროგრამები Valve-ისგან Windows-ის პროგრამების Linux-ზე "
-"გასაშვებად."
-
-#: src/translatables.vala:5
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton."
-msgstr ""
-"Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
-"ნაგულისხმევ Proton-ზე."
-
-#: src/translatables.vala:6
-msgid "Recommended"
-msgstr ""
-
-#: src/translatables.vala:7
-msgid ""
-"Steam compatibility tool from the CachyOS Linux distribution for running "
-"Windows games with improvements over Valve's default Proton."
-msgstr ""
-"Steam-ის თავსებადობის პროგრამა CachyOS დისტრიბუტივიდან Windows-ის თამაშების "
-"გასაშვებად მრავალი გაუმჯობესებით Valve-ის ნაგულისხმევ Proton-თან შედარებით."
-
-#: src/translatables.vala:8
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr ""
-"Dawn Winery-ის საკუთარი Proton-ის ვარიანტი, რომელსაც ბევრი სხვადასხვა "
-"დამატებითი თამაშის გაშვება შეუძლია :xdd:"
-
-#: src/translatables.vala:9
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
-"wayland tweaks."
-msgstr ""
-"Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
-"ნაგულისხმევ Proton-თან შედარებით. Etaash Mathamsetty-მა დაამატა FSR4-ის "
-"მხარდაჭერა და Wine-ის Wayland-თან ინტეგრაციის დეტალები."
-
-#: src/translatables.vala:10
-msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
-msgstr ""
-"Steam-ის თავსებადობის პროგრამა, დაფუძნებულია Proton-GE-ზე, ცვლილებებით RTSP "
-"კოდეკების გასაუმჯობესებლად VRChat-ისთვის."
-
-#: src/translatables.vala:11
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-"მორგებული Proton-ის აგება Windows-ის თამაშების გასაშვებად. ბაზირებულია Wine-"
-"tkg-ზე."
-
-#: src/translatables.vala:12
-msgid ""
-"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-"Luxtorpeda გაწვდით Linux-ზე დაწერილი თამაშის ძრავებს ზოგიერთი მხოლოდ Windows-"
-"ისთვის დაწერილი თამაშებისთვის."
-
-#: src/translatables.vala:13
-msgid ""
-"Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr ""
-"Steam-ის თავსებადობის პროგრამა სათავგადასავლო თამაშების ფასაშვებად ScummVM "
-"for Linux-ით."
-
-#: src/translatables.vala:14
-msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr ""
-"Steam-ის თავსებადობის პროგრამა DOS-ის თამაშების DOSBox for Linux-ით "
-"გასაშვებად."
-
-#: src/translatables.vala:15
-msgid "Compatibility tools for running Windows software on Linux."
-msgstr "თავსებადობის ხელსაწყოები Windows-ის პროგრამების Linux-ზე გასაშვებად."
-
-#: src/translatables.vala:16
-msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Wine-ის აგებები, დაკომპილებული ოფიციალური WineHQ-ის წყაროებიდან."
-
-#: src/translatables.vala:17
-msgid "Wine build with the Staging patchset."
-msgstr "Wine-ის აგება სატესტო პაჩების ნაკრებით."
-
-#: src/translatables.vala:18
-msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-"Wine-ის აგება სატესტო პაჩების ნაკრებით და ბევრი სხვა სასარგებლო პაჩებით."
-
-#: src/translatables.vala:19
-msgid "Wine build modified by Valve and other contributors."
-msgstr "Wine-ის აგება, შეცვლილი Valve-ის და სხვა მოხალისეების მიერ."
-
-#: src/translatables.vala:20
-msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr ""
-"Vulkan-ზე დაფუძნებული განხორციელება Direct3D 8,9,10 და 11 Linux/Wine-ისთვის."
-
-#: src/translatables.vala:21
-msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "DXVK-ის აგებები, რომლებიც Vulkan 1.3-მდე ვერსიებთან მუშაობს."
-
-#: src/translatables.vala:22
-msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr "DXVK-ის აგებები gplasync-ის პაჩით Ph42oN-ისგან."
-
-#: src/translatables.vala:23
-msgid ""
-"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
-"top of Vulkan."
-msgstr ""
-"Wine-ის VKD3D-ის ვარიანტი, რომლის მიზანია, ჰქონდეს სრული Direct3D 12 API-ის "
-"მხარდაჭერა Vulkan-ის ზემოდან."
-
 #: src/widgets/application.vala:149
 msgid "Website"
 msgstr "ვებსაიტი"
@@ -2202,7 +2084,7 @@ msgstr "მიმდინარე ცვლილების გადატ�
 #. Advanced Page
 #: src/widgets/games/games-box.vala:98
 #: src/widgets/mangohud/mangohud-box.vala:69
-#: src/widgets/preferences/preferences-dialog.vala:170
+#: src/widgets/preferences/preferences-dialog.vala:162
 msgid "Advanced"
 msgstr ""
 
@@ -2297,7 +2179,7 @@ msgstr "მონიშნული თამაშების თავსე�
 
 #: src/widgets/games/games-mass-edit-button.vala:48
 #: src/widgets/tools/tools-stl-release-row.vala:12
-#: src/widgets/tools/tools-stl-release-row.vala:77 src/widgets/window.vala:106
+#: src/widgets/tools/tools-stl-release-row.vala:77 src/widgets/window.vala:73
 msgid "Warning"
 msgstr "გაფრთხილება"
 
@@ -2559,7 +2441,7 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:34
-#: src/widgets/preferences/preferences-dialog.vala:314
+#: src/widgets/preferences/preferences-dialog.vala:306
 #, fuzzy
 msgid "Feral Gamemode"
 msgstr "თამაშები"
@@ -3059,13 +2941,13 @@ msgid "None"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:43
-#: src/widgets/preferences/preferences-dialog.vala:304
+#: src/widgets/preferences/preferences-dialog.vala:296
 #, fuzzy
 msgid "Gamescope"
 msgstr "თამაშები"
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:48
-#: src/widgets/preferences/preferences-dialog.vala:309
+#: src/widgets/preferences/preferences-dialog.vala:301
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -3678,38 +3560,43 @@ msgid ""
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:17
-#: src/widgets/preferences/preferences-dialog.vala:69
+#: src/widgets/preferences/preferences-dialog.vala:54
 #, fuzzy
 msgid "Background updates"
 msgstr "განახლებების შემოწმება"
 
 #: src/widgets/introduction/updates.vala:18
-#: src/widgets/preferences/preferences-dialog.vala:70
+#: src/widgets/preferences/preferences-dialog.vala:55
 msgid "Automatically update the tools in the background"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:24
-#: src/widgets/preferences/preferences-dialog.vala:82
+#: src/widgets/preferences/preferences-dialog.vala:61
+msgid "Set how often to check for updates in the background"
+msgstr ""
+
+#: src/widgets/introduction/updates.vala:30
+#: src/widgets/preferences/preferences-dialog.vala:67
 #, fuzzy
 msgid "Check updates on boot"
 msgstr "განახლებების შემოწმება"
 
-#: src/widgets/introduction/updates.vala:25
-#: src/widgets/preferences/preferences-dialog.vala:83
+#: src/widgets/introduction/updates.vala:31
+#: src/widgets/preferences/preferences-dialog.vala:68
 #, fuzzy
 msgid "Check for tool updates when the system starts"
 msgstr ""
 "მოხდება, თუ არა დაყენებული 'უახლესი' დამხმარე პროცესების განახლება "
 "აპლიკაციის გაშვებისას"
 
-#: src/widgets/introduction/updates.vala:31
-#: src/widgets/preferences/preferences-dialog.vala:89
+#: src/widgets/introduction/updates.vala:37
+#: src/widgets/preferences/preferences-dialog.vala:74
 #, fuzzy
 msgid "Check updates on launch"
 msgstr "განახლებების შემოწმება"
 
-#: src/widgets/introduction/updates.vala:32
-#: src/widgets/preferences/preferences-dialog.vala:90
+#: src/widgets/introduction/updates.vala:38
+#: src/widgets/preferences/preferences-dialog.vala:75
 msgid "Update the tools when the application is launched"
 msgstr ""
 
@@ -3778,7 +3665,7 @@ msgstr "დიახ"
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:25
-#: src/widgets/preferences/preferences-dialog.vala:58
+#: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Tools"
 msgstr ""
 
@@ -3787,7 +3674,7 @@ msgid "Games"
 msgstr "თამაშები"
 
 #: src/widgets/main/main-box.vala:28
-#: src/widgets/preferences/preferences-dialog.vala:294
+#: src/widgets/preferences/preferences-dialog.vala:286
 msgid "MangoHud"
 msgstr ""
 
@@ -3834,8 +3721,8 @@ msgid "Invalid access token"
 msgstr "არასწორი წვდომის ტოკენი"
 
 #: src/widgets/main/main-box.vala:92 src/widgets/tools/tools-box.vala:402
-#: src/widgets/tools/tools-release-row.vala:168
-#: src/widgets/tools/tools-release-row.vala:227
+#: src/widgets/tools/tools-release-row.vala:202
+#: src/widgets/tools/tools-release-row.vala:261
 #: src/widgets/tools/tools-remove-dialog.vala:44
 msgid "Unknown error"
 msgstr "უცნობი შეცდომა"
@@ -4032,7 +3919,7 @@ msgid "Media Info"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:197
+#: src/widgets/preferences/preferences-dialog.vala:189
 msgid "Network"
 msgstr ""
 
@@ -4510,168 +4397,163 @@ msgid "Appearance"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:27
-#: src/widgets/preferences/preferences-dialog.vala:96
-msgid "Behavior"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:32
-msgid "Controller support"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:33
-msgid "Enable game controller support for navigating the user interface"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:41
 msgid "Help"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:44
+#: src/widgets/preferences/preferences-dialog.vala:30
 #, fuzzy
 msgid "Show Introduction"
 msgstr "მეტი ინფორმაცია"
 
-#: src/widgets/preferences/preferences-dialog.vala:64
+#: src/widgets/preferences/preferences-dialog.vala:49
 #, fuzzy
 msgid "Updates"
 msgstr "მიმდინარეობს %s-ის განახლება"
 
-#: src/widgets/preferences/preferences-dialog.vala:76
-msgid "Set how often to check for updates in the background"
+#: src/widgets/preferences/preferences-dialog.vala:81
+msgid "Migrate default prefix"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:101
+#: src/widgets/preferences/preferences-dialog.vala:82
+msgid "Automatically migrate the default prefix when updating"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:88
+msgid "Behavior"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:93
 #, fuzzy
 msgid "Show legacy tools"
 msgstr "დაყენებული დამხმარე პროცესების ჩვენება"
 
-#: src/widgets/preferences/preferences-dialog.vala:102
+#: src/widgets/preferences/preferences-dialog.vala:94
 msgid "Display older tools that are no longer actively maintained"
 msgstr ""
 
 #. Launchers Page
-#: src/widgets/preferences/preferences-dialog.vala:110
+#: src/widgets/preferences/preferences-dialog.vala:102
 #, fuzzy
 msgid "Launchers"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/preferences/preferences-dialog.vala:131
+#: src/widgets/preferences/preferences-dialog.vala:123
 #, fuzzy
 msgid "Default compatibility tool"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/preferences/preferences-dialog.vala:132
+#: src/widgets/preferences/preferences-dialog.vala:124
 msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:152
+#: src/widgets/preferences/preferences-dialog.vala:144
 msgid "Remember last used profile"
 msgstr "ბოლოს გამოყენებული პროფილის დამახსოვრება"
 
-#: src/widgets/preferences/preferences-dialog.vala:176
+#: src/widgets/preferences/preferences-dialog.vala:168
 msgid "API Tokens"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:205
+#: src/widgets/preferences/preferences-dialog.vala:197
 msgid "Proxy URL"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:207
+#: src/widgets/preferences/preferences-dialog.vala:199
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:220
+#: src/widgets/preferences/preferences-dialog.vala:212
 msgid "Experimental"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:225
+#: src/widgets/preferences/preferences-dialog.vala:217
 msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:226
+#: src/widgets/preferences/preferences-dialog.vala:218
 msgid "Enable experimental features for early testing"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:233
+#: src/widgets/preferences/preferences-dialog.vala:225
 #, fuzzy
 msgid "Maintenance"
 msgstr "მთავარი მენიუ"
 
-#: src/widgets/preferences/preferences-dialog.vala:247
+#: src/widgets/preferences/preferences-dialog.vala:239
 msgid "Software Environment"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:252
+#: src/widgets/preferences/preferences-dialog.vala:244
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:253
-#: src/widgets/preferences/preferences-dialog.vala:258
-#: src/widgets/preferences/preferences-dialog.vala:285
-#: src/widgets/preferences/preferences-dialog.vala:290
-#: src/widgets/preferences/preferences-dialog.vala:295
-#: src/widgets/preferences/preferences-dialog.vala:300
-#: src/widgets/preferences/preferences-dialog.vala:305
-#: src/widgets/preferences/preferences-dialog.vala:310
-#: src/widgets/preferences/preferences-dialog.vala:315
+#: src/widgets/preferences/preferences-dialog.vala:245
+#: src/widgets/preferences/preferences-dialog.vala:250
+#: src/widgets/preferences/preferences-dialog.vala:277
+#: src/widgets/preferences/preferences-dialog.vala:282
+#: src/widgets/preferences/preferences-dialog.vala:287
+#: src/widgets/preferences/preferences-dialog.vala:292
+#: src/widgets/preferences/preferences-dialog.vala:297
+#: src/widgets/preferences/preferences-dialog.vala:302
+#: src/widgets/preferences/preferences-dialog.vala:307
 #: src/widgets/tools/tools-stl-release-row.vala:80
 msgid "Yes"
 msgstr "დიახ"
 
-#: src/widgets/preferences/preferences-dialog.vala:253
-#: src/widgets/preferences/preferences-dialog.vala:258
-#: src/widgets/preferences/preferences-dialog.vala:285
-#: src/widgets/preferences/preferences-dialog.vala:290
-#: src/widgets/preferences/preferences-dialog.vala:295
-#: src/widgets/preferences/preferences-dialog.vala:300
-#: src/widgets/preferences/preferences-dialog.vala:305
-#: src/widgets/preferences/preferences-dialog.vala:310
-#: src/widgets/preferences/preferences-dialog.vala:315
+#: src/widgets/preferences/preferences-dialog.vala:245
+#: src/widgets/preferences/preferences-dialog.vala:250
+#: src/widgets/preferences/preferences-dialog.vala:277
+#: src/widgets/preferences/preferences-dialog.vala:282
+#: src/widgets/preferences/preferences-dialog.vala:287
+#: src/widgets/preferences/preferences-dialog.vala:292
+#: src/widgets/preferences/preferences-dialog.vala:297
+#: src/widgets/preferences/preferences-dialog.vala:302
+#: src/widgets/preferences/preferences-dialog.vala:307
 #: src/widgets/tools/tools-stl-release-row.vala:79
 msgid "No"
 msgstr "არა"
 
-#: src/widgets/preferences/preferences-dialog.vala:257
+#: src/widgets/preferences/preferences-dialog.vala:249
 msgid "Flatpak"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:262
+#: src/widgets/preferences/preferences-dialog.vala:254
 msgid "Hardware"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:274
+#: src/widgets/preferences/preferences-dialog.vala:266
 msgid "HWCAPS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:279
+#: src/widgets/preferences/preferences-dialog.vala:271
 msgid "Dependencies"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:284
+#: src/widgets/preferences/preferences-dialog.vala:276
 #, fuzzy
 msgid "Protontricks"
 msgstr "გახსნა protontricks-ში"
 
-#: src/widgets/preferences/preferences-dialog.vala:289
+#: src/widgets/preferences/preferences-dialog.vala:281
 msgid "Protontricks (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:299
+#: src/widgets/preferences/preferences-dialog.vala:291
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:319
+#: src/widgets/preferences/preferences-dialog.vala:311
 #, fuzzy
 msgid "Detected Launchers"
 msgstr "მხარდაუჭერელი გამშვები"
 
-#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:332
 #: src/widgets/tools/tools-box.vala:191
 msgid "Installed"
 msgstr "დაყენებულია"
 
-#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:332
 #, fuzzy
 msgid "Not installed"
 msgstr "დაყენებულია"
@@ -4810,34 +4692,34 @@ msgstr ""
 msgid "Used by"
 msgstr "გამოყენებულია"
 
-#: src/widgets/tools/tools-release-row.vala:28
+#: src/widgets/tools/tools-release-row.vala:29
 #, c-format
 msgid "Delete %s"
 msgstr "'%s'-ის წაშლა"
 
-#: src/widgets/tools/tools-release-row.vala:35
+#: src/widgets/tools/tools-release-row.vala:36
 msgid "Cancel installation"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:48
+#: src/widgets/tools/tools-release-row.vala:49
 #, fuzzy
 msgid "Show installation details"
 msgstr "დაყენებული დამხმარე პროცესების ჩვენება"
 
-#: src/widgets/tools/tools-release-row.vala:51
+#: src/widgets/tools/tools-release-row.vala:54
 msgid "Speed: 0 KB/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:53
-#: src/widgets/tools/tools-release-row.vala:205
+#: src/widgets/tools/tools-release-row.vala:56
+#: src/widgets/tools/tools-release-row.vala:239
 msgid "Remaining time: --"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:80
+#: src/widgets/tools/tools-release-row.vala:84
 msgid "Update the runner if a newer version is available"
 msgstr "დამხმარე პროცესების განახლება, თუ ხელმისაწვდომია უფრო ახალი ვერსია"
 
-#: src/widgets/tools/tools-release-row.vala:86
+#: src/widgets/tools/tools-release-row.vala:90
 #, c-format
 msgid ""
 "Version: %s\n"
@@ -4846,48 +4728,75 @@ msgid ""
 "updates is activated."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:95
+#: src/widgets/tools/tools-release-row.vala:99
 #, fuzzy
 msgid "Open tool directory"
 msgstr "დამხმარე პროცესის საქაღალდის გახსნა"
 
-#: src/widgets/tools/tools-release-row.vala:128
+#: src/widgets/tools/tools-release-row.vala:134
 #, c-format
 msgid "Install %s"
 msgstr "'%s'-ის დაყენება"
 
-#: src/widgets/tools/tools-release-row.vala:168
+#: src/widgets/tools/tools-release-row.vala:175
+#, fuzzy
+msgid "Downloading"
+msgstr "გადმოწერა"
+
+#: src/widgets/tools/tools-release-row.vala:178
+msgid "Extracting"
+msgstr "ამოღება"
+
+#: src/widgets/tools/tools-release-row.vala:181
+msgid "Moving"
+msgstr "გადატანა"
+
+#: src/widgets/tools/tools-release-row.vala:184
+#, fuzzy
+msgid "Removing"
+msgstr "გადატანა"
+
+#: src/widgets/tools/tools-release-row.vala:187
+msgid "Nothing"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:191
+#, c-format
+msgid "Step: %s"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:202
 #, fuzzy, c-format
 msgid "Failed to Update %s"
 msgstr "'%s' ვერ განვაახლე"
 
-#: src/widgets/tools/tools-release-row.vala:168
+#: src/widgets/tools/tools-release-row.vala:202
 msgid "An error occurred while attempting to update the compatibility tool."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:184
+#: src/widgets/tools/tools-release-row.vala:218
 #, fuzzy, c-format
 msgid "Used by %i game"
 msgid_plural "Used by %i games"
 msgstr[0] "გამოყენებულია %i თამაშის მიერ."
 msgstr[1] "გამოყენებულია %i თამაშის მიერ."
 
-#: src/widgets/tools/tools-release-row.vala:200
+#: src/widgets/tools/tools-release-row.vala:234
 #, c-format
 msgid "Speed: %s/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:203
+#: src/widgets/tools/tools-release-row.vala:237
 #, c-format
 msgid "Remaining time: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:227
+#: src/widgets/tools/tools-release-row.vala:261
 #, fuzzy
 msgid "Installation Failed"
 msgstr "დაყენება გაუქმდება."
 
-#: src/widgets/tools/tools-release-row.vala:227
+#: src/widgets/tools/tools-release-row.vala:261
 #, c-format
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
@@ -4969,7 +4878,7 @@ msgid_plural "Used by %i games."
 msgstr[0] "გამოყენებულია %i თამაშის მიერ."
 msgstr[1] "გამოყენებულია %i თამაშის მიერ."
 
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:111
+#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:78
 msgid "Cancel"
 msgstr "გაუქმება"
 
@@ -5015,7 +4924,7 @@ msgstr ""
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "გნებავთ, თავიდან დააყენოთ ის ProtonPlus-ით?"
 
-#: src/widgets/window.vala:106
+#: src/widgets/window.vala:73
 #, fuzzy
 msgid ""
 "The application is currently downloading a tool.\n"
@@ -5024,9 +4933,111 @@ msgstr ""
 "აპლიკაცია ამჟამად განახლებებს ამოწმებს.\n"
 "აპლიკაციიდან გასვლამ, შეიძლება, პრობლემები გამოიწვიოს."
 
-#: src/widgets/window.vala:108
+#: src/widgets/window.vala:75
 msgid "Exit"
 msgstr "გასვლა"
+
+#~ msgid "Compatibility tools by Valve for running Windows software on Linux."
+#~ msgstr ""
+#~ "თავსებადობის პროგრამები Valve-ისგან Windows-ის პროგრამების Linux-ზე "
+#~ "გასაშვებად."
+
+#~ msgid ""
+#~ "Steam compatibility tool for running Windows games with improvements over "
+#~ "Valve's default Proton."
+#~ msgstr ""
+#~ "Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
+#~ "ნაგულისხმევ Proton-ზე."
+
+#~ msgid ""
+#~ "Steam compatibility tool from the CachyOS Linux distribution for running "
+#~ "Windows games with improvements over Valve's default Proton."
+#~ msgstr ""
+#~ "Steam-ის თავსებადობის პროგრამა CachyOS დისტრიბუტივიდან Windows-ის "
+#~ "თამაშების გასაშვებად მრავალი გაუმჯობესებით Valve-ის ნაგულისხმევ Proton-"
+#~ "თან შედარებით."
+
+#~ msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+#~ msgstr ""
+#~ "Dawn Winery-ის საკუთარი Proton-ის ვარიანტი, რომელსაც ბევრი სხვადასხვა "
+#~ "დამატებითი თამაშის გაშვება შეუძლია :xdd:"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running Windows games with improvements over "
+#~ "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and "
+#~ "wine wayland tweaks."
+#~ msgstr ""
+#~ "Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
+#~ "ნაგულისხმევ Proton-თან შედარებით. Etaash Mathamsetty-მა დაამატა FSR4-ის "
+#~ "მხარდაჭერა და Wine-ის Wayland-თან ინტეგრაციის დეტალები."
+
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with additional patches to "
+#~ "improve RTSP codecs for VRChat."
+#~ msgstr ""
+#~ "Steam-ის თავსებადობის პროგრამა, დაფუძნებულია Proton-GE-ზე, ცვლილებებით "
+#~ "RTSP კოდეკების გასაუმჯობესებლად VRChat-ისთვის."
+
+#~ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+#~ msgstr ""
+#~ "მორგებული Proton-ის აგება Windows-ის თამაშების გასაშვებად. ბაზირებულია "
+#~ "Wine-tkg-ზე."
+
+#~ msgid ""
+#~ "Luxtorpeda provides Linux-native game engines for certain Windows-only "
+#~ "games."
+#~ msgstr ""
+#~ "Luxtorpeda გაწვდით Linux-ზე დაწერილი თამაშის ძრავებს ზოგიერთი მხოლოდ "
+#~ "Windows-ისთვის დაწერილი თამაშებისთვის."
+
+#~ msgid ""
+#~ "Steam compatibility tool for running adventure games using ScummVM for "
+#~ "Linux."
+#~ msgstr ""
+#~ "Steam-ის თავსებადობის პროგრამა სათავგადასავლო თამაშების ფასაშვებად "
+#~ "ScummVM for Linux-ით."
+
+#~ msgid ""
+#~ "Steam compatibility tool for running DOS games using DOSBox for Linux."
+#~ msgstr ""
+#~ "Steam-ის თავსებადობის პროგრამა DOS-ის თამაშების DOSBox for Linux-ით "
+#~ "გასაშვებად."
+
+#~ msgid "Compatibility tools for running Windows software on Linux."
+#~ msgstr ""
+#~ "თავსებადობის ხელსაწყოები Windows-ის პროგრამების Linux-ზე გასაშვებად."
+
+#~ msgid "Wine build compiled from the official WineHQ sources."
+#~ msgstr "Wine-ის აგებები, დაკომპილებული ოფიციალური WineHQ-ის წყაროებიდან."
+
+#~ msgid "Wine build with the Staging patchset."
+#~ msgstr "Wine-ის აგება სატესტო პაჩების ნაკრებით."
+
+#~ msgid "Wine build with the Staging patchset and many other useful patches."
+#~ msgstr ""
+#~ "Wine-ის აგება სატესტო პაჩების ნაკრებით და ბევრი სხვა სასარგებლო პაჩებით."
+
+#~ msgid "Wine build modified by Valve and other contributors."
+#~ msgstr "Wine-ის აგება, შეცვლილი Valve-ის და სხვა მოხალისეების მიერ."
+
+#~ msgid ""
+#~ "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+#~ msgstr ""
+#~ "Vulkan-ზე დაფუძნებული განხორციელება Direct3D 8,9,10 და 11 Linux/Wine-"
+#~ "ისთვის."
+
+#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+#~ msgstr "DXVK-ის აგებები, რომლებიც Vulkan 1.3-მდე ვერსიებთან მუშაობს."
+
+#~ msgid "DXVK builds with gplasync patch by Ph42oN."
+#~ msgstr "DXVK-ის აგებები gplasync-ის პაჩით Ph42oN-ისგან."
+
+#~ msgid ""
+#~ "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API "
+#~ "on top of Vulkan."
+#~ msgstr ""
+#~ "Wine-ის VKD3D-ის ვარიანტი, რომლის მიზანია, ჰქონდეს სრული Direct3D 12 API-"
+#~ "ის მხარდაჭერა Vulkan-ის ზემოდან."
 
 #~ msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 #~ msgstr "DXVK Async აგებები, რომლებიც Vulkan 1.3 ვერსიებამდე მუშაობს."
@@ -5038,16 +5049,6 @@ msgstr "გასვლა"
 #~ msgid "Check if any tool needs to be updated automatically"
 #~ msgstr ""
 #~ "შემოწმება, სჭირდება თუ არა რომელიმე 'უახლეს' დამხმარე პროგრამას განახლება"
-
-#, fuzzy
-#~ msgid "Downloading"
-#~ msgstr "გადმოწერა"
-
-#~ msgid "Extracting"
-#~ msgstr "ამოღება"
-
-#~ msgid "Moving"
-#~ msgstr "გადატანა"
 
 #, fuzzy
 #~ msgid "Canceled"
