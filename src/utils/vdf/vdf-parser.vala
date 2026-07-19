@@ -1,7 +1,7 @@
 using Json;
 using Gee;
 
-namespace ProtonPlus.Utils {
+namespace ProtonPlus.Utils.VDF {
 
     public class VdfParser : GLib.Object {
 

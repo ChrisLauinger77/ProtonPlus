@@ -245,7 +245,7 @@ namespace ProtonPlus.Models.Launchers {
 
             var libraryfolder_content = yield Utils.Filesystem.get_file_content_async ("%s/steamapps/libraryfolders.vdf".printf (directory));
 
-            var current_library_folders = Utils.VdfParser.parse_library_folders (libraryfolder_content);
+            var current_library_folders = Utils.VDF.VdfParser.parse_library_folders (libraryfolder_content);
 
             foreach (var item in current_library_folders.folders) {
                 foreach (var app in item.apps) {
