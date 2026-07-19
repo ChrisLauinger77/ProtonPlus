@@ -541,57 +541,30 @@ namespace ProtonPlus.Models.Launchers {
             compatibility_tool_hashtable = new HashTable<uint, string> (null, null);
 
             var config_content = yield Utils.Filesystem.get_file_content_async ("%s/config/config.vdf".printf (directory));
-            var compat_tool_mapping_content = "";
-            var compat_tool_mapping_item = "";
-            uint compat_tool_mapping_item_appid = 0;
-            var compat_tool_mapping_item_name = "";
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var current_position = 0;
+            var document = Utils.VDF.VdfParser.parse_document (config_content);
+            if (document == null)
+                return false;
 
-            start_text = "CompatToolMapping\"\n\t\t\t\t";
-
-            if (!config_content.contains (start_text)) {
+            var install_config_store = document.root.get_child ("InstallConfigStore");
+            var software = install_config_store != null ? install_config_store.get_child ("Software") : null;
+            var valve = software != null ? software.get_child ("Valve") : null;
+            var steam = valve != null ? valve.get_child ("Steam") : null;
+            var mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
+            if (mapping == null) {
                 compatibility_tool_hashtable.set (0, "proton_experimental");
-
                 return true;
             }
 
-            end_text = "\n\t\t\t\t}";
-            start_pos = config_content.index_of (start_text, 0) + start_text.length;
-            end_pos = config_content.index_of (end_text, start_pos);
-            compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
+            foreach (var mapping_entry in mapping.children) {
+                uint appid;
+                if (!uint.try_parse (mapping_entry.key, out appid))
+                    continue;
 
-            while (true) {
-                start_text = "\"";
-                end_text = "}";
-                start_pos = compat_tool_mapping_content.index_of (start_text, current_position);
+                var name = mapping_entry.get_child ("name");
+                if (name == null || name.value == null)
+                    continue;
 
-                if (start_pos == -1)
-                break;
-
-                end_pos = compat_tool_mapping_content.index_of (end_text, start_pos) + 1;
-                compat_tool_mapping_item = compat_tool_mapping_content.substring (start_pos, end_pos - start_pos);
-                current_position = end_pos;
-
-                start_text = "\"";
-                end_text = "\"";
-                start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
-                end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
-                var compat_tool_mapping_item_appid_text = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
-                var compat_tool_mapping_item_appid_valid = uint.try_parse (compat_tool_mapping_item_appid_text, out compat_tool_mapping_item_appid);
-                if (!compat_tool_mapping_item_appid_valid)
-                continue;
-
-                start_text = "name\"\t\t\"";
-                end_text = "\"";
-                start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
-                end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
-                compat_tool_mapping_item_name = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
-
-                compatibility_tool_hashtable.set (compat_tool_mapping_item_appid, compat_tool_mapping_item_name);
+                compatibility_tool_hashtable.set (appid, name.value);
             }
 
             return true;
