@@ -74,100 +74,69 @@ namespace ProtonPlus.Models.Games {
         public override bool change_compatibility_tool (string compatibility_tool) {
             var config_path = "%s/config/config.vdf".printf (launcher.directory);
             var config_content = Utils.Filesystem.get_file_content (config_path);
-            StringBuilder compat_tool_mapping_string_builder;
-            var compat_tool_mapping_content = "";
-            var compat_tool_mapping_item = "";
-            uint compat_tool_mapping_item_appid = 0;
-            var compat_tool_mapping_item_name = "";
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var current_position = 0;
+            var document = Utils.VDF.VdfParser.parse_document (config_content);
+            if (document == null)
+                return false;
 
-            start_text = "\"CompatToolMapping\"\n\t\t\t\t{";
-            end_text = "\n\t\t\t\t}";
-            if (config_content.index_of (start_text, 0) == -1) {
-                var start_steam_text = "\"Steam\"\n\t\t\t{";
-                var start_steam_pos = config_content.index_of (start_steam_text, 0);
-                var insert_pos = start_steam_pos + start_steam_text.length;
-                config_content =
-                    config_content.substring (0, insert_pos)
-                    + "\n\t\t\t\t\"CompatToolMapping\"\n\t\t\t\t{\n\t\t\t\t}"
-                    + config_content.substring (insert_pos);
-            }
-            start_pos = config_content.index_of (start_text, 0);
-            end_pos = config_content.index_of (end_text, start_pos) + end_text.length;
-            compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
+            var install_config_store = document.root.get_child ("InstallConfigStore");
+            var software = install_config_store != null ? install_config_store.get_child ("Software") : null;
+            var valve = software != null ? software.get_child ("Valve") : null;
+            var steam = valve != null ? valve.get_child ("Steam") : null;
+            if (steam == null)
+                return false;
 
-            compat_tool_mapping_string_builder = new StringBuilder (compat_tool_mapping_content);
+            var mapping = steam.get_child ("CompatToolMapping");
+            var app_mapping = mapping != null ? mapping.get_child (appid.to_string ()) : null;
 
-            if (compat_tool_mapping_content.contains (appid.to_string ())) {
-                start_text = "\n\t\t\t\t\t\"%u\"".printf (appid);
-                start_pos = compat_tool_mapping_content.index_of (start_text, current_position);
-                if (start_pos == -1)
-                    return false;
-
-                end_text = "}";
-                end_pos = compat_tool_mapping_content.index_of (end_text, start_pos + start_text.length) + end_text.length;
-                if (end_pos == -1)
-                    return false;
-
-                compat_tool_mapping_item = compat_tool_mapping_content.substring (start_pos, end_pos - start_pos);
-
-                current_position = end_pos;
-
-                start_text = "\"";
-                start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
-                if (start_pos == -1)
-                    return false;
-
-                end_text = "\"";
-                end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
-                if (end_pos == -1)
-                    return false;
-
-                var compat_tool_mapping_item_appid_valid = uint.try_parse (compat_tool_mapping_item.substring (start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
-                if (!compat_tool_mapping_item_appid_valid)
-                    return false;
-
-                if (compat_tool_mapping_item_appid != appid)
-                    return false;
-
+            if (app_mapping != null) {
                 if (compatibility_tool == _("Default")) {
-                    config_content = config_content.replace (compat_tool_mapping_item, "");
+                    config_content = document.remove_entry (app_mapping);
                 } else {
-                    start_text = "name\"\t\t\"";
-                    start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
-                    if (start_pos == -1)
+                    var name = app_mapping.get_child ("name");
+                    if (name == null || name.value == null)
                         return false;
 
-                    end_text = "\"";
-                    end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
-                    if (end_pos == -1)
-                        return false;
-
-                    compat_tool_mapping_item_name = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
-
-                    var compat_tool_mapping_item_modified = compat_tool_mapping_item.replace (compat_tool_mapping_item_name, compatibility_tool);
-
-                    config_content = config_content.replace (compat_tool_mapping_item, compat_tool_mapping_item_modified);
+                    config_content = document.replace_value (name, compatibility_tool);
                 }
-            } else {
-                if (compatibility_tool == _("Default"))
-                    return true;
+            } else if (compatibility_tool != _("Default")) {
+                if (mapping == null) {
+                    var steam_indent = document.indentation_of_closing_brace (steam);
+                    var mapping_indent = steam_indent + "\t";
+                    var mapping_content = "%s\"CompatToolMapping\"\n%s{\n%s}\n".printf (mapping_indent, mapping_indent, mapping_indent);
+                    config_content = document.insert_before_closing_brace (steam, mapping_content);
 
-                var line1 = "\n\t\t\t\t\t\"%u\"\n".printf (appid);
-                var line2 = "\t\t\t\t\t{\n";
-                var line3 = "\t\t\t\t\t\t\"name\"\t\t\"%s\"\n".printf (compatibility_tool);
-                var line4 = "\t\t\t\t\t\t\"config\"\t\t\"%s\"\n".printf ("");
-                var line5 = "\t\t\t\t\t\t\"priority\"\t\t\"%i\"\n".printf (250);
-                var line6 = "\t\t\t\t\t}";
-                var new_item = line1 + line2 + line3 + line4 + line5 + line6;
+                    document = Utils.VDF.VdfParser.parse_document (config_content);
+                    if (document == null)
+                        return false;
 
-                compat_tool_mapping_string_builder.insert (compat_tool_mapping_content.length - "\n\t\t\t\t}".length, new_item);
+                    install_config_store = document.root.get_child ("InstallConfigStore");
+                    software = install_config_store != null ? install_config_store.get_child ("Software") : null;
+                    valve = software != null ? software.get_child ("Valve") : null;
+                    steam = valve != null ? valve.get_child ("Steam") : null;
+                    mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
+                    if (mapping == null)
+                        return false;
+                }
 
-                config_content = config_content.replace (compat_tool_mapping_content, compat_tool_mapping_string_builder.str);
+                var mapping_indent = document.indentation_of_closing_brace (mapping);
+                var entry_indent = mapping_indent + "\t";
+                var entry_content = "%s\"%u\"\n%s{\n%s\t\"name\"\t\t%s\n%s\t\"config\"\t\t\"\"\n%s\t\"priority\"\t\t\"250\"\n%s}\n".printf (
+                    entry_indent,
+                    appid,
+                    entry_indent,
+                    entry_indent,
+                    Utils.VDF.VdfDocument.quote (compatibility_tool),
+                    entry_indent,
+                    entry_indent,
+                    entry_indent
+                );
+                message(entry_content);
+                config_content = document.insert_before_closing_brace (mapping, entry_content);
+            }
+
+            if (config_content == document.content) {
+                this.compatibility_tool = compatibility_tool;
+                return true;
             }
 
             var modified = Utils.Filesystem.modify_file (config_path, config_content);
@@ -180,10 +149,10 @@ namespace ProtonPlus.Models.Games {
         }
 
         public bool change_launch_options (string launch_options, string localconfig_path) {
-            var escaped_launch_options = launch_options.replace ("\"", "\\\"");
             var steam_launcher = launcher as Launchers.Steam;
 
             if (is_non_steam) {
+                var escaped_launch_options = launch_options.replace ("\"", "\\\"");
                 var shortcut = steam_launcher.profile.shortcuts.get_shortcut_by_name (name);
                 shortcut.LaunchOptions = escaped_launch_options;
 
@@ -203,82 +172,38 @@ namespace ProtonPlus.Models.Games {
             }
 
             var config_content = Utils.Filesystem.get_file_content (localconfig_path);
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var app = "";
-            var app_launch_options = "";
-            var app_modified = "";
-
-            start_text = "%u\"\n\t\t\t\t\t{".printf (appid);
-            start_pos = config_content.index_of (start_text, 0) + start_text.length - 1;
-            if (start_pos == -1)
+            var document = Utils.VDF.VdfParser.parse_document (config_content);
+            if (document == null)
                 return false;
 
-            end_text = "\n\t\t\t\t\t}";
-            end_pos = config_content.index_of (end_text, start_pos) + end_text.length;
-            if (end_pos == -1)
+            var config_store = document.root.get_child ("UserLocalConfigStore");
+            var software = config_store != null ? config_store.get_child ("Software") : null;
+            var valve = software != null ? software.get_child ("Valve") : null;
+            var steam = valve != null ? valve.get_child ("Steam") : null;
+            var apps = steam != null ? steam.get_child ("apps") : null;
+            var app = apps != null ? apps.get_child (appid.to_string ()) : null;
+            if (app == null || app.closing_brace_start == -1)
                 return false;
 
-            app = config_content.substring (start_pos, end_pos - start_pos);
-
-            if (escaped_launch_options.length == 0) {
-                if (app.contains ("LaunchOptions")) {
-                    start_text = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"";
-                    start_pos = app.index_of (start_text, 0);
-                    if (start_pos == -1)
-                        return false;
-
-                    end_text = "\"\n";
-                    end_pos = app.index_of (end_text, start_pos + start_text.length);
-                    if (end_pos == -1)
-                        return false;
-
-                    end_pos = end_pos + end_text.length - 1;
-
-                    app_launch_options = app.substring (start_pos, end_pos - start_pos);
-
-                    app_modified = app.replace (app_launch_options, "");
-                }
+            var launch_options_entry = app.get_child ("LaunchOptions");
+            if (launch_options == "") {
+                if (launch_options_entry != null)
+                    config_content = document.remove_entry (launch_options_entry);
+            } else if (launch_options_entry != null) {
+                config_content = document.replace_value (launch_options_entry, launch_options);
             } else {
-                if (app.contains ("LaunchOptions")) {
-                    start_text = "LaunchOptions\"\t\t\"";
-                    start_pos = app.index_of (start_text, 0) + start_text.length;
-
-                    if (start_pos == -1)
-                        return false;
-
-                    end_text = "\"\n";
-                    end_pos = app.index_of (end_text, start_pos);
-
-                    if (end_pos == -1)
-                        return false;
-
-                    app_launch_options = app.substring (start_pos, end_pos - start_pos);
-
-                    if (app_launch_options.length > 0) {
-                        app_modified = app.replace (app_launch_options, escaped_launch_options);
-                    } else {
-                        var before = app.substring (0, start_pos);
-                        var after = app.substring (start_pos, app.length - before.length);
-                        app_modified = "%s%s%s".printf (before, escaped_launch_options, after);
-                    }
-                } else {
-                    app_launch_options = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"%s\"".printf (escaped_launch_options);
-
-                    end_pos = app.last_index_of ("\n\t\t\t\t\t}");
-                    if (end_pos == -1)
-                        return false;
-
-                    app_modified =
-                        app.substring (0, end_pos)
-                        + app_launch_options
-                        + app.substring (end_pos);
-                }
+                var app_indent = document.indentation_of_closing_brace (app);
+                var entry_indent = app_indent + "\t";
+                var entry_content = "%s\"LaunchOptions\"\t\t%s\n".printf (entry_indent, Utils.VDF.VdfDocument.quote (launch_options));
+                config_content = document.insert_before_closing_brace (app, entry_content);
             }
 
-            config_content = config_content.replace (app, app_modified);
+            if (config_content == document.content) {
+                this.launch_options = launch_options;
+                if (steam_launcher.profile != null && steam_launcher.profile.launch_options_hashtable != null)
+                    steam_launcher.profile.launch_options_hashtable.set (appid, launch_options);
+                return true;
+            }
 
             var modified = Utils.Filesystem.modify_file (localconfig_path, config_content);
             if (!modified)
