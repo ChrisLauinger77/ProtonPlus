@@ -53,88 +53,34 @@ namespace ProtonPlus.Models {
             this.launch_options_hashtable = new HashTable<uint, string> (null, null);
 
             var content = Utils.Filesystem.get_file_content (localconfig_path);
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var apps = "";
-            var app = "";
-            var id_text = "";
-            var id_valid = false;
-            var id = 0;
-            var launch_options = "";
+            var document = Utils.VDF.VdfParser.parse_document (content);
+            if (document == null)
+                return false;
 
-            start_text = "apps\"\n\t\t\t\t{";
-            start_pos = content.index_of (start_text, 0) + start_text.length;
+            var config_store = document.root.get_child ("UserLocalConfigStore");
+            var software = config_store != null ? config_store.get_child ("Software") : null;
+            var valve = software != null ? software.get_child ("Valve") : null;
+            var steam = valve != null ? valve.get_child ("Steam") : null;
+            var apps = steam != null ? steam.get_child ("apps") : null;
+            if (apps == null)
+                return false;
 
-            if (start_pos == -1)
-            return false;
+            foreach (var app in apps.children) {
+                uint appid;
+                if (!uint.try_parse (app.key, out appid))
+                    continue;
 
-            end_text = "\n\t\t\t\t}";
-            end_pos = content.index_of (end_text, start_pos);
+                var launch_options = app.get_child ("LaunchOptions");
+                if (launch_options == null || launch_options.value == null)
+                    continue;
 
-            if (end_pos == -1)
-            return false;
-
-            apps = content.substring (start_pos, end_pos - start_pos);
-
-            var position = 0;
-            while (true) {
-                start_text = "\"";
-                start_pos = apps.index_of (start_text, position);
-
-                if (start_pos == -1)
-                break;
-
-                end_text = "\n\t\t\t\t\t}";
-                position = end_pos = apps.index_of (end_text, start_pos + start_text.length) + end_text.length;
-
-                if (end_pos == -1)
-                break;
-
-                app = apps.substring (start_pos, end_pos - start_pos);
-
-                if (app.contains ("LaunchOptions")) {
-                    start_text = "\"";
-                    start_pos = app.index_of (start_text, 0) + start_text.length;
-
-                    if (start_pos == -1)
-                    break;
-
-                    end_text = "\"";
-                    end_pos = app.index_of (end_text, start_pos);
-
-                    if (end_pos == -1)
-                    break;
-
-                    id_text = app.substring (start_pos, end_pos - start_pos);
-
-                    id_valid = int.try_parse (id_text, out id);
-                    if (!id_valid)
-                    break;
-
-                    start_text = "LaunchOptions\"\t\t\"";
-                    start_pos = app.index_of (start_text, 0) + start_text.length;
-
-                    if (start_pos == -1)
-                    break;
-
-                    end_text = "\"\n\t";
-                    end_pos = app.index_of (end_text, start_pos);
-
-                    if (end_pos == -1)
-                    break;
-
-                    launch_options = app.substring (start_pos, end_pos - start_pos).replace ("\\\"", "\"");
-
-                    launch_options_hashtable.set (id, launch_options);
-                }
+                launch_options_hashtable.set (appid, launch_options.value);
             }
 
             foreach (var game in (List<Games.Steam>) launcher.games) {
-                launch_options = launch_options_hashtable.get (game.appid);
+                var launch_options = launch_options_hashtable.get (game.appid);
                 if (launch_options == null)
-                launch_options = "";
+                    launch_options = "";
                 this.launch_options_hashtable.set (game.appid, launch_options);
             }
 
