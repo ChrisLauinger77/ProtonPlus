@@ -228,7 +228,7 @@ namespace ProtonPlus.Models.Launchers {
             var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games ();
 
 
-            var proton_regex = / (?i)Proton\s*\d+ (\.\d+)?/;
+            var proton_regex = /(?i)^Proton\s*\d+(?:\.\d+)*/;
             var name_regex = /\"name\"\s+\"([^\"]+)\"/;
             var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
 
@@ -239,7 +239,7 @@ namespace ProtonPlus.Models.Launchers {
 
             var natival_compatibility_tool_appids = new Gee.HashSet<string> ();
             natival_compatibility_tool_appids.add_all_array (new string[] {
-                "2180100", "1493710", "3658110", "4628710", "2348590", "2805730"
+                "2180100", "1493710", "3658110", "4628710", "2348590", "2805730", "1887720", "1580130", "1420170", "1245040", "1054830", "1113280", "858280", "961940"
             });
 
             var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable ();
@@ -318,6 +318,7 @@ namespace ProtonPlus.Models.Launchers {
                     if (proton_regex.match (current_name) ||
                         current_name == "Proton Hotfix" ||
                         natival_compatibility_tool_appids.contains (current_appid)) {
+                            message(current_name);
                         var simple_runner = new Tools.Simple.with_path (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
