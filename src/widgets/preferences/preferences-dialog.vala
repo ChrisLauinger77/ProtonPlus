@@ -112,8 +112,20 @@ namespace ProtonPlus.Widgets.Preferences {
                         title = "Steam",
                     };
 
-                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.Tools.Simple));
+                    var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.Tools.Simple> ();
                     foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
+                        if (!compatibility_tool.display_title.contains ("Steam Linux Runtime"))
+                            compatibility_tools.add (compatibility_tool);
+                    }
+                    compatibility_tools.sort ((a, b) => {
+                        return strcmp (
+                            b.display_title.collate_key_for_filename (),
+                            a.display_title.collate_key_for_filename ()
+                        );
+                    });
+
+                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.Tools.Simple));
+                    foreach (var compatibility_tool in compatibility_tools) {
                         model.append (compatibility_tool);
                     }
 
@@ -125,8 +137,8 @@ namespace ProtonPlus.Widgets.Preferences {
                     };
                     compatibility_tool_row.add_prefix (new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic"));
 
-                    for (var i = 0; i < (int) steam_launcher.compatibility_tools.size; i++) {
-                        if (steam_launcher.compatibility_tools[i].internal_title == steam_launcher.default_compatibility_tool) {
+                    for (var i = 0; i < (int) compatibility_tools.size; i++) {
+                        if (compatibility_tools[i].internal_title == steam_launcher.default_compatibility_tool) {
                             compatibility_tool_row.set_selected ((uint) i);
                             break;
                         }

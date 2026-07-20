@@ -140,7 +140,7 @@ namespace ProtonPlus.Widgets.Games {
             if (compatibility_tool_row != null)
                 compatibility_tool_group.remove (compatibility_tool_row);
 
-            var filtered_model = new ListStore (typeof (Models.Tools.Simple));
+            var compatibility_tools = new Gee.ArrayList<Models.Tools.Simple> ();
             var n_items = model.get_n_items ();
             for (uint i = 0; i < n_items; i++) {
                 var runner = model.get_item (i) as Models.Tools.Simple;
@@ -150,7 +150,24 @@ namespace ProtonPlus.Widgets.Games {
                     if (!all_native)
                         continue;
                 }
-                filtered_model.append (runner);
+                compatibility_tools.add (runner);
+            }
+            var default_title = _("Default");
+            compatibility_tools.sort ((a, b) => {
+                var a_is_default = a.display_title == default_title;
+                var b_is_default = b.display_title == default_title;
+                if (a_is_default != b_is_default)
+                    return a_is_default ? -1 : 1;
+
+                return strcmp (
+                    b.display_title.collate_key_for_filename (),
+                    a.display_title.collate_key_for_filename ()
+                );
+            });
+
+            var filtered_model = new ListStore (typeof (Models.Tools.Simple));
+            foreach (var compatibility_tool in compatibility_tools) {
+                filtered_model.append (compatibility_tool);
             }
 
             compatibility_tool_row = new CompatibilityToolRow (filtered_model, expression);
