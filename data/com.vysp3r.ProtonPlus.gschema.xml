@@ -2,10 +2,10 @@
 <schemalist gettext-domain="com.vysp3r.ProtonPlus">
     <enum id="com.vysp3r.ProtonPlus.Theme">
         <value nick="system" value="0"/>
-        <value nick="dark" value="4"/>
-        <value nick="light" value="1"/>
-        <value nick="steamos" value="5"/>
-        <value nick="oled" value="6"/>
+        <value nick="adwaita" value="1"/>
+        <value nick="breeze" value="2"/>
+        <value nick="steamos" value="3"/>
+        <value nick="oled" value="4"/>
     </enum>
 
     <enum id="com.vysp3r.ProtonPlus.UpdateFrequency">

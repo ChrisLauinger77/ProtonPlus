@@ -137,6 +137,23 @@ namespace ProtonPlus.Utils {
             return distro_name;
         }
 
+        public static bool is_kde () {
+            string[] desktop_identifiers = {
+                Environment.get_variable ("XDG_CURRENT_DESKTOP") ?? "",
+                Environment.get_variable ("XDG_SESSION_DESKTOP") ?? "",
+                Environment.get_variable ("DESKTOP_SESSION") ?? ""
+            };
+
+            foreach (var identifier in desktop_identifiers) {
+                var desktop = identifier.ascii_down ();
+
+                if (desktop.contains ("kde") || desktop.contains ("plasma"))
+                return true;
+            }
+
+            return false;
+        }
+
         public static void open_uri (string uri) {
             AppInfo.launch_default_for_uri_async.begin (uri, null, null, (obj, res) => {
                 try {

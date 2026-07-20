@@ -12,11 +12,12 @@ namespace ProtonPlus.Widgets.Preferences {
 
         construct {
             var model = new ListStore(typeof (Theme));
-            model.append (new Theme(_ ("System"), Adw.ColorScheme.DEFAULT));
-            model.append (new Theme(_ ("Light"), Adw.ColorScheme.FORCE_LIGHT));
-            model.append (new Theme(_ ("Dark"), Adw.ColorScheme.FORCE_DARK));
-            model.append (new Theme(_ ("SteamOS"), 5));
-            model.append (new Theme(_ ("OLED"), 6));
+            model.append (new Theme(_ ("System"), 0));
+            model.append (new Theme(_ ("Adwaita"), 1));
+            model.append (new Theme(_ ("Breeze"), 2));
+            model.append (new Theme(_ ("SteamOS"), 3));
+            model.append (new Theme(_ ("OLED"), 4));
+
 
             var expression = new Gtk.PropertyExpression(typeof (Theme), null, "title");
 
@@ -29,27 +30,7 @@ namespace ProtonPlus.Widgets.Preferences {
             set_expression (expression);
             set_list_factory (factory);
 
-            if (Globals.SETTINGS != null) {
-                var theme = Globals.SETTINGS.get_enum ("theme");
-
-                switch (theme) {
-                    case 0:
-                        set_selected (0);
-                        break;
-                    case 1:
-                        set_selected (1);
-                        break;
-                    case 4:
-                        set_selected (2);
-                        break;
-                    case 5:
-                        set_selected (3);
-                        break;
-                    case 6:
-                        set_selected (4);
-                        break;
-                }
-            }
+            set_selected (Globals.SETTINGS.get_enum ("theme"));
 
             notify["selected-item"].connect (selected_item_changed);
         }
@@ -57,7 +38,6 @@ namespace ProtonPlus.Widgets.Preferences {
         void selected_item_changed () {
             var theme = get_selected_item () as Theme;
 
-            if (Globals.SETTINGS != null)
             Globals.SETTINGS.set_enum ("theme", theme.color_scheme);
         }
 

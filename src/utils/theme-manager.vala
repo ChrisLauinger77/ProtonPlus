@@ -1,6 +1,13 @@
 namespace ProtonPlus.Utils {
+    [CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_style_context_add_provider_for_display")]
+    private static extern void add_provider_for_display (Gdk.Display display, Gtk.StyleProvider provider, uint priority);
+
+    [CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_style_context_remove_provider_for_display")]
+    private static extern void remove_provider_for_display (Gdk.Display display, Gtk.StyleProvider provider);
+
     public class ThemeManager : Object {
         private static ThemeManager _instance;
+        private Gtk.CssProvider? custom_theme_provider;
 
         public static ThemeManager get_default () {
             if (_instance == null)
@@ -12,47 +19,71 @@ namespace ProtonPlus.Utils {
         construct {
             var application = (Adw.Application) GLib.Application.get_default ();
 
-            application.window_added.connect (apply_to_window);
-
-            if (Globals.SETTINGS != null) {
-                Globals.SETTINGS.changed["theme"].connect (() => {
-                    apply_theme ();
-                });
-            }
+            Globals.SETTINGS.changed["theme"].connect (() => {
+                apply_theme ();
+            });
         }
 
         public void apply_theme () {
-            if (Globals.SETTINGS == null)
-            return;
-
-            var theme = Globals.SETTINGS.get_enum ("theme");
+            var theme = get_effective_theme (Globals.SETTINGS.get_enum ("theme"));
 
             var style_manager = Adw.StyleManager.get_default ();
-            style_manager.set_color_scheme (theme == 5 || theme == 6 ? Adw.ColorScheme.FORCE_DARK : (Adw.ColorScheme) theme);
-
-            var application = (Adw.Application) GLib.Application.get_default ();
-
-            foreach (var window in application.get_windows ()) {
-                apply_to_window (window);
-            }
+            style_manager.set_color_scheme (
+                theme == 2 || theme == 3 || theme == 4 ?
+                Adw.ColorScheme.FORCE_DARK :
+                Adw.ColorScheme.DEFAULT
+            );
+            apply_custom_theme (theme);
         }
 
-        public void apply_to_window (Gtk.Window window) {
-            if (Globals.SETTINGS == null)
+        private int get_effective_theme (int theme) {
+            if (theme != Adw.ColorScheme.DEFAULT)
+            return theme;
+
+            if (Globals.IS_STEAM_OS)
+            return 3;
+
+            if (System.is_kde ())
+            return 2;
+
+            return 1;
+        }
+
+        private void apply_custom_theme (int theme) {
+            var display = Gdk.Display.get_default ();
+
+            if (display == null)
             return;
 
-            var theme = Globals.SETTINGS.get_enum ("theme");
-
-            if (theme == 5) {
-                window.add_css_class ("steamos");
-                window.remove_css_class ("oled");
-            } else if (theme == 6) {
-                window.remove_css_class ("steamos");
-                window.add_css_class ("oled");
-            } else {
-                window.remove_css_class ("steamos");
-                window.remove_css_class ("oled");
+            if (custom_theme_provider != null) {
+                remove_provider_for_display (display, custom_theme_provider);
+                custom_theme_provider = null;
             }
+
+            string? stylesheet = null;
+
+            switch (theme) {
+                case 2:
+                    stylesheet = "/com/vysp3r/ProtonPlus/breeze-dark.css";
+                    break;
+                case 3:
+                    stylesheet = "/com/vysp3r/ProtonPlus/steamos.css";
+                    break;
+                case 4:
+                    stylesheet = "/com/vysp3r/ProtonPlus/oled.css";
+                    break;
+            }
+
+            if (stylesheet == null)
+            return;
+
+            custom_theme_provider = new Gtk.CssProvider ();
+            custom_theme_provider.load_from_resource (stylesheet);
+            add_provider_for_display (
+                display,
+                custom_theme_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1
+            );
         }
     }
 }

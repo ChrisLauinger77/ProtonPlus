@@ -61,10 +61,6 @@ namespace ProtonPlus.Widgets {
                                        SettingsBindFlags.DEFAULT);
 
                 if (Globals.SETTINGS.get_boolean ("first-run")) {
-                    if (Globals.IS_STEAM_OS) {
-                        Globals.SETTINGS.set_enum ("theme", 5);
-                    }
-
                     on_introduction_action ();
                     Globals.SETTINGS.set_boolean ("first-run", false);
                 }
