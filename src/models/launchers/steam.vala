@@ -318,7 +318,6 @@ namespace ProtonPlus.Models.Launchers {
                     if (proton_regex.match (current_name) ||
                         current_name == "Proton Hotfix" ||
                         natival_compatibility_tool_appids.contains (current_appid)) {
-                            message(current_name);
                         var simple_runner = new Tools.Simple.with_path (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
