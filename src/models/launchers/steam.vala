@@ -252,10 +252,25 @@ namespace ProtonPlus.Models.Launchers {
 
             var libraryfolder_content = yield Utils.Filesystem.get_file_content_async ("%s/steamapps/libraryfolders.vdf".printf (directory));
 
-            var current_library_folders = Utils.VDF.VdfParser.parse_library_folders (libraryfolder_content);
+            var libraryfolder_document = Utils.VDF.VdfParser.parse_document (libraryfolder_content);
+            if (libraryfolder_document == null)
+                return false;
 
-            foreach (var item in current_library_folders.folders) {
-                foreach (var app in item.apps) {
+            var libraryfolders = libraryfolder_document.root.get_child ("libraryfolders");
+            if (libraryfolders == null)
+                return false;
+
+            foreach (var libraryfolder in libraryfolders.children) {
+                int libraryfolder_id;
+                if (!int.try_parse (libraryfolder.key, out libraryfolder_id))
+                    continue;
+
+                var path = libraryfolder.get_child ("path");
+                var apps = libraryfolder.get_child ("apps");
+                if (path == null || path.value == null || apps == null)
+                    continue;
+
+                foreach (var app in apps.children) {
                     uint id = 0;
                     var id_valid = uint.try_parse (app.key, out id);
                     if (!id_valid)
@@ -265,10 +280,10 @@ namespace ProtonPlus.Models.Launchers {
                         continue;
                     }
 
-                    var current_libraryfolder_id = item.id;
-                    var current_libraryfolder_path = item.path;
+                    var current_libraryfolder_id = libraryfolder_id;
+                    var current_libraryfolder_path = path.value;
                     var current_appid = app.key;
-                    var current_steamapps_path = "%s/steamapps".printf (item.path);
+                    var current_steamapps_path = "%s/steamapps".printf (path.value);
                     var current_manifest_path = "";
                     var current_manifest_content = "";
                     var current_name = "";
