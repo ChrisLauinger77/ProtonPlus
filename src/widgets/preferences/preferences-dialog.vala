@@ -150,6 +150,7 @@ namespace ProtonPlus.Widgets.Preferences {
                         subtitle = _("Currently selected profile for Steam"),
                     };
                     profile_row.add_prefix (new Gtk.Image.from_icon_name ("avatar-default-symbolic"));
+                    profile_row.set_sensitive (steam_launcher.profiles.length () > 1);
 
                     var last_profile_id = Globals.SETTINGS.get_string ("steam-selected-profile-id");
                     for (var i = 0; i < (int) steam_launcher.profiles.length (); i++) {
