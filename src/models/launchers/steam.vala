@@ -55,6 +55,13 @@ namespace ProtonPlus.Models.Launchers {
             return directories;
         }
 
+        public SteamProfile? get_steam_profile_by_id (string steam_id) {
+            foreach (var profile in profiles)
+                if (profile.steam_id == steam_id)
+                    return profile;
+            return null;
+        }
+
         private List<string> get_flatpak_steam_extension_roots () {
             var extension_roots = new List<string> ();
 
@@ -177,8 +184,6 @@ namespace ProtonPlus.Models.Launchers {
                 }
             }
 
-            this.profile = profile;
-
             foreach (var game in (List<Games.Steam>) games) {
                 var launch_options = profile.launch_options_hashtable.get (game.appid);
                 game.launch_options = launch_options;
@@ -187,6 +192,8 @@ namespace ProtonPlus.Models.Launchers {
             foreach (var non_steam_game in profile.non_steam_games) {
                 games.append (non_steam_game);
             }
+
+            this.profile = profile;
         }
 
         public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {

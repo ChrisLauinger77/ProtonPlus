@@ -6,9 +6,9 @@ namespace ProtonPlus.Utils {
         private static string[] REQUIRED_SCHEMA_KEYS = {
             "width", "height", "is-maximized", "is-fullscreen",
             "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
-            "github-api-key", "gitlab-api-key",
-            "steam-last-profile-id", "steam-remember-last-profile",
-            "enable-controller", "first-run", "theme", "experimental-features"
+            "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
+            "first-run", "theme", "language", "experimental-features", "show-legacy-tools",
+            "migrate-default-prefix", "proxy-mode", "proxy-url", "last-version"
         };
 
         public static bool is_valid_schema (SettingsSchema schema) {

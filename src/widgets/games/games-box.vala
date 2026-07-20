@@ -7,7 +7,6 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Image image;
         Adw.StatusPage status_page;
         MassEditButton mass_edit_button;
-        SwitchProfileButton switch_profile_button;
         Gtk.ActionBar action_bar;
         Gtk.Button back_button;
         Gtk.Button clear_button;
@@ -69,9 +68,6 @@ namespace ProtonPlus.Widgets.Games {
             mass_edit_button = new MassEditButton (game_list_box);
             mass_edit_button.set_visible (false);
             mass_edit_button.mass_edit_requested.connect (open_mass_edit);
-
-            switch_profile_button = new SwitchProfileButton ();
-            switch_profile_button.load_steam_profile.connect (load_steam_profile);
 
             back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
             back_button.add_css_class ("flat");
@@ -176,7 +172,6 @@ namespace ProtonPlus.Widgets.Games {
             action_bar_box.set_halign (Gtk.Align.CENTER);
 
             action_bar_box.append (mass_edit_button);
-            action_bar_box.append (switch_profile_button);
 
             var center_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             center_box.set_halign (Gtk.Align.CENTER);
@@ -290,7 +285,6 @@ namespace ProtonPlus.Widgets.Games {
         public void set_selected_launcher (Models.Launcher launcher) {
             this.launcher = launcher;
 
-            switch_profile_button.set_visible (false);
             filter_button.set_visible (launcher.has_library_support);
             non_steam_filter_check.set_visible (launcher is Models.Launchers.Steam);
 
@@ -308,32 +302,7 @@ namespace ProtonPlus.Widgets.Games {
                         error = true;
                         show_status_box ("bug-symbolic", _("No profile was found."), "%s\n%s".printf (_("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
                     } else {
-                        bool multiple_profiles = steam_launcher.profiles.length () > 1;
-
-                        if (multiple_profiles) {
-                            switch_profile_button.set_visible (true);
-                            switch_profile_button.load (steam_launcher, game_list_box);
-                        }
-
-                        if (Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("steam-remember-last-profile")) {
-                            var steam_id = Globals.SETTINGS.get_string ("steam-last-profile-id");
-                            foreach (var profile in steam_launcher.profiles) {
-                                if (profile.steam_id == steam_id) {
-                                    load_steam_profile (profile);
-                                    return;
-                                }
-                            }
-                        }
-
-                        if (multiple_profiles) {
-                            game_list_box.remove_all ();
-
-                            var dialog = new ProfileDialog (steam_launcher);
-                            dialog.load_steam_profile.connect (load_steam_profile);
-                            dialog.present ((Gtk.Window) this.get_root ());
-                        } else {
-                            load_steam_profile (steam_launcher.profiles.nth_data (0));
-                        }
+                        load_games ();
                     }
                 }
             } else {
@@ -368,7 +337,7 @@ namespace ProtonPlus.Widgets.Games {
             status_page.set_visible (true);
         }
 
-        void load_games () {
+        public void load_games () {
             spinner.set_visible (true);
 
             game_list_box.remove_all ();
@@ -421,15 +390,6 @@ namespace ProtonPlus.Widgets.Games {
             spinner.set_visible (false);
         }
 
-        void load_steam_profile (Models.SteamProfile profile) {
-            spinner.set_visible (true);
-
-            var steam_launcher = (Models.Launchers.Steam) launcher;
-            steam_launcher.switch_profile.begin (profile, (obj, res) => {
-                load_games ();
-            });
-        }
-
         void update_mass_edit_button_visibility () {
             int selected_count = 0;
             var child = game_list_box.get_first_child ();
@@ -472,7 +432,6 @@ namespace ProtonPlus.Widgets.Games {
             advanced_box.set_visible (true);
 
             mass_edit_button.set_visible (false);
-            switch_profile_button.set_visible (false);
         }
 
         public void show_games_list_page () {
@@ -500,15 +459,6 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             update_mass_edit_button_visibility ();
-
-            bool show_profile_button = false;
-            if (launcher is Models.Launchers.Steam) {
-                var steam_launcher = (Models.Launchers.Steam) launcher;
-
-                if (steam_launcher.profiles.length () > 1)
-                    show_profile_button = true;
-            }
-            switch_profile_button.set_visible (show_profile_button);
         }
     }
 }

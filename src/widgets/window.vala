@@ -25,7 +25,9 @@ namespace ProtonPlus.Widgets {
             loading_box = new Loading.Box ();
             loading_box.loaded.connect ((launchers) => {
                 this.launchers = launchers;
+
                 header_box.initialize (launchers, main_box.view_switcher);
+                main_box.initialize (launchers);
                 toolbar_view.set_content (main_box);
 
                 if (Globals.SETTINGS.get_boolean ("check-updates-on-launch")) {

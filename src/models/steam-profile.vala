@@ -208,71 +208,28 @@ namespace ProtonPlus.Models {
             var path = "%s/config/loginusers.vdf".printf (launcher.directory);
             var content = Utils.Filesystem.get_file_content (path);
             if (content.length == 0)
-            return profiles;
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var users = "";
-            var user = "";
-            var id = "";
-            var username = "";
-            var userdata_path = "";
+                return profiles;
+
+            var document = Utils.VDF.VdfParser.parse_document (content);
+            if (document == null)
+                return profiles;
+
+            var users = document.root.get_child ("users");
+            if (users == null)
+                return profiles;
 
             var userdata_hashtable = get_userdata_hashtable (launcher);
 
-            start_text = "users\"\n{";
-            start_pos = content.index_of (start_text, 0) + start_text.length;
+            foreach (var user in users.children) {
+                var persona_name = user.get_child ("PersonaName");
+                if (persona_name == null || persona_name.value == null)
+                    continue;
 
-            end_pos = content.length - 3;
-
-            users = content.substring (start_pos, end_pos - start_pos);
-
-            int position = 0;
-            while (true) {
-                start_text = "\"";
-                start_pos = users.index_of (start_text, position);
-                if (start_pos == -1)
-                break;
-
-                end_text = "}";
-                position = end_pos = users.index_of (end_text, start_pos + start_text.length) + 1;
-                if (end_pos == -1)
-                break;
-
-                user = users.substring (start_pos, end_pos - start_pos);
-
-                start_text = "\"";
-                start_pos = user.index_of (start_text, 0) + start_text.length;
-                if (start_pos == -1)
-                break;
-
-                end_text = "\"";
-                end_pos = user.index_of (end_text, start_pos);
-                if (end_pos == -1)
-                break;
-
-                id = user.substring (start_pos, end_pos - start_pos);
-                // message ("start: %i, end: %i, id: %s", start_pos, end_pos, id);
-
-                start_text = "PersonaName\"\t\t\"";
-                start_pos = user.index_of (start_text, 0) + start_text.length;
-                if (start_pos == -1)
-                break;
-
-                end_text = "\"";
-                end_pos = user.index_of (end_text, start_pos);
-                if (end_pos == -1)
-                break;
-
-                username = user.substring (start_pos, end_pos - start_pos);
-                // message ("start: %i, end: %i, username: %s", start_pos, end_pos, username);
-
-                userdata_path = userdata_hashtable.get (id);
+                var userdata_path = userdata_hashtable.get (user.key);
                 if (userdata_path == null)
-                continue;
+                    continue;
 
-                var profile = new SteamProfile (launcher, username, id, userdata_path);
+                var profile = new SteamProfile (launcher, persona_name.value, user.key, userdata_path);
 
                 profiles.append (profile);
             }

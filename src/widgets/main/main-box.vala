@@ -48,6 +48,16 @@ namespace ProtonPlus.Widgets.Main {
             Utils.DownloadManager.instance.tool_removed.connect (on_tool_removed);
         }
 
+        public void initialize (Gee.LinkedList<Models.Launcher> launchers) {
+            foreach (var launcher in launchers) {
+                if (launcher is Models.Launchers.Steam) {
+                    var steam_launcher = launcher as Models.Launchers.Steam;
+                    steam_launcher.notify["profile"].connect(games_box.load_games);
+                    break;
+                }
+            }
+        }
+
         public void set_selected_launcher (Models.Launcher launcher) {
             tools_box.set_selected_launcher (launcher);
             games_box.set_selected_launcher (launcher);

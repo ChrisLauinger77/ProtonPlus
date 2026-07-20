@@ -256,6 +256,13 @@ namespace ProtonPlus.Models {
                 foreach (var profile in steam_launcher.profiles) {
                     yield profile.load_extra_data ();
                 }
+
+                var selected_profile = steam_launcher.get_steam_profile_by_id (Globals.SETTINGS.get_string ("steam-selected-profile-id"));
+
+                if (selected_profile != null || steam_launcher.profiles.length () > 0)
+                    yield steam_launcher.switch_profile (selected_profile != null ? selected_profile : steam_launcher.profiles.nth_data (0));
+                else
+                    return false;
             }
             return true;
         }

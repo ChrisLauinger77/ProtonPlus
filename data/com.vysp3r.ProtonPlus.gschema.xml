@@ -84,11 +84,8 @@
         <key name="selected-tool-variants" type="s">
             <default>'{}'</default>
         </key>
-        <key name="steam-last-profile-id" type="s">
+        <key name="steam-selected-profile-id" type="s">
             <default>''</default>
-        </key>
-        <key name="steam-remember-last-profile" type="b">
-            <default>true</default>
         </key>
         <key name="first-run" type="b">
             <default>true</default>
