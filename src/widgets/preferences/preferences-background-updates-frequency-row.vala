@@ -28,10 +28,9 @@ namespace ProtonPlus.Widgets.Preferences {
             set_expression (expression);
             set_list_factory (factory);
 
-            if (Globals.SETTINGS != null) {
-                var frequency = Globals.SETTINGS.get_enum ("background-updates-frequency");
-                set_selected ((uint) frequency);
-            }
+            var frequency = Globals.SETTINGS.get_enum ("background-updates-frequency");
+            Globals.SETTINGS.changed["background-updates-frequency"].connect(Utils.System.systemd_handler);
+            set_selected ((uint) frequency);
 
             notify["selected-item"].connect (selected_item_changed);
         }

@@ -55,6 +55,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 subtitle = _("Automatically update the tools in the background"),
             };
             Globals.SETTINGS.bind ("background-updates", background_updates_row, "active", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.changed["background-updates"].connect(Utils.System.systemd_handler);
             updates_group.add (background_updates_row);
 
             var background_updates_frequency_row = new BackgroundUpdatesFrequencyRow () {
@@ -68,6 +69,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 subtitle = _("Check for tool updates when the system starts"),
             };
             Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.changed["check-updates-on-boot"].connect(Utils.System.systemd_handler);
             updates_group.add (check_updates_on_boot_row);
 
             var check_updates_on_launch_row = new Adw.SwitchRow () {

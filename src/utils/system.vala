@@ -165,34 +165,61 @@ namespace ProtonPlus.Utils {
         }
 
         public static void systemd_handler () {
-//            if (Globals.SETTINGS.get_boolean ("background-updates") || Globals.SETTINGS.get_boolean ("check-updates-on-boot")) {
-//                install_systemd_files ();
-//            } else {
-//                uninstall_systemd_files ();
-//            }
+            if (!Globals.SETTINGS.get_boolean ("background-updates") && !Globals.SETTINGS.get_boolean ("check-updates-on-boot")) {
+                uninstall_systemd_files ();
+            } else if (systemd_files_exist ()) {
+                modify_systemd_files ();
+            } else {
+                install_systemd_files ();
+            }
+        }
+
+        private static string get_systemd_dir () {
+            return Path.build_filename (Environment.get_user_config_dir (), "systemd", "user");
+        }
+
+        private static bool systemd_files_exist () {
+            string systemd_dir = get_systemd_dir ();
+            return File.new_for_path (Path.build_filename (systemd_dir, "protonplus.service")).query_exists () &&
+                   File.new_for_path (Path.build_filename (systemd_dir, "protonplus.timer")).query_exists ();
         }
 
         public static void install_systemd_files () {
+            if (!write_systemd_files ()) {
+                return;
+            }
+
+            run_command_sync ("systemctl --user daemon-reload");
+            run_command_sync ("systemctl --user enable --now protonplus.timer");
+        }
+
+        public static void modify_systemd_files () {
+            if (!write_systemd_files ()) {
+                return;
+            }
+
+            run_command_sync ("systemctl --user daemon-reload");
+        }
+
+        private static bool write_systemd_files () {
             string exec_start = "%s update all".printf (Globals.IS_FLATPAK ? "/usr/bin/flatpak run com.vysp3r.ProtonPlus" : run_command_sync (@"which protonplus")).strip ();
             string exec_condition = "!%s -x wineserver".printf (run_command_sync (@"which pgrep")).strip ();
             string on_unit_active_sec = "1h";
 
-            if (Globals.SETTINGS != null) {
-                switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {
-                    case 1:
-                        on_unit_active_sec = "3h";
-                        break;
-                    case 2:
-                        on_unit_active_sec = "6h";
-                        break;
-                    case 3:
-                        on_unit_active_sec = "12h";
-                        break;
-                    case 0:
-                    default:
-                        on_unit_active_sec = "1h";
-                        break;
-                }
+            switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {
+                case 1:
+                    on_unit_active_sec = "3h";
+                    break;
+                case 2:
+                    on_unit_active_sec = "6h";
+                    break;
+                case 3:
+                    on_unit_active_sec = "12h";
+                    break;
+                case 0:
+                default:
+                    on_unit_active_sec = "1h";
+                    break;
             }
 
             try {
@@ -208,7 +235,7 @@ namespace ProtonPlus.Utils {
                 if (check_on_boot) {
                     timer_content = timer_content.replace ("OnBootSec=0", "OnBootSec=1min");
                 } else {
-                    timer_content = timer_content.replace ("OnBootSec=0\n", "").replace ("OnBootSec=0", "");
+                    timer_content = timer_content.replace ("OnBootSec=0", "");
                 }
 
                 if (background_updates) {
@@ -217,7 +244,7 @@ namespace ProtonPlus.Utils {
                     timer_content = timer_content.replace ("OnUnitActiveSec={OnUnitActiveSec}\n", "").replace ("OnUnitActiveSec={OnUnitActiveSec}", "");
                 }
 
-                string systemd_dir = Path.build_filename (Environment.get_user_config_dir (), "systemd", "user");
+                string systemd_dir = get_systemd_dir ();
                 var dir = File.new_for_path (systemd_dir);
                 if (!dir.query_exists ()) {
                     dir.make_directory_with_parents ();
@@ -225,12 +252,12 @@ namespace ProtonPlus.Utils {
 
                 FileUtils.set_contents (Path.build_filename (systemd_dir, "protonplus.service"), service_content);
                 FileUtils.set_contents (Path.build_filename (systemd_dir, "protonplus.timer"), timer_content);
-
-                run_command_sync ("systemctl --user daemon-reload");
-                run_command_sync ("systemctl --user enable --now protonplus.timer");
             } catch (Error e) {
                 warning (e.message);
+                return false;
             }
+
+            return true;
         }
 
         public static void uninstall_systemd_files () {
@@ -238,7 +265,7 @@ namespace ProtonPlus.Utils {
                 run_command_sync ("systemctl --user disable --now protonplus.service");
                 run_command_sync ("systemctl --user disable --now protonplus.timer");
 
-                string systemd_dir = Path.build_filename (Environment.get_user_config_dir (), "systemd", "user");
+                string systemd_dir = get_systemd_dir ();
                 var service_file = File.new_for_path (Path.build_filename (systemd_dir, "protonplus.service"));
                 if (service_file.query_exists ()) {
                     service_file.delete ();
