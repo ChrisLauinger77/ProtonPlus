@@ -18,9 +18,15 @@ namespace ProtonPlus.Utils {
 
         construct {
             var application = (Adw.Application) GLib.Application.get_default ();
+            var style_manager = Adw.StyleManager.get_default ();
 
             Globals.SETTINGS.changed["theme"].connect (() => {
                 apply_theme ();
+            });
+
+            style_manager.notify["dark"].connect (() => {
+                if (get_effective_theme (Globals.SETTINGS.get_enum ("theme")) == 2)
+                apply_custom_theme (2);
             });
         }
 
@@ -29,7 +35,7 @@ namespace ProtonPlus.Utils {
 
             var style_manager = Adw.StyleManager.get_default ();
             style_manager.set_color_scheme (
-                theme == 2 || theme == 3 || theme == 4 ?
+                theme == 3 || theme == 4 ?
                 Adw.ColorScheme.FORCE_DARK :
                 Adw.ColorScheme.DEFAULT
             );
@@ -64,7 +70,9 @@ namespace ProtonPlus.Utils {
 
             switch (theme) {
                 case 2:
-                    stylesheet = "/com/vysp3r/ProtonPlus/breeze-dark.css";
+                    stylesheet = Adw.StyleManager.get_default ().get_dark () ?
+                        "/com/vysp3r/ProtonPlus/breeze-dark.css" :
+                        "/com/vysp3r/ProtonPlus/breeze-light.css";
                     break;
                 case 3:
                     stylesheet = "/com/vysp3r/ProtonPlus/steamos.css";

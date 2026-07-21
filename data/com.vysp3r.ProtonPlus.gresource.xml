@@ -13,6 +13,7 @@
         <file alias="steamos.css">css/steamos.css</file>
         <file alias="oled.css">css/oled.css</file>
         <file alias="breeze-dark.css">css/breeze-dark.css</file>
+        <file alias="breeze-light.css">css/breeze-light.css</file>
         <file alias="metainfo.xml">com.vysp3r.ProtonPlus.metainfo.xml.in</file>
         <file alias="protonplus.service">protonplus.service</file>
         <file alias="protonplus.timer">protonplus.timer</file>
