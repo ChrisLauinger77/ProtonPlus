@@ -70,7 +70,7 @@ namespace ProtonPlus.Models {
                         return version;
                     }
                 } catch (GLib.RegexError e) {
-                    stderr.printf ("Regex error: %s\n", e.message);
+                    warning ("Could not parse the release version: %s", e.message);
                 }
 
                 return title;
@@ -199,7 +199,8 @@ namespace ProtonPlus.Models {
             var latest_runners = new Gee.LinkedList<Models.Tools.Basic> ();
 
             foreach (var launcher in launchers) {
-                if (launcher.groups == null)continue;
+                if (launcher.groups == null)
+                    continue;
 
                 foreach (var group in launcher.groups) {
                     var directories = group.get_tool_directories ();

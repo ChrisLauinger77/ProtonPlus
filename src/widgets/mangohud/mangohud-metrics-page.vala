@@ -107,8 +107,13 @@ namespace ProtonPlus.Widgets.MangoHud {
             gpu_power_limit_row = create_switch (_ ("Power Limit"), config.gpu_power_limit, (val) => { this.config.gpu_power_limit = val; });
 
             add_flow_group (gpu_metrics_box, _ ("Power"), {
-                                                              gpu_power_row, gpu_voltage_row, throttling_status_row, throttling_graph_row, gpu_efficiency_row, gpu_power_limit_row
-                                                          });
+                gpu_power_row,
+                gpu_voltage_row,
+                throttling_status_row,
+                throttling_graph_row,
+                gpu_efficiency_row,
+                gpu_power_limit_row
+            });
 
             gpu_name_row = create_switch (_ ("Model"), config.gpu_name, (val) => { this.config.gpu_name = val; });
             vulkan_driver_row = create_switch (_ ("Vulkan Driver"), config.vulkan_driver, (val) => { this.config.vulkan_driver = val; });
@@ -183,7 +188,9 @@ namespace ProtonPlus.Widgets.MangoHud {
         }
 
         private void update_gpu_load_colors () {
-            if (is_updating) return;
+            if (is_updating)
+                return;
+
             Gdk.RGBA c1, c2, c3;
             gpu_load_color_1_btn.get ("rgba", out c1);
             gpu_load_color_2_btn.get ("rgba", out c2);
@@ -193,7 +200,9 @@ namespace ProtonPlus.Widgets.MangoHud {
         }
 
         private void update_cpu_load_colors () {
-            if (is_updating) return;
+            if (is_updating)
+                return;
+
             Gdk.RGBA c1, c2, c3;
             cpu_load_color_1_btn.get ("rgba", out c1);
             cpu_load_color_2_btn.get ("rgba", out c2);

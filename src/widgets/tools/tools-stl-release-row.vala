@@ -9,7 +9,14 @@ namespace ProtonPlus.Widgets.Tools {
                 var missing_dependencies = dependency_check.end (res);
 
                 if (missing_dependencies != "") {
-                    var alert_dialog = new Main.WarningDialog (_ ("Warning"), "%s\n\n%s\n%s".printf (_ ("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _ ("Installation will be canceled.")));
+                    var alert_dialog = new Main.WarningDialog (
+                        _ ("Warning"),
+                        "%s\n\n%s\n%s".printf (
+                            _ ("You are missing the following dependencies for %s:").printf (title),
+                            missing_dependencies,
+                            _ ("Installation will be canceled.")
+                        )
+                    );
                     alert_dialog.present ((Gtk.Window) this.get_root ());
 
                     return;
@@ -34,7 +41,8 @@ namespace ProtonPlus.Widgets.Tools {
         async string dependency_check () {
             var missing_dependencies = "";
 
-            if (Globals.IS_STEAM_OS) return missing_dependencies;
+            if (Globals.IS_STEAM_OS)
+                return missing_dependencies;
 
             var yad_installed = false;
             if (yield Utils.System.check_dependency ("yad")) {
@@ -50,22 +58,22 @@ namespace ProtonPlus.Widgets.Tools {
                     }
                     yad_installed = version >= 7.2;
                 } catch (Error e) {
-                    return missing_dependencies;
+                    warning ("Could not determine the installed YAD version: %s", e.message);
+                    yad_installed = false;
                 }
             }
 
-            if (!yad_installed) missing_dependencies += "yad >= 7.2\n";
+            if (!yad_installed)
+                missing_dependencies += "yad >= 7.2\n";
 
-            if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk"))) missing_dependencies += "awk/gawk\n";
-            if (!(yield Utils.System.check_dependency ("git")))missing_dependencies += "git\n";
-            if (!(yield Utils.System.check_dependency ("pgrep")))missing_dependencies += "pgrep\n";
-            if (!(yield Utils.System.check_dependency ("unzip")))missing_dependencies += "unzip\n";
-            if (!(yield Utils.System.check_dependency ("wget")))missing_dependencies += "wget\n";
-            if (!(yield Utils.System.check_dependency ("xdotool")))missing_dependencies += "xdotool\n";
-            if (!(yield Utils.System.check_dependency ("xprop")))missing_dependencies += "xprop\n";
-            if (!(yield Utils.System.check_dependency ("xrandr")))missing_dependencies += "xrandr\n";
-            if (!(yield Utils.System.check_dependency ("xxd")))missing_dependencies += "xxd\n";
-            if (!(yield Utils.System.check_dependency ("xwininfo")))missing_dependencies += "xwininfo\n";
+            if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk")))
+                missing_dependencies += "awk/gawk\n";
+
+            string[] dependencies = { "git", "pgrep", "unzip", "wget", "xdotool", "xprop", "xrandr", "xxd", "xwininfo" };
+            foreach (var dependency in dependencies) {
+                if (!(yield Utils.System.check_dependency (dependency)))
+                    missing_dependencies += "%s\n".printf (dependency);
+            }
 
             return missing_dependencies;
         }
@@ -74,7 +82,13 @@ namespace ProtonPlus.Widgets.Tools {
             var has_external_install = ((Models.Releases.SteamTinkerLaunch)release).detect_external_locations ();
 
             if (has_external_install) {
-                var alert_dialog = new Adw.AlertDialog (_ ("Warning"), "%s\n\n%s".printf (_ ("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title.split (" ")[0]), _ ("Do you want to reinstall it with ProtonPlus?")));
+                var alert_dialog = new Adw.AlertDialog (
+                    _ ("Warning"),
+                    "%s\n\n%s".printf (
+                        _ ("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title.split (" ")[0]),
+                        _ ("Do you want to reinstall it with ProtonPlus?")
+                    )
+                );
 
                 alert_dialog.add_response ("no", _ ("No"));
                 alert_dialog.add_response ("yes", _ ("Yes"));

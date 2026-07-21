@@ -5,7 +5,10 @@ namespace ProtonPlus.Models.Launchers {
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
-                    directories = new string[] { "%s/winezgui".printf (Environment.get_user_data_dir ()), "%s/.local/share/winezgui".printf (Environment.get_home_dir ()) };
+                    directories = new string[] {
+                        Path.build_filename (Environment.get_user_data_dir (), "winezgui"),
+                        Path.build_filename (Environment.get_home_dir (), ".local", "share", "winezgui")
+                    };
                     break;
                 case Launcher.InstallationTypes.FLATPAK:
                     directories = new string[] { "%s/.var/app/io.github.fastrizwaan.WineZGUI/data/winezgui".printf (Environment.get_home_dir ()) };

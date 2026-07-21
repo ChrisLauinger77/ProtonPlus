@@ -72,7 +72,10 @@ namespace ProtonPlus.Widgets {
                 return false;
             }
 
-            var dialog = new Adw.AlertDialog (_ ("Warning"), _ ("The application is currently downloading a tool.\nExiting the application early may cause issues."));
+            var dialog = new Adw.AlertDialog (
+                _ ("Warning"),
+                _ ("The application is currently downloading a tool.\nExiting the application early may cause issues.")
+            );
 
             dialog.add_response ("exit", _ ("Exit"));
             dialog.set_response_appearance ("exit", Adw.ResponseAppearance.DESTRUCTIVE);

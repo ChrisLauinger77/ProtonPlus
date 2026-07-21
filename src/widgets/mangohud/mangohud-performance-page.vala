@@ -94,19 +94,29 @@ namespace ProtonPlus.Widgets.MangoHud {
                 }
             });
 
-            toggle_fps_limit_row = create_combo (_ ("Limit Toggle Key"), {_ ("None"), "Shift_L+F1", "Shift_L+F2", "Shift_L+F3", "Shift_L+F4"}, 0, null, (val) => {
-                switch (val) {
-                    case 0: this.config.toggle_fps_limit = ""; break;
-                    case 1: this.config.toggle_fps_limit = "Shift_L+F1"; break;
-                    case 2: this.config.toggle_fps_limit = "Shift_L+F2"; break;
-                    case 3: this.config.toggle_fps_limit = "Shift_L+F3"; break;
-                    case 4: this.config.toggle_fps_limit = "Shift_L+F4"; break;
+            toggle_fps_limit_row = create_combo (
+                _ ("Limit Toggle Key"),
+                {_ ("None"), "Shift_L+F1", "Shift_L+F2", "Shift_L+F3", "Shift_L+F4"},
+                0,
+                null,
+                (val) => {
+                    switch (val) {
+                        case 0: this.config.toggle_fps_limit = ""; break;
+                        case 1: this.config.toggle_fps_limit = "Shift_L+F1"; break;
+                        case 2: this.config.toggle_fps_limit = "Shift_L+F2"; break;
+                        case 3: this.config.toggle_fps_limit = "Shift_L+F3"; break;
+                        case 4: this.config.toggle_fps_limit = "Shift_L+F4"; break;
+                    }
                 }
-            });
+            );
 
             add_flow_group (this, _ ("Limiters"), {
-                                                      fps_limit_row, fps_limit_offset_row, change_fps_limit_colors_row, fps_limit_method_row, toggle_fps_limit_row
-                                                  }, "heading");
+                fps_limit_row,
+                fps_limit_offset_row,
+                change_fps_limit_colors_row,
+                fps_limit_method_row,
+                toggle_fps_limit_row
+            }, "heading");
 
             picmip_row = create_combo (_ ("Filtering"), {_ ("None"), _ ("Bicubic"), _ ("Trilinear"), _ ("Retro")}, 0, null, (val) => {
                 switch (val) {
@@ -176,9 +186,12 @@ namespace ProtonPlus.Widgets.MangoHud {
             }
             toggle_fps_limit_row.selected = toggle_fps_limit_index;
 
-            if (config.picmip == "") picmip_row.selected = 0;
-                else if (config.picmip == "-1") picmip_row.selected = 3;
-            else picmip_row.selected = 1;
+            if (config.picmip == "")
+                picmip_row.selected = 0;
+            else if (config.picmip == "-1")
+                picmip_row.selected = 3;
+            else
+                picmip_row.selected = 1;
 
             af_scale.set_value (config.af != "" ? double.parse (config.af) : 0);
             lod_bias_scale.set_value (config.lod_bias != "" ? double.parse (config.lod_bias) : 0);
@@ -186,7 +199,9 @@ namespace ProtonPlus.Widgets.MangoHud {
         }
 
         private void update_fps_limit_colors () {
-            if (is_updating) return;
+            if (is_updating)
+                return;
+
             Gdk.RGBA c1, c2, c3;
             fps_limit_color_1_btn.get ("rgba", out c1);
             fps_limit_color_2_btn.get ("rgba", out c2);

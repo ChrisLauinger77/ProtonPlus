@@ -297,7 +297,8 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private void on_refresh_clicked () {
-            if (current_tool == null)return;
+            if (current_tool == null)
+                return;
             set_selected_tool_forced.begin (current_tool);
         }
 

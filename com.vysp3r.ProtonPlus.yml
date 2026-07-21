@@ -19,7 +19,7 @@ finish-args:
   # Required GNOME/GTK permissions.
   - --talk-name=org.gtk.vfs.*
   - --filesystem=xdg-run/gvfsd
-  # Required since we don't know where the user have it's Steam library installed
+  # Required because Steam libraries can be installed anywhere on the host.
   - --filesystem=host
   # Request access to supported Flatpak apps
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic

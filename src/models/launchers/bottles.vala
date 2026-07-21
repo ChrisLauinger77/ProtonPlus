@@ -5,7 +5,10 @@ namespace ProtonPlus.Models.Launchers {
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
-                    directories = new string[] { "%s/bottles".printf (Environment.get_user_data_dir ()), "%s/.local/share/bottles".printf (Environment.get_home_dir ()) };
+                    directories = new string[] {
+                        Path.build_filename (Environment.get_user_data_dir (), "bottles"),
+                        Path.build_filename (Environment.get_home_dir (), ".local", "share", "bottles")
+                    };
                     break;
                 case Launcher.InstallationTypes.FLATPAK:
                     directories = new string[] { "%s/.var/app/com.usebottles.bottles/data/bottles".printf (Environment.get_home_dir ()) };

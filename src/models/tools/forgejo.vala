@@ -63,7 +63,15 @@ namespace ProtonPlus.Models.Tools {
                     }
                 }
 
-                var release = new Release.github (this, title, source_release.description, source_release.created_at.format_iso8601 (), primary_asset.download_size, primary_download_url, source_release.page_url);
+                var release = new Release.github (
+                    this,
+                    title,
+                    source_release.description,
+                    source_release.created_at.format_iso8601 (),
+                    primary_asset.download_size,
+                    primary_download_url,
+                    source_release.page_url
+                );
                 foreach (var variant in release_variants) {
                     release.variants.add (variant);
                 }

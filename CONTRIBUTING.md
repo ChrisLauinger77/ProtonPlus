@@ -2,9 +2,10 @@
 
 First off, thanks for taking the time to contribute! ❤️
 
-All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
+All types of contributions are welcome. Read the relevant section below before starting so maintainers can review your contribution efficiently. 🎉
 
 > And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+>
 > - Star the project
 > - Tweet about it
 > - Refer this project in your project's readme
@@ -16,6 +17,7 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 - [Getting Started](#getting-started)
 - [Development](#development)
   - [Building and Running](#building-and-running)
+  - [Testing](#testing)
   - [Translations](#translations)
   - [Icons](#icons)
   - [Linting](#linting)
@@ -25,10 +27,8 @@ All types of contributions are encouraged and valued. See the [Table of Contents
   - [Reporting Bugs](#reporting-bugs)
   - [Suggesting Enhancements](#suggesting-enhancements)
   - [Pull Requests](#pull-requests)
-- [Styleguides](#styleguides)
+- [Style Guide](#style-guide)
   - [Code Style](#code-style)
-  - [Commit Messages](#commit-messages)
-
 
 ## Code of Conduct
 
@@ -54,26 +54,13 @@ We will then take care of the issue as soon as possible.
 
 ### Prerequisites
 
-Before you begin, make sure you have the following installed:
-
-- `git`
-- `ninja`
-- `meson >= 1.0.0`
-- `vala`
-- `gtk4`
-- `libadwaita >= 1.6`
-- `json-glib`
-- `libsoup-3.0`
-- `libarchive`
-- `desktop-file-utils`
-- `libgee`
-
-For a full list of dependencies and installation instructions for different distributions, please refer to the [README.md](README.md#requirements).
+Install the dependencies listed in the [README](README.md#requirements) before building the project.
 
 ### Forking and Cloning
 
 1. Fork the [ProtonPlus repository](https://github.com/Vysp3r/ProtonPlus/fork).
 2. Clone your fork locally:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/ProtonPlus.git
    cd ProtonPlus
@@ -86,15 +73,27 @@ We use a helper script `scripts/build.sh` to simplify common development tasks.
 ### Building and Running
 
 #### Native Build
+
 To build and run the application natively on your system:
+
 ```bash
 ./scripts/build.sh native run
 ```
 
 #### Flatpak Build
+
 To build and run using the local Flatpak manifest:
+
 ```bash
 ./scripts/build.sh local run
+```
+
+### Testing
+
+Configure, compile, and run all tests with:
+
+```bash
+make tests
 ```
 
 ### Translations
@@ -102,6 +101,7 @@ To build and run using the local Flatpak manifest:
 ProtonPlus uses [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/) for translations. You can contribute there or modify the `.po` files in the `po/` directory directly.
 
 To update the translation files after changing the source code:
+
 ```bash
 ./scripts/build.sh translations
 ```
@@ -109,6 +109,7 @@ To update the translation files after changing the source code:
 ### Icons
 
 If you need to regenerate icons from the SVG source:
+
 ```bash
 ./scripts/build.sh icons
 ```
@@ -116,6 +117,7 @@ If you need to regenerate icons from the SVG source:
 ### Linting
 
 To run the Flathub linter on the local source:
+
 ```bash
 ./scripts/build.sh linter
 ```
@@ -123,19 +125,20 @@ To run the Flathub linter on the local source:
 ### Cleaning Up
 
 To remove all build-related directories:
+
 ```bash
 ./scripts/build.sh clean
 ```
 
 ### Adding a Compatibility Tool or Launcher
 
-If you want to add support for a new compatibility tool or launcher, you mostly need to update `data/runners.json`.
+Compatibility tools are implemented under `src/models/launchers/runners/`; launchers are implemented under `src/models/launchers/`.
 
-1.  Locate the relevant section in `data/runners.json`.
-2.  Add your new tool/launcher following the existing schema.
-3.  If the tool requires special handling, you might need to modify the Vala code in `src/models/`.
-4.  Test your changes by running the application.
-5.  Update translations: `./scripts/build.sh translations`.
+1. Locate a similar existing implementation and follow its model and request patterns.
+2. Add the new source file to the nearest `meson.build` file.
+3. Register the implementation in the appropriate launcher or runner collection.
+4. Build the application and run `make tests`.
+5. Update translations with `./scripts/build.sh translations` if user-facing text changed.
 
 ### Project Structure
 
@@ -144,15 +147,15 @@ To help you navigate the codebase, here's a quick overview of the project struct
 - `src/`: The Vala source code for the application.
   - `src/cli/`: Command-line interface logic.
   - `src/models/`: Core data models and business logic.
-  - `src/vdf/`: Valve Data Format (VDF) parser and models.
+  - `src/utils/vdf/`: Valve Data Format (VDF) parser and models.
   - `src/widgets/`: GTK4 and Libadwaita UI widgets.
   - `src/utils/`: Utility functions and helper classes.
 - `data/`: Asset files and UI definitions.
   - `data/ui/`: GTK XML UI definition files.
-  - `data/runners.json`: Configuration for supported compatibility tools and launchers.
   - `data/icons/`: Application icons (hicolor) and symbolic UI icons.
 - `po/`: Translation files (.po).
 - `scripts/`: Helper scripts for build, translations, and maintenance.
+- `tests/`: Vala unit tests and maintenance-script tests.
 
 ## I Want To Contribute
 
@@ -166,18 +169,18 @@ To help you navigate the codebase, here's a quick overview of the project struct
 A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.
 
 - Make sure that you are using the latest version.
-- Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](https://github.com/Vysp3r/ProtonPlus/#readme). If you are looking for support, you might want to check [this section](#i-have-a-question)).
-- To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](https://github.com/Vysp3r/ProtonPlus/issues?q=is%3Aopen+is%3Aissue+label%3A%22%F0%9F%90%9B+Bug%22).
+- Confirm that the problem is not caused by an unsupported or incompatible environment. Read the [documentation](https://github.com/Vysp3r/ProtonPlus/#readme) and check the [questions section](#i-have-a-question) if you need support.
+- Search the [bug tracker](https://github.com/Vysp3r/ProtonPlus/issues?q=is%3Aopen+is%3Aissue+label%3Abug) for an existing report.
 - Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
 - Collect information about the bug:
-- Stack trace (Traceback)
-- OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
-- Possibly your input and the output
-- Can you reliably reproduce the issue? And can you also reproduce it with older versions?
+  - Relevant log output or a stack trace
+  - Distribution, desktop environment, installation type, and application version
+  - Steps and input needed to reproduce the problem
+  - Whether the problem is reproducible on earlier versions
 
 #### How Do I Submit a Good Bug Report?
 
-> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to [dev@vysp3r.com](mailto:dev@vysp3r.com).
+> Never report security-related issues or sensitive information publicly. Follow the [security policy](SECURITY.md) instead.
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 
@@ -185,7 +188,6 @@ We use GitHub issues to track bugs and errors. If you run into an issue with the
 - Explain the behavior you would expect and the actual behavior.
 - Please provide as much context as possible and describe the *reproduction steps* that someone else can follow to recreate the issue on their own. This usually includes your code. For good bug reports you should isolate the problem and create a reduced test case.
 - Provide the information you collected in the previous section.
-
 
 ### Suggesting Enhancements
 
@@ -205,33 +207,34 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Vysp3r
 - Use a **clear and descriptive title** for the issue to identify the suggestion.
 - Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
 - **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
-- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://github.com/ShareX/ShareX) to record GIFs on Windows, and [this tool](https://github.com/phw/peek) on linux.
+- You may want to **include screenshots or recordings** that demonstrate the workflow or relevant interface.
 - **Explain why this enhancement would be useful** to most ProtonPlus users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
 
 ### Pull Requests
 
 Before submitting a Pull Request, please ensure you've:
 
-1.  **Checked for duplicates**: Make sure there's no existing PR covering your changes.
-2.  **Followed the styleguide**: Your code should be well-formatted and easy to read.
-3.  **Tested your changes**: Run the application and verify your changes work as expected.
-4.  **Updated documentation**: If your changes add new functionality or configuration, update the relevant documentation.
-5.  **Updated translations**: If you've modified UI text, run `./scripts/build.sh translations` to update the PO files.
+1. **Checked for duplicates**: Make sure there's no existing PR covering your changes.
+2. **Followed the style guide**: Your code should be well-formatted and easy to read.
+3. **Tested your changes**: Run the application and `make tests`.
+4. **Updated documentation**: If your changes add new functionality or configuration, update the relevant documentation.
+5. **Updated translations**: If you've modified UI text, run `./scripts/build.sh translations` to update the PO files.
 
 When opening a PR, please use the provided [Pull Request Template](.github/pull_request_template.md).
 
-## Styleguides
+## Style Guide
+
 ### Code Style
 
 ProtonPlus is written in Vala and generally follows the [Vala Style Guide](https://wiki.gnome.org/Projects/Vala/StyleGuide).
 
 Key points:
-- Use **tabs** for indentation.
-- Use **spaces** for alignment.
+
+- Use four **spaces** for Vala and Python indentation.
+- Follow `.editorconfig` for other file types.
 - Follow the existing coding patterns in the codebase.
 - Aim for clear, self-documenting code.
 
 ---
 
 Once again, thank you for your interest in contributing to ProtonPlus! 🚀
-

@@ -1,10 +1,5 @@
 namespace ProtonPlus {
     public static int main (string[] args) {
-        if (!Thread.supported ()) {
-            warning ("Threads are not supported!");
-            return -1;
-        }
-
         Globals.load ();
 
         Globals.setupLanguage ();

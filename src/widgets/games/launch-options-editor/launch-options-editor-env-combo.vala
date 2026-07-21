@@ -70,7 +70,7 @@ using Gtk;
                 string token = tokens[i];
                 if (token.has_prefix (this.environment_variable_prefix)) {
                     this.value = token.substring (this.environment_variable_prefix.length);
-                    
+
                     consumed[i] = true;
                     break;
                 }

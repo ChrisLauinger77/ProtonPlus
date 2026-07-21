@@ -18,10 +18,6 @@ namespace ProtonPlus.Utils.Requests {
             }
         }
 
-        public static Soup.Session? get_session_instance () {
-            return _session;
-        }
-
         public static void update_proxy_settings () {
             if (_session == null)
                 return;

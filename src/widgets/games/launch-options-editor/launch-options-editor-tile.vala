@@ -8,7 +8,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         protected Gee.List<ILaunchOption> _children;
         public bool is_advanced { get; set; default = false; }
 
-        public LaunchOptionTile (string title, string subtitle, string[] tokens, bool is_advanced = false, LaunchLineType line_type = LaunchLineType.ENVIRONMENT) {
+        public LaunchOptionTile (
+            string title,
+            string subtitle,
+            string[] tokens,
+            bool is_advanced = false,
+            LaunchLineType line_type = LaunchLineType.ENVIRONMENT
+        ) {
             Object ();
             this.title = title;
             this.subtitle = subtitle;

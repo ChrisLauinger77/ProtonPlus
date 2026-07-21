@@ -17,7 +17,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             return create_tile (title, subtitle, tokens, is_advanced, LaunchLineType.ARGUMENT);
         }
 
-        internal LaunchOptionTile create_tile (string title, string subtitle, string[] tokens, bool is_advanced = false, LaunchLineType type = LaunchLineType.ENVIRONMENT) {
+        internal LaunchOptionTile create_tile (
+            string title,
+            string subtitle,
+            string[] tokens,
+            bool is_advanced = false,
+            LaunchLineType type = LaunchLineType.ENVIRONMENT
+        ) {
             var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
             tile.toggle.notify["active"].connect (() => {
                 this.changed ();
@@ -28,7 +34,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             return tile;
         }
 
-        internal LaunchOptionSpinTile create_spin_tile (string title, string subtitle, string value_label, double lower, double upper, int default_value, string env_prefix, bool is_advanced = false, LaunchLineType type = LaunchLineType.ENVIRONMENT) {
+        internal LaunchOptionSpinTile create_spin_tile (
+            string title,
+            string subtitle,
+            string value_label,
+            double lower,
+            double upper,
+            int default_value,
+            string env_prefix,
+            bool is_advanced = false,
+            LaunchLineType type = LaunchLineType.ENVIRONMENT
+        ) {
             var tile = new LaunchOptionSpinTile (title, subtitle, value_label, lower, upper, default_value, env_prefix);
             tile.line_type = type;
             tile.toggle.notify["active"].connect (() => {

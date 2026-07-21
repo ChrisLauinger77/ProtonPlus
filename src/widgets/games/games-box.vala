@@ -300,14 +300,29 @@ namespace ProtonPlus.Widgets.Games {
 
                     if (steam_launcher.profiles.length () == 0) {
                         error = true;
-                        show_status_box ("bug-symbolic", _("No profile was found."), "%s\n%s".printf (_("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
+                        show_status_box (
+                            "bug-symbolic",
+                            _("No profile was found."),
+                            "%s\n%s".printf (
+                                _("Make sure to connect yourself at least once on Steam."),
+                                _("If you think this is an issue, make sure to report this on GitHub.")
+                            )
+                        );
                     } else {
                         load_games ();
                     }
                 }
             } else {
                 invalid = true;
-                show_status_box (launcher.icon_path, _("Unsupported launcher"), "%s\n%s".printf (_("%s is currently not supported.").printf (launcher.title), _("If you want me to speed up the development make sure to show your support!")), true);
+                show_status_box (
+                    launcher.icon_path,
+                    _("Unsupported launcher"),
+                    "%s\n%s".printf (
+                        _("%s is currently not supported.").printf (launcher.title),
+                        _("If you want me to speed up the development make sure to show your support!")
+                    ),
+                    true
+                );
             }
         }
 

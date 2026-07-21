@@ -49,13 +49,15 @@ namespace ProtonPlus.Utils {
         }
 
         public void stop () {
-            if (timeout_id != 0 && !is_motion_attached) {
+            if (timeout_id != 0) {
                 GLib.Source.remove (timeout_id);
                 timeout_id = 0;
             }
-            if (is_motion_attached && window != null && ((Gtk.Widget) window).get_root () != null) {
+
+            if (is_motion_attached) {
                 ((Gtk.Widget) window).remove_controller (motion);
             }
+
             is_motion_attached = false;
             deactivate_controller_mode ();
             active_prefs_dialog = null;
@@ -105,14 +107,18 @@ namespace ProtonPlus.Utils {
         }
 
         void deactivate_controller_mode () {
-            if (!controller_active)return;
+            if (!controller_active)
+                return;
+
             controller_active = false;
             window.remove_css_class ("controller-active");
             clear_highlight ();
         }
 
         void update_highlight (Gtk.Widget? widget) {
-            if (highlighted == widget)return;
+            if (highlighted == widget)
+                return;
+
             clear_highlight ();
             highlighted = widget;
             highlighted?.add_css_class ("controller-focus");
@@ -175,7 +181,9 @@ namespace ProtonPlus.Utils {
                 return;
             double v = raw / 32767.0;
             double new_y = Math.fabs (v) > DEADZONE ? v : 0;
-            if (new_y != 0)activate_controller_mode ();
+            if (new_y != 0)
+                activate_controller_mode ();
+
             stick_y = new_y;
         }
 
@@ -202,8 +210,11 @@ namespace ProtonPlus.Utils {
                 if (w is Gtk.ScrolledWindow) {
                     var adj = ((Gtk.ScrolledWindow) w).get_vadjustment ();
                     var target = adj.value + delta;
-                    if (target < adj.lower)target = adj.lower;
-                    if (target > adj.upper - adj.page_size)target = adj.upper - adj.page_size;
+                    if (target < adj.lower)
+                        target = adj.lower;
+                    if (target > adj.upper - adj.page_size)
+                        target = adj.upper - adj.page_size;
+
                     adj.set_value (target);
                     return;
                 }
@@ -238,7 +249,8 @@ namespace ProtonPlus.Utils {
 
             var model = window.main_box.view_stack.pages;
             int n = (int) model.get_n_items ();
-            if (n == 0)return;
+            if (n == 0)
+                return;
 
             string? current = window.main_box.view_stack.visible_child_name;
             int cur_idx = 0;

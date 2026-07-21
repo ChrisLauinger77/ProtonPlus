@@ -1,21 +1,20 @@
 namespace ProtonPlus.Utils.Requests {
     public class Request : Object {
-        static Soup.Message message;
-        static Soup.Session? session = null;
+        private Soup.Message message;
+        private Soup.Session session;
 
         public Request (string uri, string method = "GET") {
             message = new Soup.Message (method, uri);
-            session = Proxy.get_session_instance ();
+            session = Proxy.session;
         }
 
-        public static async ReturnCode send (out string? response) {
+        public async ReturnCode send (out string? response) {
             response = null;
 
             try {
                 Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
 
-                unowned uint8[] data = bytes.get_data ();
-                response = (string) (data);
+                response = Parser.data_to_string (bytes.get_data ());
 
                 if (response == null)
                     return ReturnCode.UNKNOWN_ERROR;

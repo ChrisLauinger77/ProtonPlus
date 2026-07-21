@@ -20,14 +20,26 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 this.nvidia_nvapi_toggle_changed ();
             });
             // gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
-            nvidia_ngx_updater_tile = create_tile (_("Update DLSS components"), _("Auto upgrades DLSS components for supported games."), { "PROTON_ENABLE_NGX_UPDATER=1" });
+            nvidia_ngx_updater_tile = create_tile (
+                _("Update DLSS components"),
+                _("Auto upgrades DLSS components for supported games."),
+                { "PROTON_ENABLE_NGX_UPDATER=1" }
+            );
             nvidia_ngx_updater_tile.toggle.notify["active"].connect (() => {
                 this.nvidia_dlss_updater_toggle_changed ();
             });
             // gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
-            nvidia_hide_gpu_tile = create_tile (_("Hide NVIDIA GPU"), _("Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only NVIDIA driver behavior."), { "PROTON_HIDE_NVIDIA_GPU=1" });
+            nvidia_hide_gpu_tile = create_tile (
+                _("Hide NVIDIA GPU"),
+                _("Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only NVIDIA driver behavior."),
+                { "PROTON_HIDE_NVIDIA_GPU=1" }
+            );
             dlss_indicator_tile = create_tile (_("DLSS Indicator"), _("Shows a DLSS status indicator in-game."), { "PROTON_DLSS_INDICATOR=1" });
-            nvidia_libs_tile = create_tile (_("NVIDIA Libraries"), _("Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS or ray tracing."), { "PROTON_NVIDIA_LIBS=1" });
+            nvidia_libs_tile = create_tile (
+                _("NVIDIA Libraries"),
+                _("Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS or ray tracing."),
+                { "PROTON_NVIDIA_LIBS=1" }
+            );
 
             this.add (nvapi_tile);
             this.add (nvidia_ngx_updater_tile);

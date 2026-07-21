@@ -1,10 +1,12 @@
-.PHONY: gen-potfiles translations build build-run clean flathub appimage linter icons local run tests
+.PHONY: appimage build build-debug build-run clean debug flathub gen-potfiles icons install linter local run tests translations uninstall
 
 gen-potfiles:
-	@echo "# This file is generated automatic" > po/POTFILES
-	@find data -name "*.in" -not -path "*/build/*" | sort >> po/POTFILES
-	@find data -name "*.ui" -not -path "*/build/*" | sort >> po/POTFILES
-	@find src -name "*.vala" -not -path "*/build/*" | sort >> po/POTFILES
+	@set -e; { \
+		printf '%s\n' '# This file is generated automatically. Do not edit.'; \
+		find data -type f \( -name '*.in' -o -name '*.ui' \) -not -path '*/build/*'; \
+		find src -type f -name '*.vala' -not -path '*/build/*'; \
+	} | LC_ALL=C sort > po/POTFILES.tmp
+	@mv po/POTFILES.tmp po/POTFILES
 
 translations: gen-potfiles
 	./scripts/build.sh translations
@@ -16,15 +18,19 @@ build-run:
 	./scripts/build.sh native run
 
 build-debug:
+	./scripts/build.sh native-debug
+
+debug:
 	./scripts/build.sh native debug
 
 run: build-run
 
-install: translations build
-	cd build-native && sudo ninja install
+install: build
+	sudo meson install -C build-native
 
 uninstall:
-	cd build-native && sudo ninja uninstall
+	sudo ninja -C build-native uninstall
+
 clean:
 	./scripts/build.sh clean
 
@@ -44,4 +50,6 @@ local:
 	./scripts/build.sh local
 
 tests:
-	(meson setup build-tests && meson compile -C build-tests && meson test -C build-tests --verbose)
+	meson setup build-tests --reconfigure
+	meson compile -C build-tests
+	meson test -C build-tests --verbose

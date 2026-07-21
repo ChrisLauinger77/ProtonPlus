@@ -28,7 +28,11 @@ namespace ProtonPlus.Widgets.Games {
             if (installed) {
                 var success = profile.shortcuts.uninstall ();
                 if (!success) {
-                    var dialog = new Main.ErrorDialog (_ ("Failed to Delete Shortcut"), _ ("ProtonPlus was unable to remove the shortcut from Steam. This might happen if Steam is currently running or if the shortcuts file is inaccessible."), "");
+                    var dialog = new Main.ErrorDialog (
+                        _ ("Failed to Delete Shortcut"),
+                        _ ("ProtonPlus was unable to remove the shortcut from Steam. This might happen if Steam is currently running or if the shortcuts file is inaccessible."), // vala-lint=line-length
+                        ""
+                    );
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
                 refresh ();
@@ -36,7 +40,11 @@ namespace ProtonPlus.Widgets.Games {
                 profile.shortcuts.install.begin ((obj, res) => {
                     var success = profile.shortcuts.install.end (res);
                     if (!success) {
-                        var dialog = new Main.ErrorDialog (_ ("Failed to Create Shortcut"), _ ("ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is closed and try again."), "");
+                        var dialog = new Main.ErrorDialog (
+                            _ ("Failed to Create Shortcut"),
+                            _ ("ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is closed and try again."),
+                            ""
+                        );
                         dialog.present ((Gtk.Window) this.get_root ());
                     }
                     refresh ();

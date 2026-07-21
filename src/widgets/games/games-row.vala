@@ -211,7 +211,11 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             if (selected_runner == null || selected_runner.path == null) {
-                var dialog = new Main.ErrorDialog (_("Compatibility Tool Not Found"), _("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name), "");
+                var dialog = new Main.ErrorDialog (
+                    _("Compatibility Tool Not Found"),
+                    _("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name),
+                    ""
+                );
                 dialog.present ((Gtk.Window) this.get_root ());
                 return;
             }
@@ -221,10 +225,10 @@ namespace ProtonPlus.Widgets.Games {
             var steam_compat_client_install_path = game.launcher.directory;
 
             var inner_command = "STEAM_COMPAT_DATA_PATH=%s STEAM_COMPAT_CLIENT_INSTALL_PATH=%s %s run %s".printf (
-                                                                                                                  Shell.quote (steam_compat_data_path),
-                                                                                                                  Shell.quote (steam_compat_client_install_path),
-                                                                                                                  Shell.quote (proton_path),
-                                                                                                                  Shell.quote (exe_path)
+                Shell.quote (steam_compat_data_path),
+                Shell.quote (steam_compat_client_install_path),
+                Shell.quote (proton_path),
+                Shell.quote (exe_path)
             );
 
             Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command));

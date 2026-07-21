@@ -8,7 +8,8 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
             base (
                 SourceType.GITHUB,
                 "Proton-EM",
-                "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine wayland tweaks.",
+                "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. " +
+                "By Etaash Mathamsetty, adding FSR4 support and Wine Wayland tweaks.",
                 "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases"
             );
 

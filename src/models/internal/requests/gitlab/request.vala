@@ -66,8 +66,7 @@ namespace ProtonPlus.Models.Internal.Requests.Gitlab {
 
                 Bytes bytes = yield ProtonPlus.Utils.Web.get_session ().send_and_read_async (message, Priority.DEFAULT, null);
 
-                unowned uint8[] data = bytes.get_data ();
-                response = (string) (data);
+                response = Utils.Parser.data_to_string (bytes.get_data ());
 
                 if (response == null)
                     return ReturnCode.UNKNOWN_ERROR;

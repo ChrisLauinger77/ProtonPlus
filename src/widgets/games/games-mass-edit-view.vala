@@ -215,7 +215,9 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void refresh () {
-            var tool_changed = compatibility_tool_switch.active && compatibility_tool_row != null && compatibility_tool_row.selected != initial_compatibility_tool_index;
+            var tool_changed = compatibility_tool_switch.active
+                               && compatibility_tool_row != null
+                               && compatibility_tool_row.selected != initial_compatibility_tool_index;
             var launch_options_changed = launch_options_switch.active && launch_options_editor.has_clearable_state ();
 
             clear_button.set_sensitive (launch_options_changed || tool_changed);
@@ -236,32 +238,21 @@ namespace ProtonPlus.Widgets.Games {
 
             foreach (var row in rows) {
                 if (compatibility_tool_switch.active) {
-                    var valids = new List<GameRow> ();
-
                     var success = row.game.change_compatibility_tool (item.internal_title);
-                    if (!success && invalids.find (row.game.name) == null)
+                    if (!success && invalids.find (row.game.name) == null) {
                         invalids.append (row.game.name);
-                    else
-                        valids.append (row);
-
-                    if (valids.length () > 0) {
-                        foreach (var valid_row in valids) {
-                            valid_row.refresh_tool_label ();
-                        }
+                    } else if (success) {
+                        row.refresh_tool_label ();
                     }
                 }
 
                 if (launch_options_switch.active && row.game.launcher is Models.Launchers.Steam) {
-                    var valids = new List<GameRow> ();
-
                     var steam_game = (Models.Games.Steam) row.game;
                     var steam_launcher = (Models.Launchers.Steam) steam_game.launcher;
 
                     var success = steam_game.change_launch_options (launch_options_editor.get_text (), steam_launcher.profile.localconfig_path);
                     if (!success && invalids.find (row.game.name) == null)
                         invalids.append (row.game.name);
-                    else
-                        valids.append (row);
                 }
             }
 
@@ -275,7 +266,11 @@ namespace ProtonPlus.Widgets.Games {
                         names += "\n";
                 }
 
-                var dialog = new Main.ErrorDialog (_("Batch Update Failed"), _("Some games could not be updated with the new compatibility tool or launch options. This may be due to missing permissions or file access issues."), names);
+                var dialog = new Main.ErrorDialog (
+                    _("Batch Update Failed"),
+                    _("Some games could not be updated with the new compatibility tool or launch options. This may be due to missing permissions or file access issues."), // vala-lint=line-length
+                    names
+                );
                 dialog.present ((Gtk.Window) this.get_root ());
             }
 

@@ -249,7 +249,8 @@ namespace ProtonPlus.Models.Tools {
         }
 
         public bool is_asset_exclude (string title, string[]? exclude_asset) {
-            if (exclude_asset == null) return false;
+            if (exclude_asset == null)
+                return false;
 
             var excluded = false;
 

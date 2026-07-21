@@ -73,7 +73,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             });
             launch_option_handlers.add (resolution_field);
 
-            args_field = new LaunchOptionEntryField (_("Additional ScopeBuddy arguments"), _("Keeps extra ScopeBuddy flags such as preferred output selection."), _("Add ScopeBuddy arguments"));
+            args_field = new LaunchOptionEntryField (
+                _("Additional ScopeBuddy arguments"),
+                _("Keeps extra ScopeBuddy flags such as preferred output selection."),
+                _("Add ScopeBuddy arguments")
+            );
             args_field.value_applied.connect (() => {
                 this.changed ();
             });
@@ -119,7 +123,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             var extra_args = new StringBuilder ();
 
             for (var index = wrapper_index + 1; index < end_index; index++) {
-                if (consumed[index])continue;
+                if (consumed[index])
+                    continue;
 
                 if (tokens[index] == "-f") {
                     fullscreen_tile.toggle.set_active (true);
@@ -147,8 +152,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         }
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {
-            if (!this.is_active ())return;
-            print ("Appending scopebuddy segments.\n");
+            if (!this.is_active ())
+                return;
+
             segments.add ("scopebuddy");
 
             foreach (var child in this._children) {

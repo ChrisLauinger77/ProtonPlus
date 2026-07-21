@@ -9,7 +9,10 @@ namespace ProtonPlus.Utils {
 
             var releases_array = new Json.Array ();
             foreach (var release in tool.releases) {
-                if (release is Models.Releases.Latest)continue; // Don't cache the "Latest" virtual release
+                // Don't cache the "Latest" virtual release.
+                if (release is Models.Releases.Latest)
+                    continue;
+
                 releases_array.add_object_element (release.to_json ());
             }
             root_obj.set_array_member ("releases", releases_array);
@@ -25,16 +28,19 @@ namespace ProtonPlus.Utils {
 
         public static async void load_releases (Models.Tool tool) {
             var cache_file = get_cache_file (tool);
-            if (!FileUtils.test (cache_file, FileTest.EXISTS))return;
+            if (!FileUtils.test (cache_file, FileTest.EXISTS))
+                return;
 
             if (tool.releases == null)
                 tool.releases = new Gee.LinkedList<Models.Release> ();
 
             var json = Utils.Filesystem.get_file_content (cache_file);
-            if (json == "")return;
+            if (json == "")
+                return;
 
             var root_node = Utils.Parser.get_node_from_json (json);
-            if (root_node == null || root_node.get_node_type () != Json.NodeType.OBJECT)return;
+            if (root_node == null || root_node.get_node_type () != Json.NodeType.OBJECT)
+                return;
 
             var root_obj = root_node.get_object ();
             if (root_obj.has_member ("last_updated"))
@@ -44,8 +50,14 @@ namespace ProtonPlus.Utils {
             if (root_obj.has_member ("has_more"))
                 tool.has_more = root_obj.get_boolean_member ("has_more");
 
-            var releases_array = root_obj.get_array_member ("releases");
-            if (releases_array == null)return;
+            if (!root_obj.has_member ("releases"))
+                return;
+
+            var releases_node = root_obj.get_member ("releases");
+            if (releases_node == null || releases_node.get_node_type () != Json.NodeType.ARRAY)
+                return;
+
+            var releases_array = releases_node.get_array ();
 
             tool.releases.clear ();
             for (var i = 0; i < releases_array.get_length (); i++) {

@@ -11,7 +11,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         public Gtk.Widget create_page () {
             var group = new Adw.PreferencesGroup ();
 
-            hdr_tile = create_tile (_("HDR"), _("Outputs HDR colors if your display supports it."), { "PROTON_ENABLE_HDR=1" }, false, LaunchLineType.ENVIRONMENT);
+            hdr_tile = create_tile (
+                _("HDR"),
+                _("Outputs HDR colors if your display supports it."),
+                { "PROTON_ENABLE_HDR=1" },
+                false,
+                LaunchLineType.ENVIRONMENT
+            );
 
             group.add (hdr_tile);
             this.add_child (hdr_tile);

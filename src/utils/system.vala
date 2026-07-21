@@ -3,22 +3,14 @@ namespace ProtonPlus.Utils {
         public static async string run_command (string command) {
             string output = "";
             try {
-                string command_line = "";
-                if (Globals.IS_FLATPAK)
-                command_line += "flatpak-spawn --host ";
-                command_line += command;
-
-                string[] argv;
-                Shell.parse_argv (command_line, out argv);
+                var argv = get_command_argv (command);
 
                 var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
                 Bytes stdout_bytes;
                 yield subprocess.communicate_async (null, null, out stdout_bytes, null);
 
-                if (stdout_bytes != null) {
-                    unowned uint8[] data = stdout_bytes.get_data ();
-                    output = (string)(data);
-                }
+                if (stdout_bytes != null)
+                    output = Parser.data_to_string (stdout_bytes.get_data ());
             } catch (Error e) {
                 warning (e.message);
             }
@@ -29,27 +21,26 @@ namespace ProtonPlus.Utils {
         public static string run_command_sync (string command) {
             string output = "";
             try {
-                string command_line = "";
-                if (Globals.IS_FLATPAK)
-                command_line += "flatpak-spawn --host ";
-                command_line += command;
-
-                string[] argv;
-                Shell.parse_argv (command_line, out argv);
+                var argv = get_command_argv (command);
 
                 var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
                 Bytes stdout_bytes;
                 subprocess.communicate (null, null, out stdout_bytes, null);
 
-                if (stdout_bytes != null) {
-                    unowned uint8[] data = stdout_bytes.get_data ();
-                    output = (string)(data);
-                }
+                if (stdout_bytes != null)
+                    output = Parser.data_to_string (stdout_bytes.get_data ());
             } catch (Error e) {
                 warning (e.message);
             }
 
             return output;
+        }
+
+        private static string[] get_command_argv (string command) throws ShellError {
+            var command_line = Globals.IS_FLATPAK ? "flatpak-spawn --host " + command : command;
+            string[] argv;
+            Shell.parse_argv (command_line, out argv);
+            return argv;
         }
 
         public static List<string> get_hwcaps () {
@@ -78,11 +69,16 @@ namespace ProtonPlus.Utils {
                 string[] f = flags.split (" ");
                 var flag_set = new Gee.HashSet<string> ();
                 foreach (var s in f)
-                flag_set.add (s);
+                    flag_set.add (s);
 
                 bool has_v2 = flag_set.contains ("sse4_1") && flag_set.contains ("sse4_2") && flag_set.contains ("ssse3");
                 bool has_v3 = has_v2 && flag_set.contains ("avx") && flag_set.contains ("avx2");
-                bool has_v4 = has_v3 && flag_set.contains ("avx512f") && flag_set.contains ("avx512bw") && flag_set.contains ("avx512cd") && flag_set.contains ("avx512dq") && flag_set.contains ("avx512vl");
+                bool has_v4 = has_v3
+                              && flag_set.contains ("avx512f")
+                              && flag_set.contains ("avx512bw")
+                              && flag_set.contains ("avx512cd")
+                              && flag_set.contains ("avx512dq")
+                              && flag_set.contains ("avx512vl");
 
                 if (has_v4) hwcaps.append ("x86_64_v4");
                 if (has_v3) hwcaps.append ("x86_64_v3");
@@ -95,12 +91,12 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool check_dependency (string name) {
-            var output = yield run_command (@"which $name");
+            var output = yield run_command ("which %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("which: no");
         }
 
         public static bool check_dependency_sync (string name) {
-            var output = run_command_sync (@"which $name");
+            var output = run_command_sync ("which %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("which: no");
         }
 
@@ -108,7 +104,7 @@ namespace ProtonPlus.Utils {
             if (!Globals.IS_FLATPAK) {
                 return false;
             }
-            var output = run_command_sync (@"flatpak info $name");
+            var output = run_command_sync ("flatpak info %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("error:");
         }
 
@@ -148,7 +144,7 @@ namespace ProtonPlus.Utils {
                 var desktop = identifier.ascii_down ();
 
                 if (desktop.contains ("kde") || desktop.contains ("plasma"))
-                return true;
+                    return true;
             }
 
             return false;
@@ -202,8 +198,10 @@ namespace ProtonPlus.Utils {
         }
 
         private static bool write_systemd_files () {
-            string exec_start = "%s update all".printf (Globals.IS_FLATPAK ? "/usr/bin/flatpak run com.vysp3r.ProtonPlus" : run_command_sync (@"which protonplus")).strip ();
-            string exec_condition = "!%s -x wineserver".printf (run_command_sync (@"which pgrep")).strip ();
+            string exec_start = "%s update all".printf (
+                Globals.IS_FLATPAK ? "/usr/bin/flatpak run com.vysp3r.ProtonPlus" : run_command_sync ("which protonplus").strip ()
+            );
+            string exec_condition = "!%s -x wineserver".printf (run_command_sync ("which pgrep").strip ());
             string on_unit_active_sec = "1h";
 
             switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {
@@ -229,8 +227,10 @@ namespace ProtonPlus.Utils {
                 var service_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.service", ResourceLookupFlags.NONE);
                 var timer_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.timer", ResourceLookupFlags.NONE);
 
-                string service_content = ((string) service_resource.get_data ()).replace ("{ExecStart}", exec_start).replace ("{ExecCondition}", exec_condition);
-                string timer_content = (string) timer_resource.get_data ();
+                string service_content = Parser.data_to_string (service_resource.get_data ())
+                    .replace ("{ExecStart}", exec_start)
+                    .replace ("{ExecCondition}", exec_condition);
+                string timer_content = Parser.data_to_string (timer_resource.get_data ());
 
                 if (check_on_boot) {
                     timer_content = timer_content.replace ("OnBootSec=0", "OnBootSec=1min");

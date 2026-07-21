@@ -26,7 +26,8 @@ namespace ProtonPlus.Models.Internal.Assets {
         }
 
         public IAsset? get_by_position (int position) {
-            if (position < 0 || this.list.is_empty || position >= this.list.size)return null;
+            if (position < 0 || this.list.is_empty || position >= this.list.size)
+                return null;
 
             var res = this.list.get (position);
             return res;

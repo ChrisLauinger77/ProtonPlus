@@ -14,7 +14,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.title = _("Game arguments");
             this.description = _("Flags passed directly to the game.");
 
-            skip_launcher_tile = create_game_argument_tile (_("Skip launcher"), _("Adds -skip-launcher to bypass launchers in games that support it."), { "-skip-launcher" });
+            skip_launcher_tile = create_game_argument_tile (
+                _("Skip launcher"),
+                _("Adds -skip-launcher to bypass launchers in games that support it."),
+                { "-skip-launcher" }
+            );
             vulkan_tile = create_game_argument_tile (_("Vulkan"), _("Adds -vulkan to make the game use its Vulkan renderer."), { "-vulkan" });
             dx11_tile = create_game_argument_tile (_("DirectX 11"), _("Adds -dx11 to make the game use its DirectX 11 renderer."), { "-dx11" });
             dx12_tile = create_game_argument_tile (_("DirectX 12"), _("Adds -dx12 to make the game use its DirectX 12 renderer."), { "-dx12" });

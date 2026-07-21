@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img align="center" width=150 src="data/icons/com.vysp3r.ProtonPlus.svg" />
+    <img align="center" width="150" src="data/icons/com.vysp3r.ProtonPlus.svg" alt="ProtonPlus logo" />
     <br><br>
     ProtonPlus
 </h1>
@@ -77,7 +77,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 - [Bottles](https://usebottles.com/)
 - [WineZGUI](https://github.com/B_S_D/WineZGUI)
 
-*The launcher you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.yml)!*
+*Is a launcher missing? [Request support for it](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.yml).*
 
 ## 🛠️ Supported Compatibility Tools
 
@@ -116,9 +116,9 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 - VKD3D-Lutris
 </details>
 
-*The compatibility tool you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.yml)!*
+*Is a compatibility tool missing? [Request support for it](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.yml).*
 
-## 📦️ Installation methods
+## 📦 Installation Methods
 
 <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
     <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en&light' />
@@ -145,17 +145,23 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 ### Requirements
 
 - `git`
-- `ninja`
-- `meson >= 1.0.0`
-- `vala`
-- `gtk4`
-- `libadwaita >= 1.6`
-- `json-glib`
-- `libsoup-3.0`
-- `libarchive`
+- `appstream`
+- `cairo`
 - `desktop-file-utils`
+- `gettext`
+- `gtk4`
+- `json-glib`
+- `libadwaita >= 1.6`
+- `libarchive`
 - `libgee`
+- `libnotify`
+- `libsoup-3.0`
 - `make`
+- `meson >= 1.0.0`
+- `ninja`
+- `pkg-config`
+- `sdl3`
+- `vala`
 
 ### Build instructions
 
@@ -163,6 +169,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
   <summary>Native Build</summary>
 
 1. **Install dependencies** (Example for Fedora):
+
     ```bash
     sudo dnf install make git gettext 'meson >= 1.0.0' vala desktop-file-utils libappstream-glib \
       'pkgconfig(gee-0.8)' 'pkgconfig(glib-2.0)' 'pkgconfig(gtk4)' 'pkgconfig(json-glib-1.0)' \
@@ -171,34 +178,58 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
     ```
 
 2. **Clone the repository**:
+
     ```bash
     git clone https://github.com/Vysp3r/ProtonPlus.git
     cd ProtonPlus
     ```
 
 3. **Build and run**:
+
     ```bash
     ./scripts/build.sh native run
     ```
+
     or
+
     ```bash
     make build-run
     ```
 
+4. **Run the test suite**:
 
-4. **Build and debug (Optional)**:
     ```bash
-    ./scripts/build.sh native debug
+    make tests
     ```
+
+5. **Build a debug binary for an external debugger (optional)**:
+
+    ```bash
+    ./scripts/build.sh native-debug
+    ```
+
     or
+
     ```bash
     make build-debug
     ```
 
-5. **Install (Optional)**:
+    To run the regular native build in a non-interactive GDB session:
+
     ```bash
-    cd build-native
-    sudo ninja install
+    ./scripts/build.sh native debug
+    ```
+
+    or
+
+    ```bash
+    make debug
+    ```
+
+6. **Install (optional)**:
+
+    ```bash
+    sudo meson install -C build-native
     ```
 </details>
 
@@ -206,6 +237,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
   <summary>Flatpak Build</summary>
 
 1. **Install Flatpak and Builder**:
+
     ```bash
     sudo dnf install git flatpak
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -213,12 +245,14 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
     ```
 
 2. **Install Runtimes**:
+
     ```bash
     flatpak install runtime/org.gnome.Sdk/x86_64/50 runtime/org.gnome.Platform/x86_64/50 \
       runtime/org.freedesktop.Sdk.Extension.vala/x86_64/25.08
     ```
 
 3. **Build and run**:
+
     ```bash
     ./scripts/build.sh local run
     ```

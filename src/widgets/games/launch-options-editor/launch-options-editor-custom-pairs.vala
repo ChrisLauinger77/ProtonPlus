@@ -44,7 +44,9 @@ using Gtk;
         }
 
         private void set_initial_value (string raw_value) {
-            if (is_updating) return;
+            if (is_updating)
+                return;
+
             is_updating = true;
 
             if (this.separator == null) {
@@ -71,7 +73,8 @@ using Gtk;
 
             foreach (string part in parts) {
                 string clean_part = part.strip ().down ();
-                if (clean_part == "") continue;
+                if (clean_part == "")
+                    continue;
 
                 string[] kv = clean_part.split ("=");
                 string key = "";
@@ -103,14 +106,16 @@ using Gtk;
         }
 
         private string get_formatted_value () {
-            if (!this.enable_expansion) return "";
+            if (!this.enable_expansion)
+                return "";
 
             string[] final_parts = {};
             bool is_flag_list = (options_values.length > 1 && options_values[1] == "1");
             if (rows_map != null) {
                 foreach (string key in rows_map.get_keys ()) {
                     var combo_row = rows_map.lookup (key);
-                    if (combo_row == null) continue;
+                    if (combo_row == null)
+                        continue;
 
                     uint selected = combo_row.selected;
                     string val = options_values[selected];
@@ -128,7 +133,8 @@ using Gtk;
         }
 
         protected override void trigger_changed_if_ready () {
-            if (!is_updating) this.changed ();
+            if (!is_updating)
+                this.changed ();
         }
 
         public void parse_tokens (string[] tokens, bool[] consumed) {

@@ -237,9 +237,10 @@ namespace ProtonPlus.Models.Launchers {
                 "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180"
             });
 
-            var natival_compatibility_tool_appids = new Gee.HashSet<string> ();
-            natival_compatibility_tool_appids.add_all_array (new string[] {
-                "2180100", "1493710", "3658110", "4628710", "2348590", "2805730", "1887720", "1580130", "1420170", "1245040", "1054830", "1113280", "858280", "961940"
+            var native_compatibility_tool_appids = new Gee.HashSet<string> ();
+            native_compatibility_tool_appids.add_all_array (new string[] {
+                "2180100", "1493710", "3658110", "4628710", "2348590", "2805730", "1887720",
+                "1580130", "1420170", "1245040", "1054830", "1113280", "858280", "961940"
             });
 
             var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable ();
@@ -317,7 +318,7 @@ namespace ProtonPlus.Models.Launchers {
 
                     if (proton_regex.match (current_name) ||
                         current_name == "Proton Hotfix" ||
-                        natival_compatibility_tool_appids.contains (current_appid)) {
+                        native_compatibility_tool_appids.contains (current_appid)) {
                         var simple_runner = new Tools.Simple.with_path (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
@@ -515,7 +516,7 @@ namespace ProtonPlus.Models.Launchers {
             minor = 0;
 
             try {
-                var regex = new GLib.Regex ("(?i)^\\s*proton\\s+(\\d+)(?:\\.(\\d+))?");
+                var regex = new GLib.Regex ("""(?ix)^\s*proton\s+ (\d+) (?:\. (\d+))?""");
                 GLib.MatchInfo match;
                 if (!regex.match (title, 0, out match)) {
                     return false;
@@ -540,7 +541,7 @@ namespace ProtonPlus.Models.Launchers {
 
             try {
                 // Matches custom names like GE-Proton11-1, proton-cachyos-11.0, etc.
-                var regex = new GLib.Regex ("(?i)proton[^0-9]*(\\d+)(?:[\\._-](\\d+))?");
+                var regex = new GLib.Regex ("""(?ix)proton[^0-9]* (\d+) (?:[\._-] (\d+))?""");
                 GLib.MatchInfo match;
                 if (!regex.match (title, 0, out match)) {
                     return false;

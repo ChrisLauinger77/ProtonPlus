@@ -36,7 +36,9 @@ namespace ProtonPlus.Widgets.MangoHud {
             btn.set_valign (Gtk.Align.CENTER);
             btn.rgba = hex_to_rgba (initial_color);
             btn.notify["rgba"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 Gdk.RGBA rgba;
                 btn.get ("rgba", out rgba);
                 set_color (rgba_to_hex (rgba));
@@ -72,7 +74,9 @@ namespace ProtonPlus.Widgets.MangoHud {
                 text = initial_value
             };
             row.notify["text"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value (row.text);
                 changed ();
             });
@@ -82,12 +86,16 @@ namespace ProtonPlus.Widgets.MangoHud {
         protected Adw.ComboRow create_combo (string title, string[] items, int initial_selected, string? icon_name, SetValueFuncInt set_value) {
             var row = new Adw.ComboRow () {
                 title = title,
-                icon_name = icon_name,
                 model = new Gtk.StringList (items),
                 selected = initial_selected
             };
+            if (icon_name != null)
+                row.add_prefix (new Gtk.Image.from_icon_name (icon_name));
+
             row.notify["selected"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value ((int) row.selected);
                 changed ();
             });
@@ -193,7 +201,9 @@ namespace ProtonPlus.Widgets.MangoHud {
             scale.add_mark (min, Gtk.PositionType.TOP, "%.0f".printf (min));
             scale.add_mark (max, Gtk.PositionType.TOP, "%.0f".printf (max));
             scale.value_changed.connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value ("%.0f".printf (scale.get_value ()));
                 changed ();
             });
@@ -209,7 +219,9 @@ namespace ProtonPlus.Widgets.MangoHud {
                 active = initial_value
             };
             row.notify["active"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value (row.active);
                 changed ();
             });

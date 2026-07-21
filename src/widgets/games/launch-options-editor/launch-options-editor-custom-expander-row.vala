@@ -58,7 +58,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public void init_predefined_keys (string[] predefined_keys) {
-            if (predefined_keys == null)return;
+            if (predefined_keys == null)
+                return;
             foreach (string key in predefined_keys) {
                 create_item_row (key, "");
             }
@@ -68,7 +69,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         protected void create_item_row (string key_name, string initial_value) {
             string normalized_key = key_name.strip ().down ();
-            if (rows_map.contains (normalized_key))return;
+            if (rows_map.contains (normalized_key))
+                return;
 
             var row = new Adw.ComboRow ();
             row.title = normalized_key;
@@ -90,7 +92,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             rows_map.insert (normalized_key, row);
             this.add_row (row);
-            row.show ();
+            row.visible = true;
         }
 
         private void on_custom_item_added () {

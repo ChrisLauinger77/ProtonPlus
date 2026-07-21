@@ -26,14 +26,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             vkd3d_log_level_editor.set_tooltip_text (_("VKD3D Logging Level"));
 
             vkd3d_gpuva_tile = create_tile (
-                                            _("Enable VKD3D GPUVA"),
-                                            _("Enables GPU Virtual Addressing. Aligns Vulkan memory management with native DX12 behavior to improve texture streaming and stability in open-world games."),
-                                            { "VKD3D_GPUVA=1" });
+                _("Enable VKD3D GPUVA"),
+                _("Enables GPU Virtual Addressing. Aligns Vulkan memory management with native DX12 behavior to improve texture streaming and stability in open-world games."), // vala-lint=line-length
+                { "VKD3D_GPUVA=1" }
+            );
 
             vkd3d_shader_cache_tile = create_tile (
-                                                   _("Enable VKD3D Shader Cache"),
-                                                   _("Enables VKD3D's internal shader caching mechanism to minimize in-game stutter."),
-                                                   { "VKD3D_SHADER_CACHE=1" });
+                _("Enable VKD3D Shader Cache"),
+                _("Enables VKD3D's internal shader caching mechanism to minimize in-game stutter."),
+                { "VKD3D_SHADER_CACHE=1" }
+            );
 
             this.add (vkd3d_shader_cache_tile);
             this.add (vkd3d_gpuva_tile);

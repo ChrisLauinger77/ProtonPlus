@@ -21,8 +21,21 @@ namespace ProtonPlus.Models.Games {
             }
         }
 
-        public Steam (uint appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
-            base (name, "%s/steamapps/common/%s".printf (library_folder_path, game_folder_name), "%s/steamapps/compatdata/%u".printf (library_folder_path, appid), appid, launcher);
+        public Steam (
+            uint appid,
+            string name,
+            string game_folder_name,
+            int library_folder_id,
+            string library_folder_path,
+            Launchers.Steam launcher
+        ) {
+            base (
+                name,
+                Path.build_filename (library_folder_path, "steamapps", "common", game_folder_name),
+                Path.build_filename (library_folder_path, "steamapps", "compatdata", appid.to_string ()),
+                appid,
+                launcher
+            );
 
             this.appid = appid;
             this.library_folder_id = library_folder_id;
@@ -65,7 +78,9 @@ namespace ProtonPlus.Models.Games {
                             }
                         }
                     }
-                } catch (Error e) {}
+                } catch (Error e) {
+                    debug ("Could not inspect %s for native executables: %s", installdir, e.message);
+                }
             }
 
             return false;
@@ -130,7 +145,6 @@ namespace ProtonPlus.Models.Games {
                     entry_indent,
                     entry_indent
                 );
-                message(entry_content);
                 config_content = document.insert_before_closing_brace (mapping, entry_content);
             }
 
@@ -233,7 +247,11 @@ namespace ProtonPlus.Models.Games {
 
                 string? response;
 
-                var get_code = yield Utils.Web.get_request ("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", Utils.Web.GetRequestType.OTHER, out response);
+                var get_code = yield Utils.Web.get_request (
+                    "https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json",
+                    Utils.Web.GetRequestType.OTHER,
+                    out response
+                );
 
                 if (get_code != ReturnCode.VALID_REQUEST)
                     return games;

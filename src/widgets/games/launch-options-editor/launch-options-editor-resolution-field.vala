@@ -115,7 +115,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             if (this.is_scopebuddy) {
                 for (int i = 0; i < tokens.length; i++) {
-                    if (consumed[i])continue;
+                    if (consumed[i])
+                        continue;
                     if (tokens[i] == "SCB_AUTO_RES=1") {
                         this.set_auto ();
                         consumed[i] = true;
@@ -125,7 +126,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
 
             for (int i = 0; i < tokens.length; i++) {
-                if (consumed[i])continue;
+                if (consumed[i])
+                    continue;
 
                 if (tokens[i] == "-W" && i + 3 < tokens.length && tokens[i + 2] == "-H") {
                     int width = 0;

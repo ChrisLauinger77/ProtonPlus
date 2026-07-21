@@ -67,7 +67,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             this.add_child (framerate_tile);
             this.add_child (resolution_field);
 
-            args_field = new LaunchOptionEntryField (_("Additional Gamescope arguments"), _("Keeps extra Gamescope flags such as output or resolution tweaks."), _("Add Gamescope arguments"));
+            args_field = new LaunchOptionEntryField (
+                _("Additional Gamescope arguments"),
+                _("Keeps extra Gamescope flags such as output or resolution tweaks."),
+                _("Add Gamescope arguments")
+            );
             args_field.value_applied.connect (() => {
                 this.changed ();
             });
@@ -101,7 +105,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             for (var index = wrapper_index + 1; index < end_index; index++) {
                 var token = tokens[index];
 
-                if (consumed[index])continue;
+                if (consumed[index])
+                    continue;
 
                 if (token == "-f") {
                     fullscreen_tile.toggle.set_active (true);
@@ -145,7 +150,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         }
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {
-            if (!this.is_active ())return;
+            if (!this.is_active ())
+                return;
+
             segments.add ("gamescope");
 
             foreach (var child in this._children) {

@@ -87,7 +87,11 @@ namespace ProtonPlus.Widgets.Tools {
                 input_box.append (update_button);
                 var info_pill = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
                 info_pill.append (new Gtk.Image.from_icon_name ("info-2-symbolic"));
-                info_pill.set_tooltip_text (_("Version: %s\nThis is a rolling release.\nIt will always be updated to the latest available version when automatic updates is activated.").printf (release.runner.last_version));
+                info_pill.set_tooltip_text (
+                    _("Version: %s\nThis is a rolling release.\nIt will always be updated to the latest available version when automatic updates is activated.").printf ( // vala-lint=line-length
+                        release.runner.last_version
+                    )
+                );
                 info_pill.add_css_class ("info-pill");
                 info_pill.set_valign (Gtk.Align.CENTER);
                 info_pill.set_margin_end (6);
@@ -199,7 +203,11 @@ namespace ProtonPlus.Widgets.Tools {
                 } else if (code == ReturnCode.NOTHING_TO_UPDATE) {
                     Utils.DownloadManager.instance.tool_updated (release, false);
                 } else if (!release.canceled) {
-                    var dialog = new Main.ErrorDialog (_("Failed to Update %s").printf (release.title), _("An error occurred while attempting to update the compatibility tool."), release.error_message ?? _("Unknown error"));
+                    var dialog = new Main.ErrorDialog (
+                        _("Failed to Update %s").printf (release.title),
+                        _("An error occurred while attempting to update the compatibility tool."),
+                        release.error_message ?? _("Unknown error")
+                    );
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
             });
@@ -258,7 +266,11 @@ namespace ProtonPlus.Widgets.Tools {
         protected virtual void install_button_clicked () {
             release.install.begin ((obj, res) => {
                 if (release.install.end (res) != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
-                    var dialog = new Main.ErrorDialog (_("Installation Failed"), _("ProtonPlus could not install %s on your system.").printf (release.title), release.error_message ?? _("Unknown error"));
+                    var dialog = new Main.ErrorDialog (
+                        _("Installation Failed"),
+                        _("ProtonPlus could not install %s on your system.").printf (release.title),
+                        release.error_message ?? _("Unknown error")
+                    );
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
             });

@@ -125,7 +125,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public void parse_tokens (string[] tokens, bool[] consumed) {
             for (int i = 0; i < tokens.length; i++) {
-                if (consumed[i])continue;
+                if (consumed[i])
+                    continue;
 
                 if (tokens[i].has_prefix (this.env_prefix)) {
                     string val_str = tokens[i].replace (this.env_prefix, "");

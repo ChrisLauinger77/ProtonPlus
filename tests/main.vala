@@ -1,12 +1,11 @@
 using GLib;
-using Gee;
 
 int main (string[] args) {
-
-    AppTests.BaseTest.saved_commands = new Gee.ArrayList<AppTests.TestCommand> ();
     Test.init (ref args);
 
-    AppTests.register_test_suite<AppTests.ExampleTest> ();
+    AppTests.FilesystemTest.register_tests ();
+    AppTests.ParserTest.register_tests ();
+    AppTests.VdfBinaryTest.register_tests ();
 
     return Test.run ();
 }

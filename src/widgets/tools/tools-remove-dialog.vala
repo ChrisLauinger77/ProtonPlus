@@ -37,11 +37,15 @@ namespace ProtonPlus.Widgets.Tools {
 
         void response_changed (string response) {
             if (response != "delete")
-            return;
+                return;
 
             release.remove.begin ((obj, res) => {
                 if (release.remove.end (res) != ReturnCode.RUNNER_REMOVED) {
-                    var dialog = new Main.ErrorDialog (_ ("Failed to Delete %s").printf (release.title), _ ("ProtonPlus encountered an issue while trying to remove this compatibility tool from your system."), release.error_message ?? _ ("Unknown error"));
+                    var dialog = new Main.ErrorDialog (
+                        _ ("Failed to Delete %s").printf (release.title),
+                        _ ("ProtonPlus encountered an issue while trying to remove this compatibility tool from your system."),
+                        release.error_message ?? _ ("Unknown error")
+                    );
                     dialog.present (((Gtk.Application) GLib.Application.get_default ()).active_window);
                 }
             });

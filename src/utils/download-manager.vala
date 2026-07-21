@@ -65,7 +65,8 @@ namespace ProtonPlus.Utils {
         }
 
         public async void async_sleep (uint milliseconds) {
-            if (milliseconds == 0) return;
+            if (milliseconds == 0)
+                return;
 
             Timeout.add (milliseconds, () => {
                 async_sleep.callback ();

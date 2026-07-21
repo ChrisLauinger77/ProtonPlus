@@ -27,12 +27,17 @@ namespace ProtonPlus.Models {
             this.directory = "";
 
             foreach (var current_path in directories) {
-                if (FileUtils.test (current_path, FileTest.IS_DIR)) {
-                    if (!(this is Launchers.Steam) || (FileUtils.test (current_path + "/steamclient.dll", FileTest.IS_REGULAR) && FileUtils.test (current_path + "/steamclient64.dll", FileTest.IS_REGULAR))) {
-                        this.directory = current_path;
-                        break;
-                    }
-                }
+                if (!FileUtils.test (current_path, FileTest.IS_DIR))
+                    continue;
+
+                var steam_installation_valid = !(this is Launchers.Steam)
+                                               || (FileUtils.test (Path.build_filename (current_path, "steamclient.dll"), FileTest.IS_REGULAR)
+                                                   && FileUtils.test (Path.build_filename (current_path, "steamclient64.dll"), FileTest.IS_REGULAR));
+                if (!steam_installation_valid)
+                    continue;
+
+                this.directory = current_path;
+                break;
             }
 
             compatibility_tools = new Gee.LinkedList<Tools.Simple> ();

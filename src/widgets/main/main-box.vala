@@ -52,7 +52,7 @@ namespace ProtonPlus.Widgets.Main {
             foreach (var launcher in launchers) {
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = launcher as Models.Launchers.Steam;
-                    steam_launcher.notify["profile"].connect(games_box.load_games);
+                    steam_launcher.notify["profile"].connect (games_box.load_games);
                     break;
                 }
             }

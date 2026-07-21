@@ -122,7 +122,8 @@ namespace ProtonPlus.Widgets.Tools {
             };
             migrate_button.set_tooltip_text (_ ("Migrate selected games to another tool"));
             migrate_button.clicked.connect (() => {
-                if (current_release == null) return;
+                if (current_release == null)
+                    return;
                 string internal_name = "";
                 if (current_release.runner is Models.Tools.SteamTinkerLaunch) {
                     internal_name = "Proton-stl";
@@ -261,7 +262,13 @@ namespace ProtonPlus.Widgets.Tools {
                 search_entry.set_visible (visible_child != "release" && visible_child != "migrate");
                 filter_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 search_button.set_visible (visible_child != "release" && visible_child != "migrate");
-                refresh_button.set_visible (visible_child != "release" && visible_child != "migrate" && (Globals.SETTINGS == null || !Globals.SETTINGS.get_boolean ("background-updates")));
+                var background_updates_enabled = Globals.SETTINGS != null
+                                                 && Globals.SETTINGS.get_boolean ("background-updates");
+                refresh_button.set_visible (
+                    visible_child != "release"
+                    && visible_child != "migrate"
+                    && !background_updates_enabled
+                );
                 migrate_box.games_button.set_visible (visible_child == "migrate");
                 migrate_box.migrate_button.set_visible (visible_child == "migrate");
                 update_open_button_visibility ();
@@ -311,8 +318,17 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_open_button_visibility () {
             var visible_child = stack.get_visible_child_name ();
-            open_button.set_visible (visible_child == "release" && current_release != null && current_release.page_url != null && release_box.stack_switcher.stack.visible_child_name == "changelog");
-            migrate_button.set_visible (visible_child == "release" && release_box.stack_switcher.stack.visible_child_name == "games" && release_box.get_selected_games_count () > 0);
+            open_button.set_visible (
+                visible_child == "release"
+                && current_release != null
+                && current_release.page_url != null
+                && release_box.stack_switcher.stack.visible_child_name == "changelog"
+            );
+            migrate_button.set_visible (
+                visible_child == "release"
+                && release_box.stack_switcher.stack.visible_child_name == "games"
+                && release_box.get_selected_games_count () > 0
+            );
         }
 
         void refresh_group_boxes () {

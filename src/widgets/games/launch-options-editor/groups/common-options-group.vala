@@ -27,11 +27,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 mangohud_tile.visible = false;
             }
 
-            steam_deck_tile = create_tile (_("Disable Steam Deck Mode"), _("Disables the Steam Deck-specific profile that some games use."), { "SteamDeck=0" });
+            steam_deck_tile = create_tile (
+                _("Disable Steam Deck Mode"),
+                _("Disables the Steam Deck-specific profile that some games use."),
+                { "SteamDeck=0" }
+            );
 
-            wayland_tile = create_tile (_("Wayland"), _("Runs the game natively on Wayland instead of through XWayland but it breaks Steam Input and the Steam Overlay."), { "PROTON_ENABLE_WAYLAND=1" });
+            wayland_tile = create_tile (
+                _("Wayland"),
+                _("Runs the game natively on Wayland instead of through XWayland but it breaks Steam Input and the Steam Overlay."),
+                { "PROTON_ENABLE_WAYLAND=1" }
+            );
 
-            gamemode_tile = create_tile (_("Feral Gamemode"), _("Requests temporary optimizations for system performance (CPU governor, process priority) when the game is running."), { "gamemoderun" }, false, LaunchLineType.WRAPPER);
+            gamemode_tile = create_tile (
+                _("Feral Gamemode"),
+                _("Requests temporary optimizations for system performance (CPU governor, process priority) when the game is running."),
+                { "gamemoderun" },
+                false,
+                LaunchLineType.WRAPPER
+            );
 
             if (!Globals.GAMEMODE_INSTALLED) {
                 gamemode_tile.sensitive = false;

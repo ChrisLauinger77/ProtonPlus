@@ -62,10 +62,10 @@ namespace ProtonPlus.Widgets.Games {
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
             title_label.set_hexpand (true);
 
-            var check_image = new Gtk.Image.from_icon_name("object-select-symbolic");
+            var check_image = new Gtk.Image.from_icon_name ("object-select-symbolic");
             check_image.set_visible (false);
 
-            var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             box.append (title_label);
             box.append (check_image);
 

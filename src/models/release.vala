@@ -164,7 +164,8 @@ namespace ProtonPlus.Models {
                 return null;
             }
 
-            if (!obj.has_member ("kind") || !obj.has_member ("title"))return null;
+            if (!obj.has_member ("kind") || !obj.has_member ("title"))
+                return null;
             string kind = obj.get_string_member_with_default ("kind", "");
             string title = obj.get_string_member_with_default ("title", "");
             string description = obj.get_string_member_with_default ("description", "");
@@ -246,7 +247,15 @@ namespace ProtonPlus.Models {
             this.install_location = install_location;
         }
 
-        public Release.github (Tools.Basic runner, string title, string description, string release_date, int64 download_size, string download_url, string page_url) {
+        public Release.github (
+            Tools.Basic runner,
+            string title,
+            string description,
+            string release_date,
+            int64 download_size,
+            string download_url,
+            string page_url
+        ) {
             this.description = description;
             this.download_size = download_size;
 
@@ -335,7 +344,13 @@ namespace ProtonPlus.Models {
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
                 string? download_error;
-                var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, on_download_progress, out download_error);
+                var download_valid = yield Utils.Web.download (
+                    download_url,
+                    download_path,
+                    () => canceled,
+                    on_download_progress,
+                    out download_error
+                );
 
                 if (!download_valid) {
                     this.error_message = download_error;
@@ -357,7 +372,13 @@ namespace ProtonPlus.Models {
                 step = Step.DOWNLOADING;
 
                 string? download_error;
-                var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, on_download_progress, out download_error);
+                var download_valid = yield Utils.Web.download (
+                    download_url,
+                    download_path,
+                    () => canceled,
+                    on_download_progress,
+                    out download_error
+                );
 
                 if (!download_valid) {
                     this.error_message = download_error;
@@ -495,7 +516,12 @@ namespace ProtonPlus.Models {
 
             if (title.contains ("Latest")) {
                 var backup_directory_name = "%s Backup".printf (directory_name);
-                var backup_directory_valid = FileUtils.test ("%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, backup_directory_name), FileTest.IS_DIR);
+                var backup_directory_path = "%s%s/%s".printf (
+                    runner.group.launcher.directory,
+                    runner.group.directory,
+                    backup_directory_name
+                );
+                var backup_directory_valid = FileUtils.test (backup_directory_path, FileTest.IS_DIR);
 
                 state = (directory_name_valid && (install_directory_valid || backup_directory_valid)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
             } else {
