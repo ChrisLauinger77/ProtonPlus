@@ -166,6 +166,8 @@ namespace ProtonPlus.Widgets.Preferences {
                     profile_row.add_prefix (new Gtk.Image.from_icon_name ("avatar-default-symbolic"));
                     profile_row.set_sensitive (steam_launcher.profiles.length () > 1);
 
+                    var shortcut_row = new SteamShortcutRow (steam_launcher.profile);
+
                     var last_profile_id = Globals.SETTINGS.get_string ("steam-selected-profile-id");
                     for (var i = 0; i < (int) steam_launcher.profiles.length (); i++) {
                         if (steam_launcher.profiles.nth_data (i).steam_id == last_profile_id) {
@@ -178,10 +180,12 @@ namespace ProtonPlus.Widgets.Preferences {
                         var selected_profile = profile_row.get_selected_item () as ProtonPlus.Models.SteamProfile;
                         if (selected_profile != null) {
                             Globals.SETTINGS.set_string ("steam-selected-profile-id", selected_profile.steam_id);
+                            shortcut_row.load (selected_profile);
                             steam_launcher.switch_profile.begin (selected_profile);
                         }
                     });
                     steam_group.add (profile_row);
+                    steam_group.add (shortcut_row);
 
                     launchers_page.add (steam_group);
                     has_launchers = true;

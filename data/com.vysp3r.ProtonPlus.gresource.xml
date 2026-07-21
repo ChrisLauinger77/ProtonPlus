@@ -39,6 +39,7 @@
         <file alias="scalable/actions/eye-symbolic.svg">icons/eye.svg</file>
         <file alias="scalable/actions/grip-symbolic.svg">icons/grip.svg</file>
         <file alias="scalable/actions/info-2-symbolic.svg">icons/info.svg</file>
+        <file alias="scalable/actions/bookmark-symbolic.svg">icons/bookmark.svg</file>
         <file alias="scalable/actions/flask-symbolic.svg">icons/flask.svg</file>
         <file alias="scalable/actions/right-left-symbolic.svg">icons/right-left.svg</file>
         <file alias="scalable/actions/gitlab-symbolic.svg">icons/gitlab.svg</file>
