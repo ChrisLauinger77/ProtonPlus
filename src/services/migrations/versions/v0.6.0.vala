@@ -16,7 +16,7 @@ namespace ProtonPlus.Services.Migrations.Versions {
             }
 
             var dialog = new ProtonPlus.Widgets.Introduction.Introduction ();
-            dialog.present (context.window);
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, context.window);
         }
     }
 }

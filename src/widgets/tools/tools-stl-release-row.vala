@@ -17,7 +17,7 @@ namespace ProtonPlus.Widgets.Tools {
                             _ ("Installation will be canceled.")
                         )
                     );
-                    alert_dialog.present ((Gtk.Window) this.get_root ());
+                    ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
 
                     return;
                 }

@@ -36,5 +36,13 @@ namespace ProtonPlus.Widgets.Header {
             if (view_switcher.get_parent () == null)
                 header_bar.set_title_widget (view_switcher);
         }
+
+        public void open_menu () {
+            menu_button.activate ();
+        }
+
+        public void open_launchers () {
+            launchers_button.button_clicked ();
+        }
     }
 }

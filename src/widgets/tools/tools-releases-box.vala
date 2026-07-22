@@ -278,7 +278,7 @@ namespace ProtonPlus.Widgets.Tools {
 
                 content_stack.set_visible_child_name ("list");
 
-                dialog.present ((Gtk.Window) this.get_root ());
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
 
                 return;
             }
@@ -344,7 +344,7 @@ namespace ProtonPlus.Widgets.Tools {
 
                 content_stack.set_visible_child_name ("list");
 
-                dialog.present ((Gtk.Window) this.get_root ());
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
 
                 return;
             }

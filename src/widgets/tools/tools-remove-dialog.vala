@@ -46,7 +46,10 @@ namespace ProtonPlus.Widgets.Tools {
                         _ ("ProtonPlus encountered an issue while trying to remove this compatibility tool from your system."),
                         release.error_message ?? _ ("Unknown error")
                     );
-                    dialog.present (((Gtk.Application) GLib.Application.get_default ()).active_window);
+                    ProtonPlus.Widgets.Window.present_dialog_for_controller (
+                        dialog,
+                        ((Gtk.Application) GLib.Application.get_default ()).active_window
+                    );
                 }
             });
         }

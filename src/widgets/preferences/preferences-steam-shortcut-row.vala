@@ -40,7 +40,7 @@ namespace ProtonPlus.Widgets.Preferences {
                         _ ("ProtonPlus was unable to remove the shortcut from Steam. This might happen if Steam is currently running or if the shortcuts file is inaccessible."), // vala-lint=line-length
                         ""
                     );
-                    dialog.present ((Gtk.Window) this.get_root ());
+                    ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                 }
                 refresh ();
             } else {
@@ -54,7 +54,7 @@ namespace ProtonPlus.Widgets.Preferences {
                             _ ("ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is closed and try again."),
                             ""
                         );
-                        dialog.present ((Gtk.Window) this.get_root ());
+                        ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                     }
                     shortcut_button.set_sensitive (true);
                     refresh ();

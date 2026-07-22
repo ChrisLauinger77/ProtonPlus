@@ -14,6 +14,30 @@ namespace ProtonPlus.Widgets {
             controller_manager = new Utils.ControllerManager (this);
 
             build_ui ();
+            controller_manager.start ();
+        }
+
+        public static void present_dialog_for_controller (Adw.Dialog dialog, Gtk.Widget? parent) {
+            var controller_window = parent as Window;
+            if (controller_window != null) {
+                controller_window.present_controller_dialog (dialog);
+                return;
+            }
+
+            dialog.present (parent);
+        }
+
+        public void present_controller_dialog (Adw.Dialog dialog) {
+            controller_manager.register_dialog (dialog);
+            dialog.present (this);
+        }
+
+        public void open_menu () {
+            header_box.open_menu ();
+        }
+
+        public void open_launchers () {
+            header_box.open_launchers ();
         }
 
         private void build_ui () {
@@ -95,7 +119,7 @@ namespace ProtonPlus.Widgets {
                 application.quit ();
             });
 
-            dialog.present (this);
+            present_controller_dialog (dialog);
 
             return true;
         }

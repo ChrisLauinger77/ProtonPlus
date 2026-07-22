@@ -3,7 +3,8 @@ namespace ProtonPlus.Widgets {
     public static extern void add_provider_for_display (Gdk.Display display, Gtk.StyleProvider provider, uint priority);
 
     public class Application : Adw.Application {
-        Preferences.PreferencesDialog activePreferencesDialog { get; set; }
+        Preferences.PreferencesDialog? active_preferences_dialog = null;
+        bool reopen_preferences_after_close = false;
 
         construct {
             application_id = Config.APP_ID;
@@ -17,7 +18,7 @@ namespace ProtonPlus.Widgets {
                 { "reload", this.on_reload_action },
                 { "introduction", this.on_introduction_action },
                 { "on_language_change", this.on_language_change },
-                { "quit", this.quit },
+                { "quit", this.on_quit_action },
             };
             this.add_action_entries (action_entries, this);
             this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
@@ -60,8 +61,8 @@ namespace ProtonPlus.Widgets {
                                        "fullscreened",
                                        SettingsBindFlags.DEFAULT);
 
-                if (Globals.SETTINGS.get_boolean ("first-run")) {
-                    on_introduction_action ();
+                bool show_introduction = Globals.SETTINGS.get_boolean ("first-run");
+                if (show_introduction) {
                     Globals.SETTINGS.set_boolean ("first-run", false);
                 }
 
@@ -72,6 +73,9 @@ namespace ProtonPlus.Widgets {
                 Globals.SETTINGS.changed["background-updates-frequency"].connect (Utils.System.systemd_handler);
 
                 window.present ();
+                if (show_introduction)
+                    present_introduction (window);
+
                 migration_manager.post_migrate (new ProtonPlus.Services.Migrations.MigrationContext (window));
             } else {
                 error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");
@@ -80,8 +84,15 @@ namespace ProtonPlus.Widgets {
 
         void on_introduction_action () {
             var window = this.active_window as Window;
+            if (window == null)
+                return;
+
+            present_introduction (window);
+        }
+
+        void present_introduction (Window window) {
             var dialog = new Introduction.Introduction ();
-            dialog.present (window);
+            window.present_controller_dialog (dialog);
         }
 
         void on_report_action () {
@@ -90,9 +101,22 @@ namespace ProtonPlus.Widgets {
 
         void on_preferences_action () {
             var window = this.active_window as Window;
+            if (window == null || active_preferences_dialog != null)
+                return;
+
             var preferences_dialog = new Preferences.PreferencesDialog (window.launchers);
-            preferences_dialog.present (window);
-            activePreferencesDialog = preferences_dialog;
+            active_preferences_dialog = preferences_dialog;
+            preferences_dialog.closed.connect (on_preferences_dialog_closed);
+            window.present_controller_dialog (preferences_dialog);
+        }
+
+        void on_preferences_dialog_closed () {
+            active_preferences_dialog = null;
+
+            if (reopen_preferences_after_close) {
+                reopen_preferences_after_close = false;
+                on_preferences_action ();
+            }
         }
 
         void on_donate_action () {
@@ -103,6 +127,14 @@ namespace ProtonPlus.Widgets {
             (this.active_window as Window) ? .reload ();
         }
 
+        void on_quit_action () {
+            var window = this.active_window as Window;
+            if (window != null)
+                window.close ();
+            else
+                quit ();
+        }
+
         public void on_language_change () {
             var main_window = this.active_window as Window;
 
@@ -110,8 +142,10 @@ namespace ProtonPlus.Widgets {
                 main_window.reload_ui ();
                 main_window.reload ();
 
-                activePreferencesDialog.close ();
-                on_preferences_action ();
+                if (active_preferences_dialog != null) {
+                    reopen_preferences_after_close = true;
+                    active_preferences_dialog.close ();
+                }
             }
         }
 
@@ -156,7 +190,7 @@ namespace ProtonPlus.Widgets {
                 about_dialog.set_release_notes (last_release.description);
                 about_dialog.set_release_notes_version (last_release.version);
             }
-            about_dialog.present (this.active_window);
+            Window.present_dialog_for_controller (about_dialog, this.active_window);
         }
 
         private static string get_copyright () {

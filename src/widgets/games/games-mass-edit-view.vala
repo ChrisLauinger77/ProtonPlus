@@ -271,7 +271,7 @@ namespace ProtonPlus.Widgets.Games {
                     _("Some games could not be updated with the new compatibility tool or launch options. This may be due to missing permissions or file access issues."), // vala-lint=line-length
                     names
                 );
-                dialog.present ((Gtk.Window) this.get_root ());
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
             }
 
             back_requested ();

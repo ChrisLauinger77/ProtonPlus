@@ -208,7 +208,7 @@ namespace ProtonPlus.Widgets.Tools {
                         _("An error occurred while attempting to update the compatibility tool."),
                         release.error_message ?? _("Unknown error")
                     );
-                    dialog.present ((Gtk.Window) this.get_root ());
+                    ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                 }
             });
         }
@@ -271,7 +271,7 @@ namespace ProtonPlus.Widgets.Tools {
                         _("ProtonPlus could not install %s on your system.").printf (release.title),
                         release.error_message ?? _("Unknown error")
                     );
-                    dialog.present ((Gtk.Window) this.get_root ());
+                    ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                 }
             });
         }
@@ -279,7 +279,7 @@ namespace ProtonPlus.Widgets.Tools {
         protected virtual void remove_button_clicked () {
             var remove_dialog = new RemoveDialog (release);
             customize_remove_dialog (remove_dialog);
-            remove_dialog.present ((Gtk.Window) this.get_root ());
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (remove_dialog, (Gtk.Window) this.get_root ());
         }
 
         protected virtual void customize_remove_dialog (RemoveDialog dialog) {}

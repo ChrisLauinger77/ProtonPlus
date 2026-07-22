@@ -46,7 +46,7 @@ namespace ProtonPlus.Widgets.Games {
                 mass_edit_requested (game_rows);
             } else {
                 var dialog = new Main.WarningDialog (_ ("Warning"), _ ("Please make sure to select at least one game before using the mass edit feature."));
-                dialog.present ((Gtk.Window) this.get_root ());
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
             }
         }
     }

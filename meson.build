@@ -33,7 +33,7 @@ vapi_dir = meson.project_source_root() / 'vapi'
 add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
 
 add_project_arguments(['--pkg', 'sdl3'], language: 'vala')
-sdl3_dep = dependency('sdl3')
+sdl3_dep = dependency('sdl3', version: '>= 3.2.0')
 
 add_global_arguments(
     '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),

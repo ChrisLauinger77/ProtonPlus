@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class PreferencesDialog : Adw.PreferencesDialog {
+        Adw.PreferencesPage[] controller_pages = {};
+
         public PreferencesDialog (Gee.LinkedList<Models.Launcher> launchers) {
             set_search_enabled (true);
 
@@ -8,7 +10,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("General"),
                 icon_name = "preferences-system-symbolic"
             };
-            add (general_page);
+            add_controller_page (general_page);
 
             var appearance_group = new Adw.PreferencesGroup () {
                 title = _("Appearance")
@@ -33,7 +35,7 @@ namespace ProtonPlus.Widgets.Preferences {
             introduction_btn.activated.connect (() => {
                 var window = this.get_root () as Window;
                 var dialog = new Introduction.Introduction ();
-                dialog.present (window);
+                Window.present_dialog_for_controller (dialog, window);
             });
             help_page.add (introduction_btn);
             general_page.add (help_page);
@@ -43,7 +45,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Tools"),
                 icon_name = "toolbox-symbolic"
             };
-            add (tools_page);
+            add_controller_page (tools_page);
 
             var updates_group = new Adw.PreferencesGroup () {
                 title = _("Updates")
@@ -194,7 +196,7 @@ namespace ProtonPlus.Widgets.Preferences {
             }
 
             if (has_launchers) {
-                add (launchers_page);
+                add_controller_page (launchers_page);
             }
 
             // Advanced Page
@@ -202,7 +204,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Advanced"),
                 icon_name = "preferences-other-symbolic"
             };
-            add (advanced_page);
+            add_controller_page (advanced_page);
 
             var tokens_group = new Adw.PreferencesGroup () {
                 title = _("API Tokens")
@@ -273,7 +275,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("System"),
                 icon_name = "dialog-information-symbolic"
             };
-            add (system_page);
+            add_controller_page (system_page);
 
             var environment_group = new Adw.PreferencesGroup () {
                 title = _("Software Environment")
@@ -371,6 +373,34 @@ namespace ProtonPlus.Widgets.Preferences {
                     title = "%s (%s)".printf (launcher.title, launcher.get_installation_type_title ()),
                     subtitle = launcher.installed ? _("Installed") : _("Not installed")
                 });
+            }
+        }
+
+        void add_controller_page (Adw.PreferencesPage page) {
+            add (page);
+            controller_pages += page;
+        }
+
+        public void switch_page (int delta) {
+            int count = controller_pages.length;
+            if (count == 0)
+                return;
+
+            var current = visible_page;
+            int current_index = 0;
+            for (int i = 0; i < count; i++) {
+                if (controller_pages[i] == current) {
+                    current_index = i;
+                    break;
+                }
+            }
+
+            for (int step = 1; step <= count; step++) {
+                int index = ((current_index + delta * step) % count + count) % count;
+                if (controller_pages[index].visible) {
+                    visible_page = controller_pages[index];
+                    break;
+                }
             }
         }
     }
