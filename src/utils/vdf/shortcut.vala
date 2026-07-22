@@ -21,8 +21,11 @@ namespace ProtonPlus.Utils.VDF {
     }
 
     public class Shortcuts : Binary {
+        private string shortcuts_file_path;
+
         public Shortcuts (string path) {
             base (path);
+            shortcuts_file_path = path;
         }
 
         public async bool install () {
@@ -30,12 +33,10 @@ namespace ProtonPlus.Utils.VDF {
 
             string exe = "";
             string launch_options = "LC_ALL=%s".printf (Environment.get_variable ("LANG")) + " %command%";
-            string icon = "";
 
             if (FileUtils.test ("/.flatpak-info", FileTest.EXISTS)) {
                 exe = "\"/usr/bin/flatpak\"";
                 launch_options += " \"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=protonplus\" \"com.vysp3r.ProtonPlus\"";
-                icon = "/var/lib/flatpak/app/com.vysp3r.ProtonPlus/current/active/files/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
             } else {
                 var which_output = yield Utils.System.run_command ("which protonplus");
 
@@ -43,15 +44,18 @@ namespace ProtonPlus.Utils.VDF {
                 return false;
 
                 exe = "%s".printf (which_output);
-                icon = "/usr/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
             }
+
+            var icon_path = install_icon ();
+            if (icon_path == null)
+            return false;
 
             try {
                 pp_shortcut.AppID = 1621167220;
                 pp_shortcut.AppName = "ProtonPlus";
                 pp_shortcut.Exe = exe;
                 pp_shortcut.StartDir = "./";
-                pp_shortcut.Icon = icon;
+                pp_shortcut.Icon = icon_path;
                 pp_shortcut.ShortcutPath = "";
                 pp_shortcut.LaunchOptions = launch_options;
                 pp_shortcut.IsHidden = false;
@@ -74,14 +78,49 @@ namespace ProtonPlus.Utils.VDF {
             }
         }
 
+        private string? install_icon () {
+            try {
+                var icon_resource = resources_lookup_data (
+                    "/com/vysp3r/ProtonPlus/com.vysp3r.ProtonPlus.png",
+                    ResourceLookupFlags.NONE
+                );
+                var icon_path = get_icon_path ();
+                var input_stream = new MemoryInputStream.from_bytes (icon_resource);
+                var icon_file = File.new_for_path (icon_path);
+                var output_stream = icon_file.replace (null, false, FileCreateFlags.PRIVATE);
+                output_stream.splice (
+                    input_stream,
+                    OutputStreamSpliceFlags.CLOSE_SOURCE | OutputStreamSpliceFlags.CLOSE_TARGET
+                );
+                return icon_path;
+            } catch (Error e) {
+                warning (e.message);
+                return null;
+            }
+        }
+
+        private void remove_icon () throws Error {
+            var icon_file = File.new_for_path (get_icon_path ());
+            if (icon_file.query_exists ())
+                icon_file.delete ();
+        }
+
+        private string get_icon_path () {
+            return Path.build_filename (
+                Path.get_dirname (shortcuts_file_path),
+                "com.vysp3r.ProtonPlus.png"
+            );
+        }
+
         public bool uninstall () {
             try {
                 remove_shortcut_by_name ("ProtonPlus");
                 save ();
+                remove_icon ();
                 return true;
             } catch (Error e) {
                 warning (e.message);
-                return true;
+                return false;
             }
         }
 
