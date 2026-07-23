@@ -196,6 +196,15 @@ namespace ProtonPlus.Models {
 
         /// Checks all launchers for available updates and applies them.
         public static async ReturnCode check_for_updates (List<Launcher> launchers) {
+            var processes = (yield Utils.System.run_command ("ps -eo args")).ascii_down ();
+            if (processes.contains ("/proton") ||
+                processes.contains ("/umu") ||
+                processes.contains ("/wine") ||
+                processes.contains ("/wine64") ||
+                processes.contains (".exe")) {
+                return ReturnCode.RUNNERS_IN_USE;
+            }
+
             var latest_runners = new Gee.LinkedList<Models.Tools.Basic> ();
 
             foreach (var launcher in launchers) {

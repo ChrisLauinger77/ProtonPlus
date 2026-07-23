@@ -3,6 +3,7 @@ namespace ProtonPlus {
         UNKNOWN_ERROR,
         RELEASES_LOADED,
         NOTHING_TO_UPDATE,
+        RUNNERS_IN_USE,
         RUNNERS_UPDATED,
         RUNNER_UPDATED,
         RUNNER_INSTALLED,

@@ -396,6 +396,9 @@ namespace ProtonPlus.Widgets.Tools {
             var code = yield Models.Tool.check_for_updates (launchers);
 
             switch (code) {
+                case ReturnCode.RUNNERS_IN_USE:
+                    toast_sent (_ ("Can't update while a game is running"));
+                    break;
                 case ReturnCode.NOTHING_TO_UPDATE:
                     toast_sent (_ ("Nothing to update"));
                     break;

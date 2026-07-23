@@ -186,7 +186,7 @@ namespace ProtonPlus.Utils {
             }
 
             run_command_sync ("systemctl --user daemon-reload");
-            run_command_sync ("systemctl --user enable --now protonplus.timer");
+            run_command_sync ("systemctl --user enable protonplus.timer");
         }
 
         public static void modify_systemd_files () {
@@ -201,7 +201,6 @@ namespace ProtonPlus.Utils {
             string exec_start = "%s update all".printf (
                 Globals.IS_FLATPAK ? "/usr/bin/flatpak run com.vysp3r.ProtonPlus" : run_command_sync ("which protonplus").strip ()
             );
-            string exec_condition = "!%s -x wineserver".printf (run_command_sync ("which pgrep").strip ());
             string on_unit_active_sec = "1h";
 
             switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {
@@ -228,14 +227,11 @@ namespace ProtonPlus.Utils {
                 var timer_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.timer", ResourceLookupFlags.NONE);
 
                 string service_content = Parser.data_to_string (service_resource.get_data ())
-                    .replace ("{ExecStart}", exec_start)
-                    .replace ("{ExecCondition}", exec_condition);
+                    .replace ("{ExecStart}", exec_start);
                 string timer_content = Parser.data_to_string (timer_resource.get_data ());
 
-                if (check_on_boot) {
-                    timer_content = timer_content.replace ("OnBootSec=0", "OnBootSec=1min");
-                } else {
-                    timer_content = timer_content.replace ("OnBootSec=0", "");
+                if (!check_on_boot) {
+                    timer_content = timer_content.replace ("OnBootSec=1min", "");
                 }
 
                 if (background_updates) {
@@ -262,7 +258,6 @@ namespace ProtonPlus.Utils {
 
         public static void uninstall_systemd_files () {
             try {
-                run_command_sync ("systemctl --user disable --now protonplus.service");
                 run_command_sync ("systemctl --user disable --now protonplus.timer");
 
                 string systemd_dir = get_systemd_dir ();
