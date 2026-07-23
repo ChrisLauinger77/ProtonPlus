@@ -112,7 +112,6 @@ src/widgets/games/games-extra-button.vala
 src/widgets/games/games-mass-edit-button.vala
 src/widgets/games/games-mass-edit-view.vala
 src/widgets/games/games-row.vala
-src/widgets/games/games-shortcut-button.vala
 src/widgets/games/games-tool-row.vala
 src/widgets/games/launch-options-editor/base-binding.vala
 src/widgets/games/launch-options-editor/entry-binding.vala
@@ -183,6 +182,7 @@ src/widgets/preferences/preferences-dialog.vala
 src/widgets/preferences/preferences-language-row.vala
 src/widgets/preferences/preferences-refresh-application-data-row.vala
 src/widgets/preferences/preferences-steam-profile-row.vala
+src/widgets/preferences/preferences-steam-shortcut-row.vala
 src/widgets/preferences/preferences-theme-row.vala
 src/widgets/preferences/preferences-tool-row.vala
 src/widgets/preferences/proxy-mode-row.vala
