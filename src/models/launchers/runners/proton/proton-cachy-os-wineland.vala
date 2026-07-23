@@ -8,7 +8,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
             base (
                 SourceType.GITHUB,
                 "Proton-CachyOS Wineland",
-                "Steam compatibility tool from the nanomatters/proton-cachyos Wineland release stream, based on CachyOS Proton.",
+                "Steam compatibility tool based on CachyOS Proton with Wayland improvements, especially for Windows launcher applications.",
                 "https://api.github.com/repos/nanomatters/proton-cachyos/releases"
             );
 
