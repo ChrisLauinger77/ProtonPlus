@@ -234,7 +234,7 @@ namespace ProtonPlus.Models {
 
                                 if (!deleted_old_backup) {
                                     warning ("Failed to delete old backup for %s", tool.title);
-                                    return ReturnCode.UNKNOWN_ERROR;
+                                    return ReturnCode.FILESYSTEM_ERROR;
                                 }
                                 continue;
                             }
@@ -267,6 +267,9 @@ namespace ProtonPlus.Models {
             var runner_directory = "%s/%s Latest".printf (base_runner_directory, runner.title);
             var tag_path = "%s/.protonplus_tag".printf (runner_directory);
 
+            if (!FileUtils.test (runner_directory, FileTest.IS_DIR))
+                return ReturnCode.RUNNER_NOT_INSTALLED;
+
             string title = "";
             string description = "";
             string page_url = "";
@@ -276,7 +279,7 @@ namespace ProtonPlus.Models {
             if (runner is Models.Tools.GitHubAction) {
                 var source_runner = runner.source_runner;
                 if (source_runner == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_CONFIGURATION;
 
                 Models.Internal.Requests.GithubAction.Release? latest_action = null;
 
@@ -350,23 +353,23 @@ namespace ProtonPlus.Models {
 
                 var root_node = Utils.Parser.get_node_from_json (response);
                 if (root_node == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 if (root_node.get_node_type () != Json.NodeType.ARRAY)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 var root_array = root_node.get_array ();
                 if (root_array == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 if (root_array.get_length () != 1)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 var object = root_array.get_object_element (0);
 
                 var asset_array = object.get_array_member ("assets");
                 if (asset_array == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 title = object.get_string_member ("tag_name");
                 description = object.get_string_member ("body").strip ();
@@ -406,7 +409,7 @@ namespace ProtonPlus.Models {
             }
 
             if (download_url == "" || !Models.Internal.Assets.Asset.is_archive_name (download_url))
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.INVALID_DATA;
 
             if (FileUtils.test (tag_path, FileTest.IS_REGULAR)) {
                 var stored_tag = Utils.Filesystem.get_file_content (tag_path).strip ();
@@ -453,15 +456,16 @@ namespace ProtonPlus.Models {
             var moved = yield Utils.Filesystem.move_directory (runner_directory, backup_runner_directory);
 
             if (!moved)
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.FILESYSTEM_ERROR;
 
-            if ((yield release.install ()) != ReturnCode.RUNNER_INSTALLED) {
+            var install_code = yield release.install ();
+            if (install_code != ReturnCode.RUNNER_INSTALLED) {
                 var deleted = yield Utils.Filesystem.delete_directory (runner_directory);
 
                 if (deleted)
                     yield Utils.Filesystem.move_directory (backup_runner_directory, runner_directory);
 
-                return ReturnCode.UNKNOWN_ERROR;
+                return install_code;
             }
 
             var backup_settings_path = "%s/user_settings.py".printf (backup_runner_directory);
@@ -472,7 +476,7 @@ namespace ProtonPlus.Models {
                 if (backup_settings_is_symlink) {
                     var copied = Utils.Filesystem.copy_symlink (backup_settings_path, settings_path);
                     if (!copied)
-                        return ReturnCode.UNKNOWN_ERROR;
+                        return ReturnCode.FILESYSTEM_ERROR;
                 } else {
                     Utils.Filesystem.create_file (settings_path, Utils.Filesystem.get_file_content (backup_settings_path));
                 }
@@ -486,17 +490,17 @@ namespace ProtonPlus.Models {
                 if (FileUtils.test (default_prefix_path, FileTest.IS_DIR)) {
                     var deleted_default_prefix = yield Utils.Filesystem.delete_directory (default_prefix_path);
                     if (!deleted_default_prefix)
-                        return ReturnCode.UNKNOWN_ERROR;
+                        return ReturnCode.FILESYSTEM_ERROR;
                 }
 
                 var copied = yield Utils.Filesystem.copy_directory (backup_default_prefix_path, default_prefix_path);
                 if (!copied)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
             }
 
             var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
             if (!deleted)
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.FILESYSTEM_ERROR;
 
             return ReturnCode.RUNNER_UPDATED;
         }

@@ -26,25 +26,25 @@ namespace ProtonPlus.Models.Internal.Requests.GithubAction {
 
             var root_node = Utils.Parser.get_node_from_json (response);
             if (root_node == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 
             var root_object = root_node.get_object ();
             if (root_object == null || !root_object.has_member ("workflow_runs")) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 
             var workflow_runs = root_object.get_member ("workflow_runs");
             if (workflow_runs == null || workflow_runs.get_node_type () != Json.NodeType.ARRAY) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 
             var root_array = root_object.get_array_member ("workflow_runs");
             if (root_array == null || root_array.get_length () == 0) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 

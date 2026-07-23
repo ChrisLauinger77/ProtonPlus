@@ -287,7 +287,7 @@ namespace ProtonPlus.Models {
 
         public virtual async ReturnCode install () {
             if (state != State.BUSY_UPDATING && Utils.DownloadManager.instance.is_downloading (this))
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.OPERATION_IN_PROGRESS;
 
             canceled = false;
             is_finished = false;
@@ -354,7 +354,7 @@ namespace ProtonPlus.Models {
 
                 if (!download_valid) {
                     this.error_message = download_error;
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.DOWNLOAD_FAILED;
                 }
             }
 
@@ -382,7 +382,7 @@ namespace ProtonPlus.Models {
 
                 if (!download_valid) {
                     this.error_message = download_error;
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.DOWNLOAD_FAILED;
                 }
 
                 step = Step.EXTRACTING;
@@ -411,7 +411,7 @@ namespace ProtonPlus.Models {
 
             if (!renaming_valid) {
                 error_message = _("Moving failed");
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.FILESYSTEM_ERROR;
             }
 
             persist_runner_install_metadata ();
@@ -481,14 +481,25 @@ namespace ProtonPlus.Models {
         protected virtual async ReturnCode _start_remove () {
             step = Step.REMOVING;
 
+            if (!FileUtils.test (install_location, FileTest.IS_DIR))
+                return ReturnCode.RUNNER_REMOVED;
+
             var success = yield Utils.Filesystem.delete_directory (install_location);
 
-            return success ? ReturnCode.RUNNER_REMOVED : ReturnCode.UNKNOWN_ERROR;
+            return success ? ReturnCode.RUNNER_REMOVED : ReturnCode.FILESYSTEM_ERROR;
         }
 
         public virtual async ReturnCode update () {
             if (Utils.DownloadManager.instance.is_downloading (this))
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.OPERATION_IN_PROGRESS;
+
+            // Unlike SteamTinkerLaunch, basic releases are installed directly
+            // at install_location. Avoid starting an update if that directory
+            // was deleted while the application was open.
+            if (runner is Tools.Basic && !FileUtils.test (install_location, FileTest.IS_DIR)) {
+                refresh_state ();
+                return ReturnCode.RUNNER_NOT_INSTALLED;
+            }
 
             canceled = false;
 
@@ -505,7 +516,7 @@ namespace ProtonPlus.Models {
             return update_code;
         }
 
-        protected virtual async ReturnCode _start_update () { return ReturnCode.UNKNOWN_ERROR; }
+        protected virtual async ReturnCode _start_update () { return ReturnCode.UNSUPPORTED_OPERATION; }
 
         protected virtual void refresh_state () {
             step = Step.NOTHING;

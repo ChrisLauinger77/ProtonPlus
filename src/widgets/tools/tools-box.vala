@@ -406,19 +406,8 @@ namespace ProtonPlus.Widgets.Tools {
                 case ReturnCode.RUNNER_UPDATED:
                     toast_sent (_ ("Everything is now up-to-date"));
                     break;
-                case ReturnCode.API_LIMIT_REACHED:
-                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                case ReturnCode.CONNECTION_REFUSED:
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
-                    break;
                 default:
-                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
+                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (get_return_code_message (code)));
                     break;
             }
 

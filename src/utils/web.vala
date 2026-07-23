@@ -105,7 +105,7 @@ namespace ProtonPlus.Utils {
                 response = Parser.data_to_string (bytes.get_data ());
 
                 if (response == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 switch (get_request_type) {
                 case GetRequestType.GITHUB :
@@ -142,7 +142,7 @@ namespace ProtonPlus.Utils {
                     return ReturnCode.CONNECTION_UNKNOWN;
 
                 warning (e.message);
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.REQUEST_FAILED;
             }
         }
 

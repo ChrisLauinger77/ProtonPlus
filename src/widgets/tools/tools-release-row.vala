@@ -206,7 +206,7 @@ namespace ProtonPlus.Widgets.Tools {
                     var dialog = new Main.ErrorDialog (
                         _("Failed to Update %s").printf (release.title),
                         _("An error occurred while attempting to update the compatibility tool."),
-                        release.error_message ?? _("Unknown error")
+                        release.error_message ?? get_return_code_message (code)
                     );
                     ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                 }
@@ -265,11 +265,12 @@ namespace ProtonPlus.Widgets.Tools {
 
         protected virtual void install_button_clicked () {
             release.install.begin ((obj, res) => {
-                if (release.install.end (res) != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
+                var code = release.install.end (res);
+                if (code != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
                     var dialog = new Main.ErrorDialog (
                         _("Installation Failed"),
                         _("ProtonPlus could not install %s on your system.").printf (release.title),
-                        release.error_message ?? _("Unknown error")
+                        release.error_message ?? get_return_code_message (code)
                     );
                     ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                 }

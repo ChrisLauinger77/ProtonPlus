@@ -25,7 +25,7 @@ namespace ProtonPlus.Models.Tools {
             var _releases = new Gee.LinkedList<Release> ();
 
             if (source_runner == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_CONFIGURATION;
                 return _releases;
             }
 

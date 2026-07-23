@@ -40,11 +40,12 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
 
             release.remove.begin ((obj, res) => {
-                if (release.remove.end (res) != ReturnCode.RUNNER_REMOVED) {
+                var code = release.remove.end (res);
+                if (code != ReturnCode.RUNNER_REMOVED) {
                     var dialog = new Main.ErrorDialog (
                         _ ("Failed to Delete %s").printf (release.title),
                         _ ("ProtonPlus encountered an issue while trying to remove this compatibility tool from your system."),
-                        release.error_message ?? _ ("Unknown error")
+                        release.error_message ?? get_return_code_message (code)
                     );
                     ProtonPlus.Widgets.Window.present_dialog_for_controller (
                         dialog,

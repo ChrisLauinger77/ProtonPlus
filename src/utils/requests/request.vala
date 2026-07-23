@@ -17,7 +17,7 @@ namespace ProtonPlus.Utils.Requests {
                 response = Parser.data_to_string (bytes.get_data ());
 
                 if (response == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 return ReturnCode.VALID_REQUEST;
             } catch (Error e) {
@@ -37,7 +37,7 @@ namespace ProtonPlus.Utils.Requests {
                     return ReturnCode.CONNECTION_UNKNOWN;
 
                 warning (e.message);
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.REQUEST_FAILED;
             }
         }
     }

@@ -219,7 +219,7 @@ namespace ProtonPlus.Models.Releases {
                 var deleted = yield Utils.Filesystem.delete_directory (location);
 
                 if (!deleted)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
             }
 
             // Always clean destination to avoid merging with existing files.
@@ -239,7 +239,7 @@ namespace ProtonPlus.Models.Releases {
                 var download_dir_exists = yield Utils.Filesystem.create_directory_async (download_location);
 
                 if (!download_dir_exists)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
             }
 
             string downloaded_file_location = @"$download_location/$title.zip";
@@ -248,7 +248,7 @@ namespace ProtonPlus.Models.Releases {
                 var deleted = Utils.Filesystem.delete_file (downloaded_file_location);
 
                 if (!deleted)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
             }
 
             step = Step.DOWNLOADING;
@@ -264,7 +264,7 @@ namespace ProtonPlus.Models.Releases {
 
             if (!download_valid) {
                 this.error_message = download_error;
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.DOWNLOAD_FAILED;
             }
 
             step = Step.EXTRACTING;
@@ -280,14 +280,14 @@ namespace ProtonPlus.Models.Releases {
             if (extracted_file_location == "") {
                 if (!canceled)
                     error_message = _ ("Extraction failed");
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.EXTRACTION_FAILED;
             }
 
             var moved = yield Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
 
             if (!moved) {
                 error_message = _ ("Moving failed");
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.FILESYSTEM_ERROR;
             }
 
 
@@ -295,19 +295,19 @@ namespace ProtonPlus.Models.Releases {
             var download_deleted = yield Utils.Filesystem.delete_directory (download_location);
 
             if (!download_deleted)
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.FILESYSTEM_ERROR;
 
 
             // Create a symlink for the steamtinkerlaunch binary.
             var link_parent_location_exists = yield Utils.Filesystem.create_directory_async (link_parent_location);
 
             if (!link_parent_location_exists)
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.FILESYSTEM_ERROR;
 
             var link_created = yield Utils.Filesystem.make_symlink (link_location, binary_location);
 
             if (!link_created)
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.FILESYSTEM_ERROR;
 
             // Trigger STL's dependency installer for Steam Deck, and register compat tool.
             if (Globals.IS_STEAM_OS)
@@ -335,33 +335,33 @@ namespace ProtonPlus.Models.Releases {
             // NOTE: We check specific types to avoid deleting unexpected data.
             if (FileUtils.test (link_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (link_location, FileTest.IS_SYMLINK))
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
 
                 var link_deleted = Utils.Filesystem.delete_file (link_location);
 
                 if (!link_deleted)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
             }
 
             var remove_location = get_data<bool> ("user-request") ? manual_remove_location : base_location;
             if (FileUtils.test (remove_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (remove_location, FileTest.IS_DIR))
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
 
                 var base_deleted = yield Utils.Filesystem.delete_directory (remove_location);
 
                 if (!base_deleted)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
             }
 
             if (get_data<bool> ("delete-config") && FileUtils.test (config_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (config_location, FileTest.IS_DIR))
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
 
                 var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
 
                 if (!config_deleted)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.FILESYSTEM_ERROR;
             }
 
             var steam_launcher = runner.group.launcher as Models.Launchers.Steam;

@@ -24,23 +24,23 @@ namespace ProtonPlus.Models.Internal.Requests.Gitlab {
 
             var root_node = Utils.Parser.get_node_from_json (response);
             if (root_node == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 
             if (root_node.get_node_type () != Json.NodeType.ARRAY) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 
             var root_array = root_node.get_array ();
             if (root_array == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 
             if (root_array.get_length () == 0) {
-                code = ReturnCode.UNKNOWN_ERROR;
+                code = ReturnCode.INVALID_DATA;
                 return _releases;
             }
 
@@ -69,7 +69,7 @@ namespace ProtonPlus.Models.Internal.Requests.Gitlab {
                 response = Utils.Parser.data_to_string (bytes.get_data ());
 
                 if (response == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.INVALID_DATA;
 
                 if (message.status_code == 403 || message.status_code == 429)
                     return ReturnCode.API_LIMIT_REACHED;
@@ -94,7 +94,7 @@ namespace ProtonPlus.Models.Internal.Requests.Gitlab {
                     return ReturnCode.CONNECTION_UNKNOWN;
 
                 warning (e.message);
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.REQUEST_FAILED;
             }
         }
     }

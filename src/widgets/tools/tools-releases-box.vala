@@ -249,32 +249,11 @@ namespace ProtonPlus.Widgets.Tools {
             Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (false, out code);
 
             if (code != ReturnCode.RELEASES_LOADED) {
-                Adw.AlertDialog dialog;
-
-                switch (code) {
-                case ReturnCode.API_LIMIT_REACHED:
-                    dialog = new Main.WarningDialog (_("API limit reached"), _("Try again in a few minutes."));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
-                    break;
-                case ReturnCode.CONNECTION_REFUSED:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure your DNS is not blocking this."));
-                    break;
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("The requested website does not seem to be valid."));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    dialog = new Main.WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
-                    break;
-                default:
-                    dialog = new Main.ErrorDialog (
-                        _("Failed to Fetch Releases"),
-                        _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."),
-                        ""
-                    );
-                    break;
-                }
+                Adw.AlertDialog dialog = new Main.ErrorDialog (
+                    _("Failed to Fetch Releases"),
+                    get_return_code_message (code),
+                    ""
+                );
 
                 content_stack.set_visible_child_name ("list");
 
@@ -315,32 +294,11 @@ namespace ProtonPlus.Widgets.Tools {
             Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (true, out code);
 
             if (code != ReturnCode.RELEASES_LOADED) {
-                Adw.AlertDialog dialog;
-
-                switch (code) {
-                case ReturnCode.API_LIMIT_REACHED:
-                    dialog = new Main.WarningDialog (_("API limit reached"), _("Try again in a few minutes."));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
-                    break;
-                case ReturnCode.CONNECTION_REFUSED:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure your DNS is not blocking this."));
-                    break;
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("The requested website does not seem to be valid."));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    dialog = new Main.WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
-                    break;
-                default:
-                    dialog = new Main.ErrorDialog (
-                        _("Failed to Fetch Releases"),
-                        _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."),
-                        ""
-                    );
-                    break;
-                }
+                Adw.AlertDialog dialog = new Main.ErrorDialog (
+                    _("Failed to Fetch Releases"),
+                    get_return_code_message (code),
+                    ""
+                );
 
                 content_stack.set_visible_child_name ("list");
 

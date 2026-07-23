@@ -202,7 +202,10 @@ namespace ProtonPlus.CLI {
             code = yield latest_release.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
-            Output.success (success ? _ ("Successfully installed %s Latest\n") : _ ("Error: Installation failed\n"), runner.title);
+            if (success)
+                Output.success (_ ("Successfully installed %s Latest\n"), runner.title);
+            else
+                Output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
@@ -229,7 +232,10 @@ namespace ProtonPlus.CLI {
             code = yield selected.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
-            Output.success (success ? _ ("Successfully installed %s\n") : _ ("Error: Installation failed\n"), selected.title);
+            if (success)
+                Output.success (_ ("Successfully installed %s\n"), selected.title);
+            else
+                Output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
@@ -275,8 +281,11 @@ namespace ProtonPlus.CLI {
                     var installed = get_installed_releases (runner);
                     foreach (var release_name in installed) {
                         var release = create_release (runner, release_name);
-                        if ((yield release.remove ()) == ReturnCode.RUNNER_REMOVED) {
+                        var code = yield release.remove ();
+                        if (code == ReturnCode.RUNNER_REMOVED) {
                             Output.success (_ ("Uninstalled %s\n"), release_name);
+                        } else {
+                            Output.error (_ ("Error: Failed to uninstall %s: %s\n"), release_name, get_return_code_message (code));
                         }
                     }
                 }
@@ -289,7 +298,10 @@ namespace ProtonPlus.CLI {
             Output.info (_ ("Uninstalling %s...\n"), release_name);
             var code = yield release.remove ();
             var success = code == ReturnCode.RUNNER_REMOVED;
-            Output.success (success ? _ ("Successfully uninstalled %s\n") : _ ("Error: Uninstallation failed\n"), release_name);
+            if (success)
+                Output.success (_ ("Successfully uninstalled %s\n"), release_name);
+            else
+                Output.error (_ ("Error: Uninstallation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
@@ -317,7 +329,7 @@ namespace ProtonPlus.CLI {
                     Output.success (_ ("Already up to date: %s\n"), runner.title);
                     return 0;
                 default:
-                    Output.error (_ ("Error: Failed to update %s\n"), runner.title);
+                    Output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
                     return 1;
             }
         }
@@ -373,7 +385,7 @@ namespace ProtonPlus.CLI {
                         Output.success (_ ("Already up to date: %s\n"), runner.title);
                         break;
                     default:
-                        Output.error (_ ("Error: Failed to update %s\n"), runner.title);
+                        Output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
                         break;
                 }
             }
@@ -402,9 +414,10 @@ namespace ProtonPlus.CLI {
         private async ReturnCode load_runner_releases (Models.Tools.Basic basic_runner) {
             ReturnCode code;
             var releases = yield basic_runner.get_releases_async (false, out code);
-            if (code != ReturnCode.RELEASES_LOADED || releases.size == 0) {
-                Output.error (_ ("Error: Failed to load releases\n"));
-            }
+            if (code != ReturnCode.RELEASES_LOADED)
+                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (code));
+            else if (releases.size == 0)
+                Output.error (_ ("Error: No releases are available\n"));
             return code;
         }
 
