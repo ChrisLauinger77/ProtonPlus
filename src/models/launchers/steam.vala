@@ -234,7 +234,7 @@ namespace ProtonPlus.Models.Launchers {
 
             var excluded_appids = new Gee.HashSet<string> ();
             excluded_appids.add_all_array (new string[] {
-                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180"
+                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180", "250820"
             });
 
             var native_compatibility_tool_appids = new Gee.HashSet<string> ();
