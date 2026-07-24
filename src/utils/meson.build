@@ -3,6 +3,7 @@ sources += files(
     'filesystem.vala',
     'web.vala',
     'parser.vala',
+    'metadata.vala',
     'system.vala',
     'i18n.vala',
     'controller-manager.vala',

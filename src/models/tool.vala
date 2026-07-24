@@ -265,10 +265,14 @@ namespace ProtonPlus.Models {
         public static async ReturnCode update_specific_runner (Models.Tools.Basic runner) {
             var base_runner_directory = "%s%s".printf (runner.group.launcher.directory, runner.group.directory);
             var runner_directory = "%s/%s Latest".printf (base_runner_directory, runner.title);
-            var tag_path = "%s/.protonplus_tag".printf (runner_directory);
+            var metadata = Utils.Metadata.load (runner_directory);
 
             if (!FileUtils.test (runner_directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
+
+            metadata.runner_endpoint = runner.endpoint;
+            metadata.runner_title = runner.title;
+            metadata.save (runner_directory);
 
             string title = "";
             string description = "";
@@ -345,8 +349,8 @@ namespace ProtonPlus.Models {
                 var code = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_request_type, out response);
 
                 if (code != ReturnCode.VALID_REQUEST) {
-                    // If API is unavailable but we have a tag file, assume up to date
-                    if (FileUtils.test (tag_path, FileTest.IS_REGULAR))
+                    // If API is unavailable but we have a stored tag, assume up to date.
+                    if (metadata.tag != "")
                         return ReturnCode.NOTHING_TO_UPDATE;
                     return code;
                 }
@@ -411,11 +415,8 @@ namespace ProtonPlus.Models {
             if (download_url == "" || !Models.Internal.Assets.Asset.is_archive_name (download_url))
                 return ReturnCode.INVALID_DATA;
 
-            if (FileUtils.test (tag_path, FileTest.IS_REGULAR)) {
-                var stored_tag = Utils.Filesystem.get_file_content (tag_path).strip ();
-                if (stored_tag != "" && title == stored_tag)
-                    return ReturnCode.NOTHING_TO_UPDATE;
-            }
+            if (metadata.tag != "" && title == metadata.tag)
+                return ReturnCode.NOTHING_TO_UPDATE;
 
             var version_content = Utils.Filesystem.get_file_content ("%s/version".printf (runner_directory));
             var proton_content = Utils.Filesystem.get_file_content ("%s/proton".printf (runner_directory));
@@ -432,7 +433,8 @@ namespace ProtonPlus.Models {
                         if (proton_end_index != -1) {
                             var proton_title = proton_content.substring (proton_start_index, proton_end_index - proton_start_index);
                             if (title == version_title || title == proton_title) {
-                                Utils.Filesystem.create_file (tag_path, title);
+                                metadata.tag = title;
+                                metadata.save (runner_directory);
                                 return ReturnCode.NOTHING_TO_UPDATE;
                             }
                         }

@@ -121,13 +121,9 @@ namespace ProtonPlus.Models.Releases {
             if (source_release_title == "")
                 return;
 
-            var tag_path = "%s/.protonplus_tag".printf (destination_path);
-            if (FileUtils.test (tag_path, FileTest.IS_REGULAR)) {
-                Utils.Filesystem.modify_file (tag_path, source_release_title);
-                return;
-            }
-
-            Utils.Filesystem.create_file (tag_path, source_release_title);
+            var metadata = Utils.Metadata.load (destination_path);
+            metadata.tag = source_release_title;
+            metadata.save (destination_path);
         }
 
         protected override async ReturnCode _start_update () {

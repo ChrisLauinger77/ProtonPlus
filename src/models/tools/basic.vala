@@ -112,36 +112,21 @@ namespace ProtonPlus.Models.Tools {
         }
 
         private bool marker_matches_current_runner (string directory_path) {
-            var endpoint_marker = "%s/.protonplus_runner_endpoint".printf (directory_path);
-            if (FileUtils.test (endpoint_marker, FileTest.IS_REGULAR)) {
-                var installed_endpoint = Utils.Filesystem.get_file_content (endpoint_marker).strip ();
-                if (installed_endpoint == endpoint)
-                    return true;
-            }
+            var metadata = Utils.Metadata.load (directory_path);
+            if (metadata.runner_endpoint != endpoint && metadata.runner_title != title)
+                return false;
 
-            var title_marker = "%s/.protonplus_runner_title".printf (directory_path);
-            if (FileUtils.test (title_marker, FileTest.IS_REGULAR)) {
-                var installed_title = Utils.Filesystem.get_file_content (title_marker).strip ();
-                if (installed_title == title)
-                    return true;
-            }
-
-            return false;
+            metadata.runner_endpoint = endpoint;
+            metadata.runner_title = title;
+            metadata.save (directory_path);
+            return true;
         }
 
         private void persist_runner_markers (string directory_path) {
-            var endpoint_marker = "%s/.protonplus_runner_endpoint".printf (directory_path);
-            var title_marker = "%s/.protonplus_runner_title".printf (directory_path);
-
-            if (FileUtils.test (endpoint_marker, FileTest.IS_REGULAR))
-                Utils.Filesystem.modify_file (endpoint_marker, endpoint);
-            else
-                Utils.Filesystem.create_file (endpoint_marker, endpoint);
-
-            if (FileUtils.test (title_marker, FileTest.IS_REGULAR))
-                Utils.Filesystem.modify_file (title_marker, title);
-            else
-                Utils.Filesystem.create_file (title_marker, title);
+            var metadata = Utils.Metadata.load (directory_path);
+            metadata.runner_endpoint = endpoint;
+            metadata.runner_title = title;
+            metadata.save (directory_path);
         }
 
         private bool identifier_matches_tool (string identifier) {

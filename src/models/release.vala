@@ -427,18 +427,10 @@ namespace ProtonPlus.Models {
             if (destination_path == null || destination_path == "")
                 return;
 
-            var endpoint_path = "%s/.protonplus_runner_endpoint".printf (destination_path);
-            var title_path = "%s/.protonplus_runner_title".printf (destination_path);
-
-            if (FileUtils.test (endpoint_path, FileTest.IS_REGULAR))
-                Utils.Filesystem.modify_file (endpoint_path, basic_runner.endpoint);
-            else
-                Utils.Filesystem.create_file (endpoint_path, basic_runner.endpoint);
-
-            if (FileUtils.test (title_path, FileTest.IS_REGULAR))
-                Utils.Filesystem.modify_file (title_path, basic_runner.title);
-            else
-                Utils.Filesystem.create_file (title_path, basic_runner.title);
+            var metadata = Utils.Metadata.load (destination_path);
+            metadata.runner_endpoint = basic_runner.endpoint;
+            metadata.runner_title = basic_runner.title;
+            metadata.save (destination_path);
         }
 
         protected virtual async string _after_extraction (string source_path, string extract_path) {
