@@ -15,7 +15,6 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button refresh_button { get; set; }
         Gtk.Button open_button { get; set; }
         Gtk.Button migrate_button { get; set; }
-        Gtk.Button search_button { get; set; }
         Gtk.SearchEntry search_entry { get; set; }
         Gtk.ActionBar action_bar { get; set; }
         Gtk.CheckButton all_filter_button { get; set; }
@@ -165,21 +164,6 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            search_button = new Gtk.Button.from_icon_name ("magnifying-glass-symbolic") {
-                valign = Gtk.Align.CENTER,
-                tooltip_text = _ ("Show search bar"),
-            };
-            search_button.clicked.connect (() => {
-                if (search_entry.get_parent () == null) {
-                    search_button.set_tooltip_text (_ ("Hide search bar"));
-                    action_bar.set_center_widget (search_entry);
-                } else {
-                    search_button.set_tooltip_text (_ ("Show search bar"));
-                    action_bar.set_center_widget (center_stack);
-                    stack.notify_property ("visible-child-name");
-                }
-            });
-
             var filter_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
                 icon_name = "filter-2-symbolic"
@@ -246,12 +230,17 @@ namespace ProtonPlus.Widgets.Tools {
             center_stack.add_named (release_box.stack_switcher, "release");
             center_stack.add_named (migrate_box.games_button, "migrate");
 
+            var center_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                halign = Gtk.Align.CENTER
+            };
+            center_box.append (center_stack);
+            center_box.append (search_entry);
+
             action_bar = new Gtk.ActionBar ();
-            action_bar.set_center_widget (center_stack);
+            action_bar.set_center_widget (center_box);
             action_bar.pack_start (back_button);
             action_bar.pack_end (refresh_button);
             action_bar.pack_end (filter_button);
-            action_bar.pack_end (search_button);
             action_bar.pack_end (open_button);
             action_bar.pack_end (migrate_button);
             action_bar.pack_end (migrate_box.migrate_button);
@@ -261,7 +250,6 @@ namespace ProtonPlus.Widgets.Tools {
                 back_button.set_visible (visible_child != "groups");
                 search_entry.set_visible (visible_child != "release" && visible_child != "migrate");
                 filter_button.set_visible (visible_child != "release" && visible_child != "migrate");
-                search_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 var background_updates_enabled = Globals.SETTINGS != null
                                                  && Globals.SETTINGS.get_boolean ("background-updates");
                 refresh_button.set_visible (
@@ -275,10 +263,10 @@ namespace ProtonPlus.Widgets.Tools {
 
                 if (visible_child == "groups") {
                     center_stack.set_visible_child_name ("groups");
-                    center_stack.set_visible (groups_stack.get_pages ().get_n_items () > 1 && search_entry.get_parent () == null);
+                    center_stack.set_visible (groups_stack.get_pages ().get_n_items () > 1);
                 } else if (visible_child == "release") {
                     center_stack.set_visible_child_name ("release");
-                    center_stack.set_visible (search_entry.get_parent () == null);
+                    center_stack.set_visible (true);
                 } else if (visible_child == "migrate") {
                     center_stack.set_visible_child_name ("migrate");
                     center_stack.set_visible (true);
