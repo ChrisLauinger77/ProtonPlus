@@ -39,7 +39,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (response != "delete")
                 return;
 
-            release.remove.begin ((obj, res) => {
+            release.remove.begin (true, (obj, res) => {
                 var code = release.remove.end (res);
                 if (code != ReturnCode.RUNNER_REMOVED) {
                     var dialog = new Main.ErrorDialog (

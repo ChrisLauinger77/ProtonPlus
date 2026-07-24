@@ -446,7 +446,7 @@ namespace ProtonPlus.Models {
             return yield Utils.Filesystem.extract (extract_path, archive_name, extension, () => canceled);
         }
 
-        public virtual async ReturnCode remove () {
+        public virtual async ReturnCode remove (bool notify_removal = false) {
             var busy_updating_or_installing = state == State.BUSY_UPDATING || state == State.BUSY_INSTALLING;
 
             if (!busy_updating_or_installing) {
@@ -464,7 +464,8 @@ namespace ProtonPlus.Models {
 
             if (success) {
                 remove_from_games_tab ();
-                Utils.DownloadManager.instance.tool_removed (this);
+                if (notify_removal)
+                    Utils.DownloadManager.instance.tool_removed (this);
             }
 
             return code;
