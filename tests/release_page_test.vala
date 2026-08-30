@@ -362,7 +362,8 @@ namespace AppTests.ReleasePageTest {
         var cache = new ReleaseCatalogCache ("cached-tool", "Fixture provider");
         var cached = new LinkedList<Release> ();
         cached.add (cached_release ("v1", "1"));
-        save_snapshot (cache, new ReleaseCatalogSnapshot (cached, 4, true, "2026-07-26T00:00:00Z"));
+        var now = new DateTime.now_local ().format_iso8601 ();
+        save_snapshot (cache, new ReleaseCatalogSnapshot (cached, 4, true, now));
 
         var source = new FixtureReleaseSource ();
         var value = catalog ("cached-tool", definition (), source);
