@@ -84,7 +84,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/github-actions-scans-filtered-pages", test_github_actions_scanning);
         Test.add_func ("/release-catalog/github-actions-later-page-failure", test_github_actions_later_page_failure);
         Test.add_func ("/release-catalog/github-actions-proton-tkg-cache-reuse", test_github_actions_proton_tkg_cache_reuse);
-        Test.add_func ("/release-catalog/in-memory-state-skips-cache-and-network", test_in_memory_state_skips_network);
+        Test.add_func ("/release-catalog/in-memory-state-without-timestamp-refreshes-network", test_in_memory_state_without_timestamp_refreshes_network);
         Test.add_func ("/release-catalog/valid-cache-skips-network", test_valid_cache_skips_network);
         Test.add_func ("/release-catalog/missing-and-malformed-cache-fetches", test_missing_and_malformed_cache_fetches);
         Test.add_func ("/release-catalog/stale-filtered-release-refreshes", test_stale_filtered_release_refreshes);
@@ -338,7 +338,7 @@ namespace AppTests.ReleasePageTest {
         assert (cached_source.requested_pages.size == 0);
     }
 
-    private void test_in_memory_state_skips_network () {
+    private void test_in_memory_state_without_timestamp_refreshes_network () {
         cache_path ();
         var source = new FixtureReleaseSource ();
         var value = catalog ("memory-tool", definition (), source);
@@ -353,7 +353,8 @@ namespace AppTests.ReleasePageTest {
 
         var result = load (value, false);
         assert (result.releases.size == 1 && result.succeeded);
-        assert (value.releases[0].title == "v1" && source.requested_pages.size == 0);
+        assert (value.releases[0].title == "v1");
+        assert (source.requested_pages.size == 1 && source.requested_pages[0] == 1);
     }
 
     private void test_valid_cache_skips_network () {
