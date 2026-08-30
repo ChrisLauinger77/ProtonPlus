@@ -47,6 +47,7 @@ int main (string[] args) {
     AppTests.CliTest.register_tests ();
     AppTests.ReleaseIdentityTest.register_tests ();
     AppTests.ReleasePageTest.register_tests ();
+    AppTests.ReleaseCatalogTest.register_tests ();
     AppTests.VariantSettingsTest.register_tests ();
     AppTests.InstallLayoutTest.register_tests ();
     AppTests.CompatibilityProcessGuardTest.register_tests ();
