@@ -92,8 +92,6 @@
       <description>
         <ul>
           <li>🐛 Fixed release catalogs sometimes remaining stale until application data was refreshed manually</li>
-          <li>🐛 Improved build compatibility on non-x86 architectures and with stricter C compilers</li>
-          <li>🔒 Reduced Flatpak device permissions while preserving controller support on older Flatpak versions</li>
           <li>🌐 Updated Czech, German, French, Portuguese, Russian, Japanese, and Spanish localizations</li>
         </ul>
       </description>
