@@ -158,7 +158,7 @@ namespace ProtonPlus.Models {
             }
         }
 
-        internal static bool cache_timestamp_is_fresh (string last_updated, DateTime now) {
+        public static bool cache_timestamp_is_fresh (string last_updated, DateTime now) {
             if (last_updated == "")
                 return false;
 
