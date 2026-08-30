@@ -88,6 +88,14 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.5" date="2026-08-30">
+      <description>
+        <ul>
+          <li>🐛 Fixed release catalogs sometimes remaining stale until application data was refreshed manually</li>
+          <li>🌐 Updated Czech, German, French, Portuguese, Russian, Japanese, and Spanish localizations</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.4" date="2026-08-13">
       <description>
         <ul>

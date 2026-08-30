@@ -39,6 +39,7 @@ test_sources = files(
     'cli_test.vala',
     'release_identity_test.vala',
     'release_page_test.vala',
+    'release-catalog-test.vala',
     'variant_settings_test.vala',
     'install_layout_test.vala',
     'compatibility-process-guard-test.vala',
