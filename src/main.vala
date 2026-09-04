@@ -1,5 +1,16 @@
 namespace ProtonPlus {
     public static int main (string[] args) {
+        if (FileUtils.test ("/.flatpak-info", FileTest.IS_REGULAR)) {
+            var host_config_dir = Environment.get_variable ("HOST_XDG_CONFIG_HOME");
+            if (host_config_dir == null || ((!) host_config_dir).strip () == "") {
+                Environment.set_variable (
+                    "HOST_XDG_CONFIG_HOME",
+                    Path.build_filename (Environment.get_home_dir (), ".config"),
+                    true
+                );
+            }
+        }
+
         if (args.length > 1) {
             Globals.load ();
             Globals.setupLanguage ();
