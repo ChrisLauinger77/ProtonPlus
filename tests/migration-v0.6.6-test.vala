@@ -4,6 +4,7 @@ namespace AppTests.MigrationV0_6_6Test {
 
     public void register_tests () {
         Test.add_func ("/migrations/v0.6.6/removes-legacy-flatpak-systemd-units", test_removes_legacy_flatpak_systemd_units);
+        Test.add_func ("/migrations/v0.6.6/removes-empty-legacy-flatpak-systemd-directories", test_removes_empty_legacy_flatpak_systemd_directories);
         Test.add_func ("/migrations/v0.6.6/native-install-does-not-remove-units", test_native_install_does_not_remove_units);
     }
 
@@ -64,7 +65,27 @@ namespace AppTests.MigrationV0_6_6Test {
         assert (!FileUtils.test (service_path, FileTest.EXISTS));
         assert (!FileUtils.test (timer_path, FileTest.EXISTS));
         assert (FileUtils.test (unrelated_path, FileTest.EXISTS));
+        assert (FileUtils.test (systemd_dir, FileTest.IS_DIR));
         remove_fixture (root);
+    }
+
+    private void test_removes_empty_legacy_flatpak_systemd_directories () {
+        var root = temporary_directory ();
+        var systemd_parent = Path.build_filename (root, "systemd");
+        var systemd_dir = Path.build_filename (systemd_parent, "user");
+        var service_path = Path.build_filename (systemd_dir, "protonplus.service");
+        var timer_path = Path.build_filename (systemd_dir, "protonplus.timer");
+
+        create_file (service_path);
+        create_file (timer_path);
+
+        v0_6_6.cleanup_legacy_flatpak_systemd_units (true, root);
+
+        assert (!FileUtils.test (service_path, FileTest.EXISTS));
+        assert (!FileUtils.test (timer_path, FileTest.EXISTS));
+        assert (!FileUtils.test (systemd_dir, FileTest.IS_DIR));
+        assert (!FileUtils.test (systemd_parent, FileTest.IS_DIR));
+        assert (DirUtils.remove (root) == 0);
     }
 
     private void test_native_install_does_not_remove_units () {
