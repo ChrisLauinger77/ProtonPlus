@@ -20,6 +20,7 @@ test_sources = files(
     'web_test.vala',
     'system-path-test.vala',
     'systemd-timer-test.vala',
+    'migration-v0.6.6-test.vala',
     'faugus-launcher-test.vala',
     'metadata_test.vala',
     'compatibility-tool-test.vala',
