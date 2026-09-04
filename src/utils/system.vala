@@ -567,6 +567,21 @@ namespace ProtonPlus.Utils {
             open_uri (file_uri_for_path (path));
         }
 
+        public static string get_systemd_user_dir_for_environment (
+            bool is_flatpak,
+            string user_config_dir,
+            string? host_user_config_dir
+        ) {
+            var config_dir = user_config_dir;
+            if (is_flatpak && host_user_config_dir != null) {
+                var host_config_dir = ((!) host_user_config_dir).strip ();
+                if (host_config_dir != "")
+                    config_dir = host_config_dir;
+            }
+
+            return Path.build_filename (config_dir, "systemd", "user");
+        }
+
         public static void systemd_handler () {
             systemd_update_pending = true;
             if (systemd_update_running)
@@ -600,13 +615,18 @@ namespace ProtonPlus.Utils {
                 "/usr/bin/flatpak run com.vysp3r.ProtonPlus" :
                 Environment.find_program_in_path ("protonplus") ?? "protonplus";
             string exec_start = "%s update all".printf (executable);
+            var systemd_dir = get_systemd_user_dir_for_environment (
+                Globals.IS_FLATPAK,
+                Environment.get_user_config_dir (),
+                Environment.get_variable ("HOST_XDG_CONFIG_HOME")
+            );
 
             try {
                 var service_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.service", ResourceLookupFlags.NONE);
                 var timer_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.timer", ResourceLookupFlags.NONE);
                 systemd_timer_manager = new SystemdTimerManager (
                     new HostSystemctlBackend (),
-                    Path.build_filename (Environment.get_user_config_dir (), "systemd", "user"),
+                    systemd_dir,
                     Parser.data_to_string (service_resource.get_data ()),
                     Parser.data_to_string (timer_resource.get_data ()),
                     exec_start
