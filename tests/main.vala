@@ -28,6 +28,7 @@ int main (string[] args) {
     AppTests.WebTest.register_tests ();
     AppTests.SystemPathTest.register_tests ();
     AppTests.SystemdTimerTest.register_tests ();
+    AppTests.MigrationV0_6_6Test.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();
     AppTests.MetadataTest.register_tests ();
     AppTests.CompatibilityToolTest.register_tests ();
