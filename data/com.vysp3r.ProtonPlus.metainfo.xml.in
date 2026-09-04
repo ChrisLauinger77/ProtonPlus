@@ -88,11 +88,11 @@
   </screenshots>
 
   <releases>
-    <release version="0.6.6" date="2026-09-03">
+    <release version="0.6.6" date="2026-09-04">
       <description>
         <ul>
           <li>🐛 Fixed scheduled tool updates not working when ProtonPlus is installed as a Flatpak</li>
-          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Spanish and Indonesian localizations</li>
         </ul>
       </description>
     </release>
