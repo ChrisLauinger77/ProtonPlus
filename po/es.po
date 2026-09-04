@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-08-21 11:52+0000\n"
+"PO-Revision-Date: 2026-08-30 21:51+0000\n"
 "Last-Translator: Patricio <pattoperez97@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -790,11 +790,11 @@ msgstr "Introducir texto"
 
 #: src/widgets/controller-hint-bar.vala:139
 msgid "Shoulders"
-msgstr ""
+msgstr "Superiores"
 
 #: src/widgets/controller-hint-bar.vala:140
 msgid "Shoulder buttons"
-msgstr ""
+msgstr "Botones superiores"
 
 #: src/widgets/controller-hint-bar.vala:141
 msgid "Switch section or page"
@@ -846,12 +846,12 @@ msgstr "Botón Triángulo"
 
 #: src/widgets/controller-hint-bar.vala:214
 msgid "Bottom"
-msgstr ""
+msgstr "Inferior"
 
 #: src/widgets/controller-hint-bar.vala:215
 #: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Bottom face button"
-msgstr ""
+msgstr "Botón inferior"
 
 #: src/widgets/controller-hint-bar.vala:218
 msgid "Right"
@@ -1953,7 +1953,7 @@ msgstr "Solución alternativa para problemas de detección de mandos"
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:43
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
 msgid "Bypass Steam Input"
-msgstr "Saltear Steam Input"
+msgstr "Saltear entrada de Steam"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:44
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
@@ -2600,7 +2600,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:75
 msgid "Bypass or prefer specific Windows DLLs"
-msgstr ""
+msgstr "Saltear o preferir Windows DLLs específicos"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:24
@@ -4689,7 +4689,7 @@ msgstr ""
 #: src/widgets/mangohud/mangohud-metrics-page.vala:103
 #: src/widgets/mangohud/mangohud-metrics-page.vala:110
 msgid "Power"
-msgstr ""
+msgstr "Energía"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:104
 msgid "Voltage"
@@ -4710,7 +4710,7 @@ msgstr ""
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:108
 msgid "Power Limit"
-msgstr ""
+msgstr "Límite de energía"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:119
 msgid "Model"
@@ -4788,7 +4788,7 @@ msgstr ""
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:32
 msgid "Show FPS"
-msgstr ""
+msgstr "Mostrar FPS"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:33
 msgid "FPS Average"
@@ -4973,23 +4973,23 @@ msgstr ""
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:70
 msgid "Position"
-msgstr ""
+msgstr "Posición"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Top Left"
-msgstr ""
+msgstr "Superior izquierda"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Top Right"
-msgstr ""
+msgstr "Superior derecha"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Bottom Left"
-msgstr ""
+msgstr "Inferior izquierda"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Bottom Right"
-msgstr ""
+msgstr "Inferior derecha"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:86
 msgid "Columns"
@@ -5114,9 +5114,8 @@ msgid "Behavior"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:116
-#, fuzzy
 msgid "Show legacy tools"
-msgstr "Mostrar ejecutores instalados"
+msgstr "Mostrar herramientas antiguas"
 
 #: src/widgets/preferences/preferences-dialog.vala:117
 msgid "Display older tools that are no longer actively maintained"
@@ -5332,7 +5331,7 @@ msgstr "Adwaita"
 
 #: src/widgets/preferences/preferences-theme-row.vala:17
 msgid "Breeze"
-msgstr ""
+msgstr "Breeze"
 
 #: src/widgets/preferences/preferences-theme-row.vala:19
 msgid "OLED"
@@ -5529,9 +5528,8 @@ msgstr ""
 
 #: src/widgets/tools/tools-release-row.vala:127
 #: src/widgets/tools/tools-release-row.vala:129
-#, fuzzy
 msgid "Show installation details"
-msgstr "Mostrar ejecutores instalados"
+msgstr "Mostrar detalles de la instalación"
 
 #: src/widgets/tools/tools-release-row.vala:134
 msgid "Speed: 0 KB/s"
