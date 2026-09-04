@@ -18,7 +18,8 @@ namespace ProtonPlus.Services.Migrations.Versions {
             if (!is_flatpak)
                 return;
 
-            var legacy_systemd_dir = Path.build_filename (user_config_dir, "systemd", "user");
+            var legacy_systemd_parent = Path.build_filename (user_config_dir, "systemd");
+            var legacy_systemd_dir = Path.build_filename (legacy_systemd_parent, "user");
             foreach (var unit_name in new string[] { "protonplus.service", "protonplus.timer" }) {
                 var unit_path = Path.build_filename (legacy_systemd_dir, unit_name);
                 if (!FileUtils.test (unit_path, FileTest.EXISTS))
@@ -27,6 +28,11 @@ namespace ProtonPlus.Services.Migrations.Versions {
                 if (FileUtils.remove (unit_path) != 0)
                     warning ("Could not remove legacy Flatpak systemd unit: %s", unit_path);
             }
+
+            // Remove the legacy directories only when they are empty. This
+            // preserves any unrelated user systemd files that may be present.
+            if (DirUtils.remove (legacy_systemd_dir) == 0)
+                DirUtils.remove (legacy_systemd_parent);
         }
 
         public void post_migrate (MigrationContext? context = null) {
